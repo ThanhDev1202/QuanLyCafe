@@ -9,7 +9,8 @@ import database.*;
 import shared.Account;
 import shared.Response;
 import Server.DAO.*;
-
+import java.util.List;
+import shared.TableFood;
 public class ClientHandler implements Runnable {
 
     private Socket socket;//socket đại diện cho client
@@ -73,4 +74,68 @@ public class ClientHandler implements Runnable {
         }
         return res;
     }
+
+    switch (req.getAction()) {
+        case "LOGIN": {
+            Account ac = (Account) req.getData();
+
+            UserDAO ud = new UserDAO(conn);
+            boolean check_login = ud.checkLogin(ac);
+
+            if (check_login) {
+                res.setStatus("SUCCESS");
+                res.setMessage("LOGIN SUCCESSFUL");
+            } else {
+                res.setStatus("FAILED");
+                res.setMessage("LOGIN FAILED");
+            }
+            break;
+        }
+
+        case "GET_TABLES": {
+            TableDAO tdao = new TableDAO(conn);
+            List<TableFood> list = tdao.getAllTables();
+            res.setStatus("SUCCESS");
+            res.setMessage("GET TABLE SUCCESS");
+            res.setData(list);
+            break;
+        }
+
+        case "BOOK_TABLE": {
+            int id = (Integer) req.getData();
+            TableDAO tdao = new TableDAO(conn);
+            boolean ok = tdao.bookTable(id);
+
+            if (ok) {
+                res.setStatus("SUCCESS");
+                res.setMessage("Đặt bàn thành công");
+            } else {
+                res.setStatus("FAILED");
+                res.setMessage("Đặt bàn thất bại");
+            }
+            break;
+        }
+
+        case "FREE_TABLE": {
+            int id = (Integer) req.getData();
+            TableDAO tdao = new TableDAO(conn);
+            boolean ok = tdao.freeTable(id);
+
+            if (ok) {
+                res.setStatus("SUCCESS");
+                res.setMessage("Trả bàn thành công");
+            } else {
+                res.setStatus("FAILED");
+                res.setMessage("Trả bàn thất bại");
+            }
+            break;
+        }
+
+        default:
+            res.setStatus("ERROR");
+            res.setMessage("UNKNOWN ACTION: " + req.getAction());
+    }
+
+    return res;
+}
 }
