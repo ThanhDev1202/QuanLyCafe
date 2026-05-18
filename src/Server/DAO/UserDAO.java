@@ -23,5 +23,24 @@ public class UserDAO {
         return false;
     }
     
-    
+    public boolean register(Account acc){
+        int id = acc.getId();
+        String username = acc.getUsername();
+        String password = acc.getPassword();
+        String displayname = acc.getDisplayName();
+        int type = acc.getType();
+            try {
+            String sql ="insert into Account values (?,?,?,?)";
+            PreparedStatement ps =conn.prepareStatement(sql);
+            ps.setString(1, displayname);
+            ps.setString(2, username);
+            ps.setString(3, password);
+            ps.setInt(4, type);
+            int result = ps.executeUpdate();
+            if(result > 0) return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;    
+    }
 }

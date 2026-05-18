@@ -17,9 +17,9 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
-    public ClientHandler(Socket soc_client) {
+    public ClientHandler(Socket soc_client, Connection conn) {
         this.socket = soc_client;
-        this.conn = Connect_Disconnect.getConnection();
+        this.conn = conn;
     }
 
     @Override
@@ -41,10 +41,10 @@ public class ClientHandler implements Runnable {
     }
     public Response action(Request req){
         Response res = new Response();
+        Account ac = (Account)req.getData();
+        UserDAO ud = new UserDAO(conn);
         switch (req.getAction()) {
             case "LOGIN":
-                Account ac = (Account)req.getData();
-                UserDAO ud = new UserDAO(conn);
                 boolean check_login = ud.checkLogin(ac);
                 if(check_login == true){
                     res.setStatus("SUCCESS");
@@ -54,6 +54,16 @@ public class ClientHandler implements Runnable {
                 else{
                     res.setStatus("FAILED");
                     res.setMessage("LOGIN FAILED");
+                }
+                break;
+            case "REGISTER":         
+                boolean check_register = ud.register(ac);
+                if(check_register == true){
+                    res.setStatus("SUCCESS");
+                    res.setMessage("REGISTER SUCCESSFUL");
+                }else{
+                    res.setStatus("FAILED");
+                    res.setMessage("REGISTER FAILED"); 
                 }
                 break;
             default:
