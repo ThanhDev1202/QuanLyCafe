@@ -1,24 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Client;
+import java.net.Socket;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;  
+import shared.*;
 
-/**
- *
- * @author admin
- */
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-
-    /**
-     * Creates new form Login_Register
-     */
+    private static final String SERVER_IP = "localhost";
+    private static final int SERVER_PORT = 1234;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
+    private Socket socket;
+    
+    
     public Login() {
         initComponents();
+        conneted();
     }
 
     /**
@@ -108,38 +108,26 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //login
-        String username = jTextField1.getText();
-        String password = new String(jPasswordField1.getPassword());
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
-            return;
-        }
-        if(checkLogin(username, password)){
-            JOptionPane.showMessageDialog(this, "đăng nhập thành công");
-            //mở form chính
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "sai username/password");
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-    private boolean checkLogin(String username,String password){
-        String sql_cmd = "SELECT * FROM Account WHERE username = ? AND pass = ?";
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=quanlyquancf;encrypt=false","sa","Thanh2006@");
-            PreparedStatement ps = conn.prepareStatement(sql_cmd);
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
-            return rs.next(); // có dòng => login OK
-        } catch (Exception e) {
+        try{    
+            String username = jTextField1.getText();
+            String password =String.valueOf(jPasswordField1.getPassword());
+            //tạo user
+            Account acc = new Account();
+            acc.setUsername(username);
+            acc.setPassword(password);
+            //tạo request
+            Request req = new Request("LOGIN", acc);
+            //gửi request
+            out.writeObject(req);
+            out.flush(); 
+            //nhận response
+            Response res =(Response)in.readObject();
+            JOptionPane.showMessageDialog(this,res.getMessage());
+        }catch(Exception e){
             e.printStackTrace();
         }
-        return false;        
-    }
-    /**
-     * @param args the command line arguments
-     */
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -159,9 +147,21 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+
         java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
     }
+    public void conneted(){
+        try {
+        socket = new Socket(SERVER_IP,SERVER_PORT);
+        out = new ObjectOutputStream(socket.getOutputStream());//phải tạo output trước không sẽ bị deadlock
+        out.flush();        
+        in = new ObjectInputStream(socket.getInputStream());
 
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
