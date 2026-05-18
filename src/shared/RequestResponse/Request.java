@@ -1,4 +1,4 @@
-package shared;
+package shared.RequestResponse;
 
 import java.io.Serializable;
 

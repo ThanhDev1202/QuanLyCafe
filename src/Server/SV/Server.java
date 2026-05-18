@@ -18,7 +18,7 @@ public class Server {
             while(true){   
                 //lắng nghe  kết nối
                 Socket cl_soc = sv_soc.accept();
-                System.err.println("1 client conneted:" + cl_soc.getInetAddress());
+                System.out.println("1 client conneted:" + cl_soc.getInetAddress());
                 //tạo client handler
                 ClientHandler ch = new ClientHandler(cl_soc,conn); //chuyển client->clienthandler xử lý
                 list.add(ch); //thêm vào danh sách quản lý

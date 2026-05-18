@@ -1,16 +1,20 @@
 package Client;
+
+import shared.RequestResponse.Request;
+import shared.RequestResponse.Response;
 import java.awt.CardLayout;
 import java.awt.Image;
 import java.net.Socket;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;  
+import java.io.ObjectOutputStream;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
 import shared.*;
 
 public class Login extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
     private static final String SERVER_IP = "localhost";
     private static final int SERVER_PORT = 1234;
@@ -18,13 +22,11 @@ public class Login extends javax.swing.JFrame {
     private ObjectOutputStream out;
     private Socket socket;
     private ImageIcon icon;
-    
-    
+
     public Login() {
         initComponents();
         conneted();
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -153,9 +155,9 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try{    
+        try {
             String username = jTextField1.getText();
-            String password =String.valueOf(jPasswordField1.getPassword());
+            String password = String.valueOf(jPasswordField1.getPassword());
             //tạo user
             Account acc = new Account();
             acc.setUsername(username);
@@ -164,17 +166,13 @@ public class Login extends javax.swing.JFrame {
             Request req = new Request("LOGIN", acc);
             //gửi request
             out.writeObject(req);
-            out.flush(); 
+            out.flush();
             //nhận response
-            Response res =(Response)in.readObject();
-            JOptionPane.showMessageDialog(this,res.getMessage());
-            if(!res.getStatus().equalsIgnoreCase("failed")){
-              Menu menu = new Menu();
-        menu.setVisible(true);
-        // ĐÓNG LOGIN
-        this.dispose();
-            }
-        }catch(Exception e){
+            Response res = (Response) in.readObject();
+            JOptionPane.showMessageDialog(this, res.getMessage());
+
+            //hiển thị phần làm việc
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -184,7 +182,7 @@ public class Login extends javax.swing.JFrame {
             String username = jTextField2.getText();
             String password = String.valueOf(jPasswordField2.getPassword());
             String displayName = jTextField4.getText();
-            int type = jComboBox1.getSelectedIndex(); 
+            int type = jComboBox1.getSelectedIndex();
             // 0 = nhân viên, 1 = quản lý
             Account acc = new Account();
             acc.setUsername(username);
@@ -207,37 +205,26 @@ public class Login extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-
-        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
-    }
-    public void conneted(){
-        try {
-        socket = new Socket(SERVER_IP,SERVER_PORT);
-        out = new ObjectOutputStream(socket.getOutputStream());//phải tạo output trước không sẽ bị deadlock
-        out.flush();        
-        in = new ObjectInputStream(socket.getInputStream());
-
-        
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
-        }        
+        }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
+    }
+
+    public void conneted() {
+        try {
+            socket = new Socket(SERVER_IP, SERVER_PORT);
+            out = new ObjectOutputStream(socket.getOutputStream());//phải tạo output trước không sẽ bị deadlock
+            out.flush();
+            in = new ObjectInputStream(socket.getInputStream());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
