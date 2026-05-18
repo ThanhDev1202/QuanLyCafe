@@ -123,6 +123,12 @@ public class Login extends javax.swing.JFrame {
             //nhận response
             Response res =(Response)in.readObject();
             JOptionPane.showMessageDialog(this,res.getMessage());
+            if(!res.getStatus().equalsIgnoreCase("failed")){
+              Menu menu = new Menu();
+        menu.setVisible(true);
+        // ĐÓNG LOGIN
+        this.dispose();
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
