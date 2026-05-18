@@ -1,9 +1,9 @@
 package Server.DAO;
 import java.sql.*;
-import shared.Account;
-public class UserDAO {
+import shared.Model.Account;
+public class AccountDAO {
     private Connection conn = null;
-    public UserDAO(Connection conn){
+    public AccountDAO(Connection conn){
         this.conn = conn;
     }
     

@@ -1,5 +1,6 @@
 package Client;
 
+import shared.Model.Account;
 import shared.RequestResponse.Request;
 import shared.RequestResponse.Response;
 import java.awt.CardLayout;
@@ -11,7 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
-import shared.*;
 
 public class Login extends javax.swing.JFrame {
 
@@ -153,7 +153,7 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             String username = jTextField1.getText();

@@ -1,4 +1,4 @@
-package shared;
+package shared.Model;
 
 import java.io.Serializable;
 

@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.sql.*;
 import shared.RequestResponse.Request;
 import database.*;
-import shared.Account;
+import shared.Model.Account;
 import shared.RequestResponse.Response;
 import Server.DAO.*;
 import java.util.List;
@@ -44,7 +44,7 @@ public class ClientHandler implements Runnable {
     public Response action(Request req) {
         Response res = new Response();
 
-        UserDAO ud = new UserDAO(conn);
+        AccountDAO ud = new AccountDAO(conn);
 
         switch (req.getAction()) {
 
