@@ -9,7 +9,9 @@ import database.*;
 import shared.Model.Account;
 import shared.RequestResponse.Response;
 import Server.DAO.*;
+import java.util.ArrayList;
 import java.util.List;
+import shared.Model.TableFood;
 
 public class ClientHandler implements Runnable {
 
@@ -43,9 +45,8 @@ public class ClientHandler implements Runnable {
 
     public Response action(Request req) {
         Response res = new Response();
-
         AccountDAO ud = new AccountDAO(conn);
-
+TableFoodDAO tbdao = new TableFoodDAO(conn);
         switch (req.getAction()) {
 
             case "LOGIN": {//đăng nhập
@@ -74,7 +75,58 @@ public class ClientHandler implements Runnable {
                 }
                 break;
             }
+            case "GET_TABLES":
+            {          
+            List<TableFood> tbflist = tbdao.getAllTables();
+            res.setStatus("SUCCESS");
+            res.setData(tbflist);
+            res.setMessage("GET TABLE SUCCESS");
+            return res;        
+            }
+            case "ADD_TABLE":
+            {
+                TableFood tbf = (TableFood) req.getData();
+                TableFood checkaddtable = tbdao.addtable(tbf);
+                 if (checkaddtable != null) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("ADD TABLE SUCCESSFULLY");
+                    res.setData(tbf);
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("ADD TABLE FAILED");
+                }
+                break;
+            }
+            case "DELETE_TABLE":
+            {
+            TableFood tbf =(TableFood) req.getData();
+            boolean checkdelete = tbdao.deletetable(tbf);
+              if (checkdelete) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("DELETE TABLE SUCCESSFULLY");
+                    res.setData(tbf);
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("DELETE TABLE FAILED");
+                }
+                break;
             
+            }
+            case "OPEN_TABLE":
+            {
+            TableFood tbf =(TableFood) req.getData();
+            boolean checkopen = tbdao.opentable(tbf);
+              if (checkopen) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("OPEN TABLE SUCCESSFULLY");
+                    res.setData(tbf);
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("OPEN TABLE FAILED");
+                }
+                break;
+            
+            }
             default:
                 res.setStatus("ERROR");
                 res.setMessage("UNKNOWN ACTION: " + req.getAction());
