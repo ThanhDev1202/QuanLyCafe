@@ -18,9 +18,9 @@ public class Login extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
     private static final String SERVER_IP = "localhost";
     private static final int SERVER_PORT = 1234;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
-    private Socket socket;
+    public static Socket socket;
+    public static ObjectOutputStream out;
+    public static ObjectInputStream in;
     private ImageIcon icon;
 
     public Login() {
@@ -170,7 +170,11 @@ public class Login extends javax.swing.JFrame {
             //nhận response
             Response res = (Response) in.readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
-
+            if(!res.getStatus().equalsIgnoreCase("failed")){
+            MainMenu menu = new MainMenu();
+            menu.setVisible(true);
+            this.dispose();    
+            }
             //hiển thị phần làm việc
         } catch (Exception e) {
             e.printStackTrace();

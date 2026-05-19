@@ -3,9 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Client/Login.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/SV/ClientHandler.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/SV/Server.java</file>
+            <file>file:/D:/QuanLyCafe/src/shared/Model/Account.java</file>
+            <file>file:/D:/QuanLyCafe/src/shared/RequestResponse/Request.java</file>
+            <file>file:/D:/QuanLyCafe/src/database/Connect_Disconnect.java</file>
+            <file>file:/D:/QuanLyCafe/src/Server/SV/Server.java</file>
+            <file>file:/D:/QuanLyCafe/src/shared/anhCF.jpg</file>
+            <file>file:/D:/QuanLyCafe/src/shared/RequestResponse/Response.java</file>
+            <file>file:/D:/QuanLyCafe/src/Client/Login.java</file>
+            <file>file:/D:/QuanLyCafe/src/shared/Model/TableFood.java</file>
+            <file>file:/D:/QuanLyCafe/src/Client/Table.java</file>
+            <file>file:/D:/QuanLyCafe/src/Server/DAO/FoodDAO.java</file>
+            <file>file:/D:/QuanLyCafe/src/Client/MainMenu.java</file>
+            <file>file:/D:/QuanLyCafe/src/Server/SV/ClientHandler.java</file>
+            <file>file:/D:/QuanLyCafe/src/Server/DAO/TableFoodDAO.java</file>
+            <file>file:/D:/QuanLyCafe/src/Server/DAO/AccountDAO.java</file>
         </group>
     </open-files>
 </project-private>
