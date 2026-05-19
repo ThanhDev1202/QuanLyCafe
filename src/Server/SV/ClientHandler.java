@@ -5,11 +5,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.*;
 import shared.RequestResponse.Request;
-import database.*;
 import shared.Model.Account;
 import shared.RequestResponse.Response;
 import Server.DAO.*;
-import java.util.List;
+import java.util.ArrayList;
+import shared.Model.*;
 
 public class ClientHandler implements Runnable {
 
@@ -43,14 +43,11 @@ public class ClientHandler implements Runnable {
 
     public Response action(Request req) {
         Response res = new Response();
-
-        AccountDAO ud = new AccountDAO(conn);
-
         switch (req.getAction()) {
-
-            case "LOGIN": {//đăng nhập
+            // LOGIN
+            case "LOGIN": {
+                AccountDAO ud = new AccountDAO(conn);
                 Account ac = (Account) req.getData();
-
                 boolean check_login = ud.checkLogin(ac);
                 if (check_login) {
                     res.setStatus("SUCCESS");
@@ -61,9 +58,10 @@ public class ClientHandler implements Runnable {
                 }
                 break;
             }
-            case "REGISTER": {//đăng ký
+            // REGISTER
+            case "REGISTER": {
+                AccountDAO ud = new AccountDAO(conn);
                 Account ac = (Account) req.getData();
-
                 boolean check_register = ud.register(ac);
                 if (check_register) {
                     res.setStatus("SUCCESS");
@@ -74,12 +72,101 @@ public class ClientHandler implements Runnable {
                 }
                 break;
             }
-            
-            default:
+            // INSERT CATEGORY
+            case "INSERT CATEGORY": {
+                CategoryFoodDAO cd = new CategoryFoodDAO(conn);
+                CategoryFood category = (CategoryFood) req.getData();
+                boolean check = cd.insertCategory(category);
+                if (check) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("INSERT CATEGORY SUCCESSFUL");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("INSERT CATEGORY FAILED");
+                }
+                break;
+            }
+            // DELETE CATEGORY
+            case "DELETE CATEGORY": {
+                CategoryFoodDAO cd = new CategoryFoodDAO(conn);
+                CategoryFood category = (CategoryFood) req.getData();
+                boolean check = cd.deleteCategory(category);
+                if (check) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("DELETE CATEGORY SUCCESSFUL");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("DELETE CATEGORY FAILED");
+                }
+                break;
+            }
+            // SELECT CATEGORY
+            case "SELECT CATEGORY": {
+                CategoryFoodDAO cd = new CategoryFoodDAO(conn);
+                ArrayList<CategoryFood> list = cd.selectCategory();
+                if (list == null || list.isEmpty()) {
+                    res.setStatus("NO CATEGORY");
+                    res.setMessage("CATEGORY NOT EXIST");
+                } else {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("CATEGORY EXIST");
+                    res.setData(list);
+                }
+                break;
+            }           
+            // INSERT FOOD
+            case "INSERT FOOD": {
+                FoodDAO fd = new FoodDAO(conn);
+                Food food = (Food) req.getData();
+                CategoryFood category = new CategoryFood();
+                category.setId(food.getIdcategory());
+                boolean check = fd.insertFood(category, food);
+                if (check) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("INSERT FOOD SUCCESSFUL");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("INSERT FOOD FAILED");
+                }
+                break;
+            }
+            // SELECT FOOD
+            case "SELECT FOOD BY CATEGORY": {
+                FoodDAO fd = new FoodDAO(conn);
+                int categoryId = (int) req.getData();
+                ArrayList<Food> list = fd.selectFoodByCategory(categoryId);
+                if (list == null || list.isEmpty()) {
+                    res.setStatus("NO_FOOD");
+                    res.setMessage("Category has no food");
+                    res.setData(new ArrayList<>());
+                } else {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("OK");
+                    res.setData(list);
+                }
+                break;
+            }
+            // DELETE FOOD
+            case "DELETE FOOD": {
+                FoodDAO fd = new FoodDAO(conn);
+                Food food = (Food) req.getData();
+                boolean check = fd.deleteFood(food);
+                if (check) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("DELETE FOOD SUCCESSFUL");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("DELETE FOOD FAILED");
+                }
+                break;
+            }
+            default: {
                 res.setStatus("ERROR");
                 res.setMessage("UNKNOWN ACTION: " + req.getAction());
                 res.setData(null);
+            }
         }
+
         return res;
     }
 }
