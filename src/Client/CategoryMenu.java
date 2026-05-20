@@ -196,12 +196,13 @@ public class CategoryMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     //delete category
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String input = JOptionPane.showInputDialog(this, "Nhập ID Category cần xóa");
-        if (input == null || input.trim().isEmpty()) {
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn Category cần xóa");
             return;
         }
         try {
-            int categoryID = Integer.parseInt(input);
+            int categoryID = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
             CategoryFood category = new CategoryFood();
             category.setId(categoryID);
             Request req = new Request("DELETE CATEGORY", category);
@@ -210,8 +211,6 @@ public class CategoryMenu extends javax.swing.JFrame {
             Response res = (Response) in.readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
             displayCategory(); //xóa xong hiển thị lại danh sách category
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID phải là số!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -268,7 +267,7 @@ public class CategoryMenu extends javax.swing.JFrame {
         }
         int row = jTable2.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "C  họn món cần xóa");
+            JOptionPane.showMessageDialog(this, "Chọn món cần xóa");
             return;
         }
         try {
@@ -329,7 +328,7 @@ public class CategoryMenu extends javax.swing.JFrame {
                     }
                     break;
                 }
-                case "NO_CATEGORY": {
+                case "NO CATEGORY": {
                     JOptionPane.showMessageDialog(this, "Chưa có category nào!");
                     break;
                 }

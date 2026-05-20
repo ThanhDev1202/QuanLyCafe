@@ -1,6 +1,4 @@
 package Server.DAO;
-
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +11,18 @@ public class FoodDAO {
     public FoodDAO(Connection conn){
         this.conn = conn;
     }    
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public FoodDAO() {
+    }
+    
     //nhập food
     public boolean insertFood(CategoryFood category, Food food){
         String ten = food.getNameFood();

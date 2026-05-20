@@ -3,10 +3,7 @@ package Client;
 import shared.Model.Account;
 import shared.RequestResponse.Request;
 import shared.RequestResponse.Response;
-import java.awt.CardLayout;
-import java.awt.Image;
 import java.net.Socket;
-import java.sql.*;
 import javax.swing.JOptionPane;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -172,11 +169,14 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, res.getMessage());
 
             //hiển thị phần làm việc
+            
+            /*
             if(res.getStatus().equals("SUCCESS")) {
                 CategoryMenu m = new CategoryMenu(in, out);
                 this.dispose();
                 m.setVisible(true);
             }
+            */
         } catch (Exception e) {
             e.printStackTrace();
         }

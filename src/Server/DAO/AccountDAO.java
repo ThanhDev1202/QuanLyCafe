@@ -3,8 +3,20 @@ import java.sql.*;
 import shared.Model.Account;
 public class AccountDAO {
     private Connection conn = null;
+    
     public AccountDAO(Connection conn){
         this.conn = conn;
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public AccountDAO() {
     }
     
     public boolean checkLogin(Account acc){

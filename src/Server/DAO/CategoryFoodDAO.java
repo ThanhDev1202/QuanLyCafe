@@ -11,7 +11,17 @@ public class CategoryFoodDAO {
     public CategoryFoodDAO(Connection conn){
         this.conn = conn;
     }     
-    
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public CategoryFoodDAO() {
+    }
     //nhập category
     public boolean insertCategory(CategoryFood category){
         String nameCategory = category.getTen();
