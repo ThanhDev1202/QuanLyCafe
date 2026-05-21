@@ -1,4 +1,5 @@
 package Server.SV;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -8,16 +9,20 @@ import shared.Model.Account;
 import shared.RequestResponse.Response;
 import Server.DAO.*;
 import database.Connect_Disconnect;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import shared.Model.*;
+import java.io.File;
+import java.nio.file.Files;
+
 public class ClientHandler implements Runnable {
 
     private Socket socket;//socket đại diện cho client
     private Connection conn = null;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    
+
     private AccountDAO acd;
     private FoodDAO fd;
     private CategoryFoodDAO cfd;
@@ -26,7 +31,7 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket soc_client) {
         this.socket = soc_client;
         this.acd = new AccountDAO();
-        this.fd =  new FoodDAO();
+        this.fd = new FoodDAO();
         this.cfd = new CategoryFoodDAO();
         this.tbdao = new TableFoodDAO(conn);
         this.conn = Connect_Disconnect.getConnection();
@@ -47,12 +52,20 @@ public class ClientHandler implements Runnable {
             }
         } catch (Exception e) {
             System.out.println("client Disconected");
-        } finally{
+        } finally {
             try {
-                if(in != null) in.close();
-                if(out != null) out.close();
-                if(conn != null) Connect_Disconnect.closeConnection();
-                if(socket != null) socket.close();                
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+                if (conn != null) {
+                    Connect_Disconnect.closeConnection();
+                }
+                if (socket != null) {
+                    socket.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -131,7 +144,7 @@ public class ClientHandler implements Runnable {
                     res.setData(list);
                 }
                 break;
-            }           
+            }
             // INSERT FOOD
             case "INSERT FOOD": {
                 fd.setConn(conn);
@@ -178,56 +191,140 @@ public class ClientHandler implements Runnable {
                 }
                 break;
             }
-            case "GET TABLES":
-                {          
+            case "UPLOAD IMAGE": {
+                try {
+                    fd.setConn(conn);
+                    Food food = (Food) req.getData();
+                    // tạo tên file tránh trùng
+                    String fileName
+                            = System.currentTimeMillis()
+                            + "_"
+                            + food.getImagePath();
+                    // nơi lưu ảnh
+                    String savePath = "images/" + fileName;
+                    // lưu file
+                    File dir = new File("images");
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    FileOutputStream fos = new FileOutputStream(savePath);
+                    fos.write(food.getImageData());
+                    fos.close();
+                    // save DB
+                    boolean check = fd.updateFoodImage(food.getId(), savePath);
+                    if (check) {
+                        res.setStatus("SUCCESS");
+                        res.setMessage("UPLOAD IMAGE FOOD SUCCESSFUL");
+                    } else {
+                        res.setStatus("FAILED");
+                        res.setMessage("UPLOAD IMAGE FOOD FAILED");
+                    }
+                } catch (Exception e) {
+                    res.setStatus("ERROR");
+                    res.setMessage("UPLOAD IMAGE ERROR");
+                }
+                break;
+            }
+            case "SHOW IMAGE": {
+                try {
+                    fd.setConn(conn);
+                    int foodId = (int) req.getData();
+                    // lấy path ảnh từ DB
+                    String imagePath = fd.getImagePath(foodId);
+                    File file = new File(imagePath);
+                    if (!file.exists()) {
+                        res.setStatus("FAILED");
+                        res.setMessage("IMAGE NOT FOUND");
+                        break;
+                    }
+                    byte[] imageBytes = Files.readAllBytes(file.toPath());
+                    Food food = new Food();
+                    food.setId(foodId);
+                    food.setImageData(imageBytes);
+                    res.setStatus("SUCCESS");
+                    res.setData(food);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    res.setStatus("ERROR");
+                    res.setMessage("SHOW IMAGE ERROR");
+                }
+
+                break;
+
+            }
+            case "DELETE IMAGE": {
+                try {
+                    fd.setConn(conn);
+                    Food food = (Food) req.getData();
+                    // lấy path từ DB
+                    String imagePath = fd.getImagePath(food.getId());
+                    File file = new File(imagePath);
+                    // xóa file vật lý
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                    // update DB
+                    boolean check = fd.deleteFoodImage(food.getId());
+                    if (check) {
+                        res.setStatus("SUCCESS");
+                        res.setMessage("DELETE IMAGE SUCCESS");
+                    } else {
+                        res.setStatus("FAILED");
+                        res.setMessage("DELETE IMAGE FAILED");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    res.setStatus("ERROR");
+                    res.setMessage("DELETE IMAGE ERROR");
+                }
+                break;
+            }
+            case "GET TABLES": {
                 List<TableFood> tbflist = tbdao.getAllTables();
                 res.setStatus("SUCCESS");
                 res.setData(tbflist);
                 res.setMessage("GET TABLE SUCCESS");
-                return res;        
+                return res;
+            }
+            case "ADD TABLE": {
+                TableFood tbf = (TableFood) req.getData();
+                TableFood checkaddtable = tbdao.addtable(tbf);
+                if (checkaddtable != null) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("ADD TABLE SUCCESSFULLY");
+                    res.setData(tbf);
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("ADD TABLE FAILED");
                 }
-            case "ADD TABLE":
-                {
-                    TableFood tbf = (TableFood) req.getData();
-                    TableFood checkaddtable = tbdao.addtable(tbf);
-                     if (checkaddtable != null) {
-                        res.setStatus("SUCCESS");
-                        res.setMessage("ADD TABLE SUCCESSFULLY");
-                        res.setData(tbf);
-                    } else {
-                        res.setStatus("FAILED");
-                        res.setMessage("ADD TABLE FAILED");
-                    }
-                    break;
-                }
-            case "DELETE TABLE":
-                {
-                TableFood tbf =(TableFood) req.getData();
+                break;
+            }
+            case "DELETE TABLE": {
+                TableFood tbf = (TableFood) req.getData();
                 boolean checkdelete = tbdao.deletetable(tbf);
-                  if (checkdelete) {
-                        res.setStatus("SUCCESS");
-                        res.setMessage("DELETE TABLE SUCCESSFULLY");
-                        res.setData(tbf);
-                    } else {
-                        res.setStatus("FAILED");
-                        res.setMessage("DELETE TABLE FAILED");
-                    }
-                    break;
+                if (checkdelete) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("DELETE TABLE SUCCESSFULLY");
+                    res.setData(tbf);
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("DELETE TABLE FAILED");
                 }
-            case "OPEN TABLE":
-                {
-                TableFood tbf =(TableFood) req.getData();
+                break;
+            }
+            case "OPEN TABLE": {
+                TableFood tbf = (TableFood) req.getData();
                 boolean checkopen = tbdao.opentable(tbf);
-                  if (checkopen) {
-                        res.setStatus("SUCCESS");
-                        res.setMessage("OPEN TABLE SUCCESSFULLY");
-                        res.setData(tbf);
-                    } else {
-                        res.setStatus("FAILED");
-                        res.setMessage("OPEN TABLE FAILED");
-                    }
-                    break;
+                if (checkopen) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("OPEN TABLE SUCCESSFULLY");
+                    res.setData(tbf);
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("OPEN TABLE FAILED");
                 }
+                break;
+            }
             default: {
                 res.setStatus("ERROR");
                 res.setMessage("UNKNOWN ACTION: " + req.getAction());

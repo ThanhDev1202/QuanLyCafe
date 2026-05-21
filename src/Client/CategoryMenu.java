@@ -1,5 +1,5 @@
 package Client;
-
+import java.awt.Image;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -8,6 +8,11 @@ import javax.swing.table.DefaultTableModel;
 import shared.Model.*;
 import shared.RequestResponse.*;
 import java.math.BigDecimal;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.nio.file.Files;
+import javax.swing.ImageIcon;
 
 public class CategoryMenu extends javax.swing.JFrame {
 
@@ -24,6 +29,11 @@ public class CategoryMenu extends javax.swing.JFrame {
         this.in = in;
         this.out = out;
         displayCategory();
+        jTable2.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                showFoodImage();
+            }
+        });
     }
 
     /**
@@ -46,6 +56,9 @@ public class CategoryMenu extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,11 +99,11 @@ public class CategoryMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "tên sản phẩm", "giá tiền", "id category"
+                "id", "tên sản phẩm", "giá tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -99,8 +112,10 @@ public class CategoryMenu extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Current category:");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("......");
 
         jButton3.setText("choose category");
@@ -124,6 +139,22 @@ public class CategoryMenu extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setText("add image");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("jLabel3");
+
+        jButton7.setText("delete image");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,44 +163,65 @@ public class CategoryMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5)))
-                .addContainerGap(8, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jButton5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton7)
+                                        .addGap(0, 66, Short.MAX_VALUE)))))
+                        .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addGap(12, 12, 12))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton7)
+                        .addComponent(jButton6))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton5)
+                        .addComponent(jButton4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -227,7 +279,7 @@ public class CategoryMenu extends javax.swing.JFrame {
             int categoryId = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
             String categoryName = jTable1.getValueAt(row, 1).toString();
             currentCategoryId = categoryId;
-            jLabel2.setText(categoryName);            
+            jLabel2.setText(categoryName);
             displayFood(categoryId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,15 +287,19 @@ public class CategoryMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
     //add food
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if(currentCategoryId == -1){
+        if (currentCategoryId == -1) {
             JOptionPane.showMessageDialog(this, "vui lòng chọn Category");
             return;
         }
         try {
             String name = JOptionPane.showInputDialog(this, "Nhập tên món ăn:");
-            if (name == null || name.trim().isEmpty()) return;
+            if (name == null || name.trim().isEmpty()) {
+                return;
+            }
             String priceStr = JOptionPane.showInputDialog(this, "Nhập giá:");
-            if (priceStr == null || priceStr.trim().isEmpty()) return;
+            if (priceStr == null || priceStr.trim().isEmpty()) {
+                return;
+            }
             BigDecimal price = new BigDecimal(priceStr);
             Food food = new Food();
             food.setNameFood(name);
@@ -257,11 +313,11 @@ public class CategoryMenu extends javax.swing.JFrame {
             displayFood(currentCategoryId);
         } catch (Exception e) {
             e.printStackTrace();
-        }        
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
     //delete food
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if(currentCategoryId == -1){
+        if (currentCategoryId == -1) {
             JOptionPane.showMessageDialog(this, "vui lòng chọn Category");
             return;
         }
@@ -284,6 +340,120 @@ public class CategoryMenu extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // add image
+        if (currentCategoryId == -1) {
+            JOptionPane.showMessageDialog(this,"Vui lòng chọn Category");
+            return;
+        }
+        int row = jTable2.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this,"Chọn món cần thêm ảnh");
+            return;
+        }
+        try {
+            // lấy food id
+            int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
+            // file chooser
+            JFileChooser jf = new JFileChooser();
+            jf.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            // filter ảnh
+            FileNameExtensionFilter filter= new FileNameExtensionFilter("Image Files","jpg","png","jpeg");
+            jf.setFileFilter(filter);
+            // mở dialog
+            int result = jf.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = jf.getSelectedFile();
+                // đọc file thành byte[]
+                byte[] imageData= Files.readAllBytes(file.toPath());
+                // tạo object food
+                Food food = new Food();
+                food.setId(foodId);
+                food.setImageData(imageData);
+                // gửi tên file
+                food.setImagePath(file.getName());
+                // request
+                Request req= new Request("UPLOAD IMAGE",food);
+                // gửi server
+                out.writeObject(req);
+                out.flush();
+                // nhận response
+                Response res= (Response) in.readObject();
+                if (res.getStatus().equals("SUCCESS")) {
+                    JOptionPane.showMessageDialog(this,"Upload ảnh thành công");
+                    showFoodImage();
+                }
+                else{
+                    JOptionPane.showMessageDialog(this,"Upload ảnh thất bại");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // delete image
+        if (currentCategoryId == -1) {
+            JOptionPane.showMessageDialog(this,"Vui lòng chọn Category");
+            return;
+        }
+        int row = jTable2.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this,"Chọn món cần xóa ảnh");
+            return;
+        }
+        try {
+            // lấy food id
+            int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
+            Food food = new Food();
+            food.setId(foodId);
+            Request req= new Request("DELETE IMAGE",food);
+            // gửi server
+            out.writeObject(req);
+            out.flush();
+            // nhận response
+            Response res= (Response) in.readObject();
+            if (res.getStatus().equals("SUCCESS")) {
+                JOptionPane.showMessageDialog(this,"xóa ảnh thành công");
+                showFoodImage();
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"xóa ảnh thất bại");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+    public void showFoodImage() {
+        int row = jTable2.getSelectedRow();
+        if (row == -1) {
+            return;
+        }
+        try {
+            int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
+            Request req = new Request("SHOW IMAGE", foodId);
+            out.writeObject(req);
+            out.flush();
+            Response res = (Response) in.readObject();
+            if (res.getStatus().equals("SUCCESS")) {
+                Food food = (Food) res.getData();
+                byte[] imageBytes = food.getImageData();
+                ImageIcon icon = new ImageIcon(imageBytes);
+                // resize ảnh
+                Image img = icon.getImage();
+                Image scaled = img.getScaledInstance(jLabel3.getWidth(),jLabel3.getHeight(),Image.SCALE_SMOOTH);
+                jLabel3.setIcon(new ImageIcon(scaled));
+                jLabel3.setText("");
+            } else {
+                jLabel3.setIcon(null);
+                jLabel3.setText("Không có ảnh");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }    
     public void displayFood(int categoryId) {
         try {
             Request req = new Request("SELECT FOOD BY CATEGORY", categoryId);
@@ -298,9 +468,7 @@ public class CategoryMenu extends javax.swing.JFrame {
                     model.addRow(new Object[]{
                         f.getId(),
                         f.getNameFood(),
-                        f.getPrice(),
-                        f.getIdcategory()
-                    });
+                        f.getPrice(),});
                 }
             } else {
                 JOptionPane.showMessageDialog(this, res.getMessage());
@@ -309,6 +477,7 @@ public class CategoryMenu extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+
     public void displayCategory() {
         try {
             Request req = new Request("SELECT CATEGORY", null);
@@ -348,8 +517,11 @@ public class CategoryMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;

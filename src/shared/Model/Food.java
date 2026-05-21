@@ -3,11 +3,14 @@ package shared.Model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Food implements Serializable{
+public class Food implements Serializable {
+
     private int id;
     private String nameFood;
     private int idcategory;
     private BigDecimal price;
+    private String imagePath;
+    private byte[] imageData;
 
     public Food() {
     }
@@ -26,8 +29,6 @@ public class Food implements Serializable{
         this.id = id;
     }
 
-    
-    
     public String getNameFood() {
         return nameFood;
     }
@@ -52,4 +53,18 @@ public class Food implements Serializable{
         this.idcategory = idcategory;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
 }

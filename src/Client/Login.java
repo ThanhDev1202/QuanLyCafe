@@ -170,13 +170,13 @@ public class Login extends javax.swing.JFrame {
 
             //hiển thị phần làm việc
             
-            /*
+            
             if(res.getStatus().equals("SUCCESS")) {
                 CategoryMenu m = new CategoryMenu(in, out);
                 this.dispose();
                 m.setVisible(true);
             }
-            */
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
