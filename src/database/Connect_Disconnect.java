@@ -10,14 +10,14 @@ public class Connect_Disconnect {
     public static Connection getConnection() {
         try {
             if (conn == null || conn.isClosed()) {
-                String url =
-                    "jdbc:sqlserver://localhost:1433;"
-                    + "databaseName=quanlyquancf;"
-                    + "encrypt=true;"
-                    + "trustServerCertificate=true";
+                String url
+                        = "jdbc:sqlserver://localhost\\SQLEXPRESS;"
+                        + "databaseName=quanlyquancf;"
+                        + "encrypt=true;"
+                        + "trustServerCertificate=true";
                 String user = "sa";
-                String pass = "Thanh2006@";
-                conn = DriverManager.getConnection(url,user,pass);
+                String pass = "010106";
+                conn = DriverManager.getConnection(url, user, pass);
             }
 
         } catch (Exception e) {

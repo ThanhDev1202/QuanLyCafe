@@ -3,9 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Client/Login.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/SV/ClientHandler.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/SV/Server.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/Model/CategoryFood.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/SV/ClientHandler.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/Model/Account.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/RequestResponse/Request.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/SV/Server.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Client/BillGUI.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/DAO/BillDAO.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/Model/Bill.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Client/Login.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/DAO/CategoryFoodDAO.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/DAO/AccountDAO.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/DAO/FoodDAO.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/database/Connect_Disconnect.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Client/addFoodDialog.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/DAO/TableFoodDAO.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/Model/Food.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/Server/DAO/BillInforDAO.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/Model/BillInfor.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/Model/TableFood.java</file>
+            <file>file:/D:/code_java/javaproject/github/source/QuanLyCafe/src/shared/RequestResponse/Response.java</file>
         </group>
     </open-files>
 </project-private>
