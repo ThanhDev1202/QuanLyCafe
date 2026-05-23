@@ -4,27 +4,44 @@
  * and open the template in the editor.
  */
 package Client;
-import Server.DAO.BillDAO;
-import Server.DAO.BillInforDAO;
-import java.sql.Connection;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import shared.RequestResponse.Request;
+import shared.RequestResponse.Response;
 
 /**
  *
  * @author Hiep
  */
 public class BillGUI extends javax.swing.JFrame {
+
     private int idBill;
-    private Connection conn;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
+
     /**
      * Creates new form BillGUI
      */
     
-    public BillGUI() {
-    }
-    public BillGUI(Connection conn) {
+
+    public BillGUI(ObjectInputStream in, ObjectOutputStream out, int idBill) {
         initComponents();
-        this.conn=conn;
+        this.in = in;
+        this.out = out;
+        this.idBill = idBill;
+        // ẩn cột idFood
+        billtb.getColumnModel()
+                .getColumn(0)
+                .setMinWidth(0);
+        billtb.getColumnModel()
+                .getColumn(0)
+                .setMaxWidth(0);
+        billtb.getColumnModel()
+                .getColumn(0)
+                .setWidth(0);
     }
 
     /**
@@ -77,11 +94,11 @@ public class BillGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tên món", "Số Lượng", "Đơn giá", "Thành Tiền"
+                "IdFood", "Tên món", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -143,78 +160,84 @@ public class BillGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       addFoodDialog dialog =
-    new addFoodDialog(
-            this,
-            true,
-            idBill,
-            this.conn);
+        addFoodDialog dialog
+                = new addFoodDialog(
+                        this,
+                        true,
+                        idBill,
+                        in,
+                        out);
 
-    dialog.setVisible(true);
+        dialog.setVisible(true);
 
-    //loadBillInfor(idBill);  ---hàm bên table xử lý sau
-    updateTotal( idBill);
+        //loadBillInfor(idBill);  ---hàm bên table xử lý sau
+        updateTotal(idBill);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
 
-        int selectedRow =
-                billtb.getSelectedRow();
+            int selectedRow = billtb.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn món");
+                return;
+            }
 
-        if(selectedRow == -1){
+            int idFood= Integer.parseInt(
+                            billtb.getValueAt(selectedRow, 0).toString());
 
-            return;
-        }
-
-        int idFood =
-        Integer.parseInt(
-        billtb.getValueAt(
-                selectedRow,
-                0).toString());
-
-        BillInforDAO dao =
-                new BillInforDAO();
-
-        dao.deleteBillInfo(
+            // tạo data gửi server
+            Object[] data = {
                 idBill,
-                idFood);
-                 // reload table
-        //loadBillInfo(idBill);---xử lý ở table
-        updateTotal( idBill);
-    } catch (Exception e) {
+                idFood
+            };
+            Request req = new Request("DELETE_BILLINFO", data);
+            out.writeObject(req);
 
-        e.printStackTrace();
-    }
+            out.flush();
+            Response res = (Response) in.readObject();
+            if (res.getStatus().equals(
+                    "SUCCESS")) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Xóa món thành công");
+                // reload bảng
+                //loadBillInfo(idBill);---xử lý ở table
+            }
+            updateTotal(idBill);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
+            Request req
+                    = new Request("CHECKOUT_BILL", idBill);
+            out.writeObject(req);
+            out.flush();
+            Response res = (Response) in.readObject();
 
-        BillInforDAO billInforDAO =
-                new BillInforDAO();
+            if (res.getStatus().equals(
+                    "SUCCESS")) {
+                JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+                // xóa dữ liệu trên table
+                DefaultTableModel model = (DefaultTableModel) billtb.getModel();
+                model.setRowCount(0);
+                //loadBillInfo(idBill);--xử lý bên table
+                // tổng tiền = 0
+                jTextField1.setText("0");
+            } else {
 
-        double totalPrice =
-                billInforDAO
-                .getTotalPrice(idBill);
+                JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
+            }
 
-        BillDAO billDAO =
-                new BillDAO();
+        } catch (Exception e) {
 
-        billDAO.checkOut(
-                idBill,
-                totalPrice);
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Thanh toán thành công");
-        //model.setRowCount(0);--xử lý bên table
-        //loadBillInfo(idBill);--xử lý bên table
-
-    } catch (Exception e) {
-
-        e.printStackTrace();
-    }
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -247,9 +270,7 @@ public class BillGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BillGUI().setVisible(true);
-                Connection testConn = database.Connect_Disconnect.getConnection();
-                new BillGUI(testConn).setVisible(true);
+                new BillGUI(null, null, 0).setVisible(true);
             }
         });
     }
@@ -266,7 +287,23 @@ public class BillGUI extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 //hàm 
     public void updateTotal(int idBill) {
-    BillInforDAO DAO = new BillInforDAO();
-   jTextField1.setText(String.valueOf(DAO.getTotalPrice(idBill)));
+        try {
+            Request req = new Request( "GET_TOTAL_PRICE", idBill);
+            out.writeObject(req);
+            out.flush();
+            Response res = (Response) in.readObject();
+
+            if (res.getStatus().equals(
+                    "SUCCESS")) {
+                // lấy tổng tiền
+                double totalPrice = (double) res.getData();
+                // hiển thị lên textfield
+                jTextField1.setText(String.valueOf(totalPrice));
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
 }
 }

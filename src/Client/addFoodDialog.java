@@ -5,61 +5,108 @@
  */
 package Client;
 
-import Server.DAO.BillInforDAO;
-import Server.DAO.CategoryFoodDAO;
-import Server.DAO.FoodDAO;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import shared.Model.CategoryFood;
-import java.sql.Connection;
+import javax.swing.JOptionPane;
 import shared.Model.Food;
+import shared.RequestResponse.Request;
+import shared.RequestResponse.Response;
 
 /**
  *
  * @author Hiep
  */
 public class addFoodDialog extends java.awt.Dialog {
+
     private int idBill;
-    private Connection conn;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
+
     /**
      * Creates new form addFoodDialog
      */
-    public addFoodDialog(java.awt.Frame parent, boolean modal,int idBill,Connection conn) {
+    public addFoodDialog(java.awt.Frame parent, boolean modal, int idBill, ObjectInputStream in, ObjectOutputStream out) {
         super(parent, modal);
         initComponents();
-         this.idBill = idBill;
-         this.conn = conn;
-         loadCategory();
+        this.idBill = idBill;
+        this.in = in;
+        this.out = out;
+
+        loadCategory();
     }
+
     // load category lên combobox
-    private void loadCategory(){
+    private void loadCategory() {
 
-        CategoryFoodDAO dao =
-                new  CategoryFoodDAO(conn);
+        try {
 
-        ArrayList<CategoryFood> list =
-                dao.selectCategory();
+            Request req
+                    = new Request(
+                            "SELECT CATEGORY",
+                            null);
 
-        for(CategoryFood c : list){
+            out.writeObject(req);
 
-            cbCategory.addItem(c);
+            out.flush();
+
+            Response res
+                    = (Response) in.readObject();
+
+            if (res.getStatus().equals(
+                    "SUCCESS")) {
+
+                ArrayList<CategoryFood> list
+                        = (ArrayList<CategoryFood>) res.getData();
+
+                cbCategory.removeAllItems();
+
+                for (CategoryFood c : list) {
+
+                    cbCategory.addItem(c);
+                }
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
     }
+
     // load food theo category
     private void loadFoodByCategory(
-            int categoryID){
+            int categoryID) {
 
         cbFood.removeAllItems();
+        try {
 
-        FoodDAO dao =
-                new FoodDAO(conn);
+            Request req= new Request("SELECT FOOD BY CATEGORY",categoryID);
 
-        ArrayList<Food> list =
-                dao.selectFoodByCategory(
-                        categoryID);
+            out.writeObject(req);
 
-        for(Food f : list){
+            out.flush();
 
-            cbFood.addItem(f);
+            Response res
+                    = (Response) in.readObject();
+
+            if (res.getStatus().equals(
+                    "SUCCESS")) {
+
+                ArrayList<Food> list
+                        = (ArrayList<Food>) res.getData();
+
+                cbFood.removeAllItems();
+
+                for (Food f : list) {
+
+                    cbFood.addItem(f);
+                }
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
     }
 
@@ -185,35 +232,42 @@ public class addFoodDialog extends java.awt.Dialog {
     }//GEN-LAST:event_closeDialog
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-       try {
-
-        // lấy food đang chọn
-        Food food =
-        (Food) cbFood.getSelectedItem();
-
-        // lấy số lượng
-        int quantity =
-        Integer.parseInt(
-        spQuantity.getValue().toString());
-
-        // tạo DAO
-           BillInforDAO dao =
-                new BillInforDAO();
-
-        // thêm vào bill
-        dao.insertBillInfo(
+        try {
+            //lấy food đang chọn
+            Food food= (Food) cbFood.getSelectedItem();
+            
+            //lấy số lượng
+            int quantity= Integer.parseInt(spQuantity.getValue().toString());
+            
+             // tạo mảng object gửi server
+            Object[] data = {
                 idBill,
                 food.getId(),
                 quantity,
-                food.getPrice().doubleValue());
+                food.getPrice().doubleValue()
+            };
 
-        // đóng dialog
-        dispose();
+            Request req= new Request("ADD_FOOD",data);
 
-    } catch (Exception e) {
+            out.writeObject(req);
 
-        e.printStackTrace();
-    }
+            out.flush();
+
+            Response res = (Response) in.readObject();
+
+            if (res.getStatus().equals("SUCCESS")) { JOptionPane.showMessageDialog(this,
+                        "Thêm món thành công");
+            //đóng dialog
+                dispose();
+            } else {
+
+                JOptionPane.showMessageDialog(this,"Thêm món thất bại");
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -221,10 +275,10 @@ public class addFoodDialog extends java.awt.Dialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void cbCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCategoryActionPerformed
-        CategoryFood category =
-        (CategoryFood) cbCategory.getSelectedItem();
+        CategoryFood category
+                = (CategoryFood) cbCategory.getSelectedItem();
 
-        if(category != null){
+        if (category != null) {
 
             loadFoodByCategory(
                     category.getId());
@@ -234,8 +288,6 @@ public class addFoodDialog extends java.awt.Dialog {
     /**
      * @param args the command line arguments
      */
-   
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;

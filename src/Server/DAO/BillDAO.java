@@ -19,6 +19,10 @@ public class BillDAO {
         conn = Connect_Disconnect.getConnection();
     }
 
+    public BillDAO(Connection conn) {
+        this.conn=conn;
+    }
+
     // Tạo bill mới
     public void insertBill(int tableId) {
 
@@ -79,7 +83,7 @@ public class BillDAO {
     }
 
     // Thanh toán bill
-    public void checkOut(int billId, double totalPrice) {
+    public boolean checkOut(int idBill, double totalPrice) {
 
         String sql =
         "UPDATE Bill " +
@@ -94,14 +98,13 @@ public class BillDAO {
                     conn.prepareStatement(sql);
 
             ps.setDouble(1, totalPrice);
-            ps.setInt(2, billId);
-
+            ps.setInt(2, idBill);
             ps.executeUpdate();
-
             System.out.println("Checkout success");
-
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 }

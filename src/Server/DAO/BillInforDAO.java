@@ -18,6 +18,10 @@ public class BillInforDAO {
     public BillInforDAO() {
         conn = Connect_Disconnect.getConnection();
     }
+
+    public BillInforDAO(Connection conn) {
+        this.conn=conn;
+    }
 // thêm món vào bill
     public void insertBillInfo(
             int idBill,

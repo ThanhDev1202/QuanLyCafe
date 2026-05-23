@@ -46,7 +46,7 @@ public class ClientHandler implements Runnable {
     public Response action(Request req) {
         Response res = new Response();
         AccountDAO ud = new AccountDAO(conn);
-TableFoodDAO tbdao = new TableFoodDAO(conn);
+        TableFoodDAO tbdao = new TableFoodDAO(conn);
         switch (req.getAction()) {
             // LOGIN
             case "LOGIN": {
@@ -76,19 +76,17 @@ TableFoodDAO tbdao = new TableFoodDAO(conn);
                 }
                 break;
             }
-            case "GET_TABLES":
-            {          
-            List<TableFood> tbflist = tbdao.getAllTables();
-            res.setStatus("SUCCESS");
-            res.setData(tbflist);
-            res.setMessage("GET TABLE SUCCESS");
-           break;
+            case "GET_TABLES": {
+                List<TableFood> tbflist = tbdao.getAllTables();
+                res.setStatus("SUCCESS");
+                res.setData(tbflist);
+                res.setMessage("GET TABLE SUCCESS");
+                break;
             }
-            case "ADD_TABLE":
-            {
+            case "ADD_TABLE": {
                 TableFood tbf = (TableFood) req.getData();
                 TableFood checkaddtable = tbdao.addtable(tbf);
-                 if (checkaddtable != null) {
+                if (checkaddtable != null) {
                     res.setStatus("SUCCESS");
                     res.setMessage("ADD TABLE SUCCESSFULLY");
                     res.setData(tbf);
@@ -98,11 +96,10 @@ TableFoodDAO tbdao = new TableFoodDAO(conn);
                 }
                 break;
             }
-            case "DELETE_TABLE":
-            {
-            TableFood tbf =(TableFood) req.getData();
-            boolean checkdelete = tbdao.deletetable(tbf);
-              if (checkdelete) {
+            case "DELETE_TABLE": {
+                TableFood tbf = (TableFood) req.getData();
+                boolean checkdelete = tbdao.deletetable(tbf);
+                if (checkdelete) {
                     res.setStatus("SUCCESS");
                     res.setMessage("DELETE TABLE SUCCESSFULLY");
                     res.setData(tbf);
@@ -111,13 +108,12 @@ TableFoodDAO tbdao = new TableFoodDAO(conn);
                     res.setMessage("DELETE TABLE FAILED");
                 }
                 break;
-            
+
             }
-            case "OPEN_TABLE":
-            {
-            TableFood tbf =(TableFood) req.getData();
-            boolean checkopen = tbdao.opentable(tbf);
-              if (checkopen) {
+            case "OPEN_TABLE": {
+                TableFood tbf = (TableFood) req.getData();
+                boolean checkopen = tbdao.opentable(tbf);
+                if (checkopen) {
                     res.setStatus("SUCCESS");
                     res.setMessage("OPEN TABLE SUCCESSFULLY");
                     res.setData(tbf);
@@ -126,7 +122,7 @@ TableFoodDAO tbdao = new TableFoodDAO(conn);
                     res.setMessage("OPEN TABLE FAILED");
                 }
                 break;
-            
+
             }
             // INSERT CATEGORY
             case "INSERT CATEGORY": {
@@ -169,7 +165,7 @@ TableFoodDAO tbdao = new TableFoodDAO(conn);
                     res.setData(list);
                 }
                 break;
-            }           
+            }
             // INSERT FOOD
             case "INSERT FOOD": {
                 FoodDAO fd = new FoodDAO(conn);
@@ -214,6 +210,76 @@ TableFoodDAO tbdao = new TableFoodDAO(conn);
                     res.setStatus("FAILED");
                     res.setMessage("DELETE FOOD FAILED");
                 }
+                break;
+            }
+            //ADD_FOOD
+            case "ADD_FOOD": {
+
+                Object[] data = (Object[]) req.getData();
+
+                int idBill = (int) data[0];
+                int idFood = (int) data[1];
+                int quantity = (int) data[2];
+                double price = (double) data[3];
+
+                BillInforDAO dao = new BillInforDAO(conn);
+
+                dao.insertBillInfo(
+                        idBill,
+                        idFood,
+                        quantity,
+                        price);
+                res.setStatus("SUCCESS");
+                res.setMessage("ADD FOOD SUCCESS");
+
+                break;
+            }
+            //DELETE_BILLINFO
+            case "DELETE_BILLINFO": {
+
+                Object[] data = (Object[]) req.getData();
+                int idBill = (int) data[0];
+                int idFood = (int) data[1];
+
+                BillInforDAO dao = new BillInforDAO(conn);
+                dao.deleteBillInfo(
+                        idBill,
+                        idFood);
+                res.setStatus("SUCCESS");
+                res.setMessage("DELETE BILLINFO SUCCESS");
+
+                break;
+            }
+            //CHECKOUT_BILL
+            case "CHECKOUT_BILL": {
+
+                int idBill = (int) req.getData();
+                double totalPrice = (double) req.getData();
+                BillDAO dao = new BillDAO(conn);
+                boolean check = dao.checkOut(idBill, totalPrice);
+
+                if (check) {
+
+                    res.setStatus("SUCCESS");
+                    res.setMessage(
+                            "CHECKOUT SUCCESS");
+                } else {
+
+                    res.setStatus("FAILED");
+                    res.setMessage(
+                            "CHECKOUT FAILED");
+                }
+
+                break;
+            }
+            //GET_TOTAL_PRICE
+            case "GET_TOTAL_PRICE": {
+
+                int idBill = (int) req.getData();
+                BillInforDAO dao = new BillInforDAO(conn);
+                double totalPrice = dao.getTotalPrice(idBill);
+                res.setStatus("SUCCESS");
+                res.setData(totalPrice);
                 break;
             }
             default: {
