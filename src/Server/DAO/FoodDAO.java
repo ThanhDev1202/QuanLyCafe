@@ -32,12 +32,44 @@ public class FoodDAO {
         String ten = food.getNameFood();
         int idCategory = category.getId();
         BigDecimal price = food.getPrice();
+        int soLuong = food.getNumbers();
         try {
-            String sql = "INSERT INTO Food(ten, price, idCategory) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO Food(ten, idCategory, price , soLuong) VALUES (?, ?, ?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, ten);
-            ps.setBigDecimal(2, price);
-            ps.setInt(3, idCategory);
+            ps.setInt(2, idCategory);
+            ps.setBigDecimal(3, price);
+            ps.setInt(4, soLuong);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    // tăng số lượng food
+    public boolean increaseFoodQuantity(int foodId, int amount) {
+        try {
+            String sql = "UPDATE Food SET soLuong = soLuong + ? WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, amount);
+            ps.setInt(2, foodId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    // giảm số lượng food
+    public boolean decreaseFoodQuantity(int foodId, int amount) {
+        try {
+            String sql = "UPDATE Food SET soLuong = soLuong - ? "
+                    + "WHERE id = ? AND soLuong >= ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, amount);
+            ps.setInt(2, foodId);
+            ps.setInt(3, amount);
             int rows = ps.executeUpdate();
             return rows > 0;
         } catch (Exception e) {
@@ -60,6 +92,7 @@ public class FoodDAO {
                 food.setNameFood(rs.getString("ten"));
                 food.setPrice(rs.getBigDecimal("price"));
                 food.setIdcategory(rs.getInt("idCategory"));
+                food.setNumbers(rs.getInt("soLuong"));
                 list.add(food);
             }
         } catch (Exception e) {
@@ -97,6 +130,7 @@ public class FoodDAO {
         }
         return false;
     }
+
     //xóa ảnh cho food
     public boolean deleteFoodImage(int foodId) {
         try {
@@ -110,6 +144,7 @@ public class FoodDAO {
         }
         return false;
     }
+
     //lấy đường dẫn 
     public String getImagePath(int foodId) {
         try {

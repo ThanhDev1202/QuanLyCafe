@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/DAO/TableFoodDAO.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/SV/ClientHandler.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Client/Login.java</file>
             <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Client/CategoryMenu.java</file>
+            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/DAO/FoodDAO.java</file>
             <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Server/SV/Server.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/shared/Model/TableFood.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Documents/NetBeansProjects/QuanLyCF/src/Client/MainFrame.java</file>
         </group>
     </open-files>
 </project-private>

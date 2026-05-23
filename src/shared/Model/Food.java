@@ -9,16 +9,18 @@ public class Food implements Serializable {
     private String nameFood;
     private int idcategory;
     private BigDecimal price;
+    private int numbers;
     private String imagePath;
     private byte[] imageData;
 
     public Food() {
     }
 
-    public Food(String nameFood, int idcategory, BigDecimal price) {
+    public Food(String nameFood, int idcategory,int numbers ,BigDecimal price) {
         this.nameFood = nameFood;
         this.idcategory = idcategory;
         this.price = price;
+        this.numbers = numbers;
     }
 
     public int getId() {
@@ -67,4 +69,13 @@ public class Food implements Serializable {
     public void setImageData(byte[] imageData) {
         this.imageData = imageData;
     }
+
+    public int getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(int numbers) {
+        this.numbers = numbers;
+    }
+    
 }

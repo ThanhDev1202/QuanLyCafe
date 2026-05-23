@@ -191,6 +191,32 @@ public class ClientHandler implements Runnable {
                 }
                 break;
             }
+            case "INCREASE FOOD": {
+                fd.setConn(conn);
+                Food food = (Food) req.getData();
+                boolean check = fd.increaseFoodQuantity(food.getId(), 1);
+                if (check) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("INCREASE FOOD SUCCESSFUL");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("INCREASE FOOD FAILED");
+                }
+                break;
+            }
+            case "DECREASE FOOD": {
+                fd.setConn(conn);
+                Food food = (Food) req.getData();
+                boolean check = fd.decreaseFoodQuantity(food.getId(), 1);
+                if (check) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("DECREASE FOOD SUCCESSFUL");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("DECREASE FOOD FAILED");
+                }
+                break;
+            }
             case "UPLOAD IMAGE": {
                 try {
                     fd.setConn(conn);
