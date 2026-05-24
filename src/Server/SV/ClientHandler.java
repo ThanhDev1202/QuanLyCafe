@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable {
         this.acd = new AccountDAO();
         this.fd = new FoodDAO();
         this.cfd = new CategoryFoodDAO();
-        this.tbdao = new TableFoodDAO(conn);
+        this.tbdao = new TableFoodDAO();
         this.conn = Connect_Disconnect.getConnection();
     }
 
@@ -274,9 +274,7 @@ public class ClientHandler implements Runnable {
                     res.setStatus("ERROR");
                     res.setMessage("SHOW IMAGE ERROR");
                 }
-
                 break;
-
             }
             case "DELETE IMAGE": {
                 try {
@@ -306,26 +304,35 @@ public class ClientHandler implements Runnable {
                 break;
             }
             case "GET TABLES": {
+                tbdao.setConn(conn);
                 List<TableFood> tbflist = tbdao.getAllTables();
-                res.setStatus("SUCCESS");
-                res.setData(tbflist);
-                res.setMessage("GET TABLE SUCCESS");
-                return res;
+                if (tbflist != null) {
+                    res.setStatus("SUCCESS");
+                    res.setData(tbflist);
+                    res.setMessage("GET TABLE SUCCESS");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("GET TABLE FAILED");
+                }
+                break;
             }
             case "ADD TABLE": {
+                tbdao.setConn(conn);
                 TableFood tbf = (TableFood) req.getData();
-                TableFood checkaddtable = tbdao.addtable(tbf);
-                if (checkaddtable != null) {
+                boolean ok = tbdao.addtable(tbf); 
+                if (ok) {
                     res.setStatus("SUCCESS");
                     res.setMessage("ADD TABLE SUCCESSFULLY");
-                    res.setData(tbf);
+                    res.setData(null);
                 } else {
                     res.setStatus("FAILED");
                     res.setMessage("ADD TABLE FAILED");
+                    res.setData(null);
                 }
                 break;
             }
             case "DELETE TABLE": {
+                tbdao.setConn(conn);
                 TableFood tbf = (TableFood) req.getData();
                 boolean checkdelete = tbdao.deletetable(tbf);
                 if (checkdelete) {
@@ -339,6 +346,7 @@ public class ClientHandler implements Runnable {
                 break;
             }
             case "OPEN TABLE": {
+                tbdao.setConn(conn);
                 TableFood tbf = (TableFood) req.getData();
                 boolean checkopen = tbdao.opentable(tbf);
                 if (checkopen) {

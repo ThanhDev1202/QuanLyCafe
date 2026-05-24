@@ -172,9 +172,9 @@ public class Login extends javax.swing.JFrame {
             
             
             if(res.getStatus().equals("SUCCESS")) {
-                CategoryMenu m = new CategoryMenu(in, out);
+                MainGUI mGui = new MainGUI(in,out);
                 this.dispose();
-                m.setVisible(true);
+                mGui.setVisible(true);
             }
             
         } catch (Exception e) {

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Server.DAO;
 
 import java.sql.Connection;
@@ -19,10 +15,17 @@ public class TableFoodDAO {
 
     private Connection conn = null;
 
-    public TableFoodDAO(Connection conn) {
-        this.conn = conn;
+    public TableFoodDAO() {
     }
 
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+    
     public List<TableFood> getAllTables() {
         List<TableFood> tbflist = new ArrayList<>();
         try {
@@ -45,23 +48,18 @@ public class TableFoodDAO {
         return tbflist;
     }
 
-    public TableFood addtable(TableFood tbf) {
-        String name = tbf.getName();
-        String status = tbf.getStatus();
+    public boolean addtable(TableFood tbf) {
         try {
-            String sql = "INSERT INTO TableFood(ten, status) OUTPUT INSERTED.id VALUES (?, ?)";
+            String sql = "INSERT INTO TableFood(ten, status) VALUES (?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, status);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                tbf.setId(rs.getInt("id")); // lấy ID SQL vừa tạo
-            }
-            return tbf;
+            ps.setString(1, tbf.getName());
+            ps.setString(2, tbf.getStatus());
+            int row = ps.executeUpdate();
+            return row > 0; 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 
     public boolean deletetable(TableFood tbf) {
