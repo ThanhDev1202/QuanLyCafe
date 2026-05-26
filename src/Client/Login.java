@@ -1,5 +1,6 @@
 package Client;
 
+import Client.ManagerGUI.ManagerGUI;
 import shared.Model.Account;
 import shared.RequestResponse.Request;
 import shared.RequestResponse.Response;
@@ -19,12 +20,10 @@ public class Login extends javax.swing.JFrame {
     private ObjectOutputStream out;
     private Socket socket;
     private ImageIcon icon;
-
     public Login() {
         initComponents();
         conneted();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,6 +154,10 @@ public class Login extends javax.swing.JFrame {
         try {
             String username = jTextField1.getText();
             String password = String.valueOf(jPasswordField1.getPassword());
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nhập đầy đủ tài khoản và mật khẩu");
+                return;
+            }
             //tạo user
             Account acc = new Account();
             acc.setUsername(username);
@@ -167,16 +170,18 @@ public class Login extends javax.swing.JFrame {
             //nhận response
             Response res = (Response) in.readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
-
             //hiển thị phần làm việc
-            
-            
-            if(res.getStatus().equals("SUCCESS")) {
-                MainGUI mGui = new MainGUI(in,out);
+            if ("SUCCESS".equals(res.getStatus())) {
+                int role = (Integer) res.getData(); 
+                if (role == 0) {
+                    new StaffGUI(in, out).setVisible(true);
+                } 
+                else if (role == 1) {
+                    new ManagerGUI(in, out).setVisible(true);
+                }
+
                 this.dispose();
-                mGui.setVisible(true);
             }
-            
         } catch (Exception e) {
             e.printStackTrace();
         }

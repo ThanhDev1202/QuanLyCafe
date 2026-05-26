@@ -8,7 +8,8 @@ public class Food implements Serializable {
     private int id;
     private String nameFood;
     private int idcategory;
-    private BigDecimal price;
+    private BigDecimal priceIn;
+    private BigDecimal priceOut;
     private int numbers;
     private String imagePath;
     private byte[] imageData;
@@ -16,13 +17,16 @@ public class Food implements Serializable {
     public Food() {
     }
 
-    public Food(String nameFood, int idcategory,int numbers ,BigDecimal price) {
+    public Food(int id, String nameFood, int idcategory, BigDecimal priceIn, BigDecimal priceOut, int numbers, String imagePath, byte[] imageData) {
+        this.id = id;
         this.nameFood = nameFood;
         this.idcategory = idcategory;
-        this.price = price;
+        this.priceIn = priceIn;
+        this.priceOut = priceOut;
         this.numbers = numbers;
+        this.imagePath = imagePath;
+        this.imageData = imageData;
     }
-
     public int getId() {
         return id;
     }
@@ -39,12 +43,20 @@ public class Food implements Serializable {
         this.nameFood = nameFood;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getPriceIn() {
+        return priceIn;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPriceIn(BigDecimal priceIn) {
+        this.priceIn = priceIn;
+    }
+
+    public BigDecimal getPriceOut() {
+        return priceOut;
+    }
+
+    public void setPriceOut(BigDecimal priceOut) {
+        this.priceOut = priceOut;
     }
 
     public int getIdcategory() {

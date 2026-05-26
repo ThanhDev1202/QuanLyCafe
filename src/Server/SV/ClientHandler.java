@@ -22,11 +22,13 @@ public class ClientHandler implements Runnable {
     private Connection conn = null;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-
     private AccountDAO acd;
     private FoodDAO fd;
     private CategoryFoodDAO cfd;
     private TableFoodDAO tbdao;
+    private BillDAO bd;
+    private BillInforDAO bid;
+    private BillTableDAO btd;
 
     public ClientHandler(Socket soc_client) {
         this.socket = soc_client;
@@ -34,6 +36,9 @@ public class ClientHandler implements Runnable {
         this.fd = new FoodDAO();
         this.cfd = new CategoryFoodDAO();
         this.tbdao = new TableFoodDAO();
+        this.bd = new BillDAO();
+        this.bid = new BillInforDAO();
+        this.btd = new BillTableDAO();
         this.conn = Connect_Disconnect.getConnection();
     }
 
@@ -79,13 +84,15 @@ public class ClientHandler implements Runnable {
             case "LOGIN": {
                 acd.setConn(conn);
                 Account ac = (Account) req.getData();
-                boolean check_login = acd.checkLogin(ac);
-                if (check_login) {
+                int role = acd.getRole(ac);
+                if (role != -1) {
                     res.setStatus("SUCCESS");
                     res.setMessage("LOGIN SUCCESSFUL");
+                    res.setData(role);
                 } else {
                     res.setStatus("FAILED");
                     res.setMessage("LOGIN FAILED");
+                    res.setData(-1);
                 }
                 break;
             }
@@ -191,29 +198,17 @@ public class ClientHandler implements Runnable {
                 }
                 break;
             }
-            case "INCREASE FOOD": {
+            case "UPDATE QUANTITY": {
                 fd.setConn(conn);
                 Food food = (Food) req.getData();
-                boolean check = fd.increaseFoodQuantity(food.getId(), 1);
+                // Gọi phương thức DAO đã tạo trước đó
+                boolean check = fd.updateFoodQuantity(food.getId(), food.getNumbers());
                 if (check) {
                     res.setStatus("SUCCESS");
-                    res.setMessage("INCREASE FOOD SUCCESSFUL");
+                    res.setMessage("UPDATE QUANTITY SUCCESSFUL");
                 } else {
                     res.setStatus("FAILED");
-                    res.setMessage("INCREASE FOOD FAILED");
-                }
-                break;
-            }
-            case "DECREASE FOOD": {
-                fd.setConn(conn);
-                Food food = (Food) req.getData();
-                boolean check = fd.decreaseFoodQuantity(food.getId(), 1);
-                if (check) {
-                    res.setStatus("SUCCESS");
-                    res.setMessage("DECREASE FOOD SUCCESSFUL");
-                } else {
-                    res.setStatus("FAILED");
-                    res.setMessage("DECREASE FOOD FAILED");
+                    res.setMessage("UPDATE QUANTITY FAILED");
                 }
                 break;
             }
@@ -319,7 +314,7 @@ public class ClientHandler implements Runnable {
             case "ADD TABLE": {
                 tbdao.setConn(conn);
                 TableFood tbf = (TableFood) req.getData();
-                boolean ok = tbdao.addtable(tbf); 
+                boolean ok = tbdao.addtable(tbf);
                 if (ok) {
                     res.setStatus("SUCCESS");
                     res.setMessage("ADD TABLE SUCCESSFULLY");
@@ -342,20 +337,6 @@ public class ClientHandler implements Runnable {
                 } else {
                     res.setStatus("FAILED");
                     res.setMessage("DELETE TABLE FAILED");
-                }
-                break;
-            }
-            case "OPEN TABLE": {
-                tbdao.setConn(conn);
-                TableFood tbf = (TableFood) req.getData();
-                boolean checkopen = tbdao.opentable(tbf);
-                if (checkopen) {
-                    res.setStatus("SUCCESS");
-                    res.setMessage("OPEN TABLE SUCCESSFULLY");
-                    res.setData(tbf);
-                } else {
-                    res.setStatus("FAILED");
-                    res.setMessage("OPEN TABLE FAILED");
                 }
                 break;
             }

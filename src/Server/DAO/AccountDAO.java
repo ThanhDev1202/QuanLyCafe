@@ -34,7 +34,21 @@ public class AccountDAO {
         }
         return false;
     }
-    
+    public int getRole(Account ac) {
+        try {
+            String sql = "SELECT type FROM Account WHERE username=? AND pass=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, ac.getUsername());
+            ps.setString(2, ac.getPassword());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("type");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }    
     public boolean register(Account acc){
         int id = acc.getId();
         String username = acc.getUsername();
