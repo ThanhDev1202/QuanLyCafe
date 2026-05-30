@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Client.ManagerGUI;
+import Client.ClientConnection;
 import java.text.DecimalFormat;
 import java.awt.Image;
 import java.io.File;
@@ -30,13 +31,10 @@ public class IventoryGui extends javax.swing.JPanel {
     /**
      * Creates new form IventoryGui
      */
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
     private int currentCategoryId = -1;
 
-    public IventoryGui(ObjectInputStream in, ObjectOutputStream out) {
-        this.in = in;
-        this.out = out;
+    public IventoryGui() {
+
         initComponents();
         displayCategory();
         jTable2.getSelectionModel().addListSelectionListener(e -> {
@@ -236,12 +234,13 @@ public class IventoryGui extends javax.swing.JPanel {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
                 .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton8))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton3)
+                        .addComponent(jButton4)
+                        .addComponent(jButton6)
+                        .addComponent(jButton8)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -256,9 +255,9 @@ public class IventoryGui extends javax.swing.JPanel {
             CategoryFood category = new CategoryFood();
             category.setTen(categoryName);
             Request req = new Request("INSERT CATEGORY", category);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
             displayCategory();
         } catch (Exception e) {
@@ -278,9 +277,9 @@ public class IventoryGui extends javax.swing.JPanel {
             CategoryFood category = new CategoryFood();
             category.setId(categoryID);
             Request req = new Request("DELETE CATEGORY", category);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
             displayCategory(); //xóa xong hiển thị lại danh sách category
         } catch (Exception e) {
@@ -321,9 +320,9 @@ public class IventoryGui extends javax.swing.JPanel {
             Food food = new Food();
             food.setId(foodId);
             Request req = new Request("DELETE FOOD", food);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             if ("SUCCESS".equals(res.getStatus())) {
                 displayFood(currentCategoryId);
                 jTable2.clearSelection();
@@ -369,9 +368,9 @@ public class IventoryGui extends javax.swing.JPanel {
             food.setIdcategory(currentCategoryId);
             food.setNumbers(numbers);
             Request req = new Request("INSERT FOOD", food);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
             displayFood(currentCategoryId);
         } catch (Exception e) {
@@ -413,10 +412,9 @@ public class IventoryGui extends javax.swing.JPanel {
                 // request
                 Request req = new Request("UPLOAD IMAGE", food);
                 // gửi server
-                out.writeObject(req);
-                out.flush();
-                // nhận response
-                Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
                 if (res.getStatus().equals("SUCCESS")) {
                     JOptionPane.showMessageDialog(this, "Upload ảnh thành công");
                     showFoodImage();
@@ -447,10 +445,9 @@ public class IventoryGui extends javax.swing.JPanel {
             food.setId(foodId);
             Request req = new Request("DELETE IMAGE", food);
             // gửi server
-            out.writeObject(req);
-            out.flush();
-            // nhận response
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             if (res.getStatus().equals("SUCCESS")) {
                 JOptionPane.showMessageDialog(this, "xóa ảnh thành công");
                 showFoodImage();
@@ -493,10 +490,9 @@ public class IventoryGui extends javax.swing.JPanel {
             food.setNumbers(newQuantity);
             // Gửi yêu cầu cập nhật lên server
             Request req = new Request("UPDATE QUANTITY", food);
-            out.writeObject(req);
-            out.flush();
-            // Nhận phản hồi từ server
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
             // Nếu thành công thì làm mới lại danh sách trên bảng
             if ("SUCCESS".equals(res.getStatus())) {
@@ -517,9 +513,9 @@ public class IventoryGui extends javax.swing.JPanel {
         try {
             int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
             Request req = new Request("SHOW IMAGE", foodId);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             if (res.getStatus().equals("SUCCESS")) {
                 Food food = (Food) res.getData();
                 byte[] imageBytes = food.getImageData();
@@ -541,9 +537,9 @@ public class IventoryGui extends javax.swing.JPanel {
     public void displayFood(int categoryId) {
         try {
             Request req = new Request("SELECT FOOD BY CATEGORY", categoryId);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0);
             if ("SUCCESS".equals(res.getStatus())) {
@@ -570,9 +566,9 @@ public class IventoryGui extends javax.swing.JPanel {
     public void displayCategory() {
         try {
             Request req = new Request("SELECT CATEGORY", null);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
             switch (res.getStatus()) {

@@ -1,7 +1,9 @@
 package shared.Model;
 
+import java.awt.Image;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.swing.ImageIcon;
 
 public class Food implements Serializable {
     private int id;
@@ -73,4 +75,12 @@ public class Food implements Serializable {
         this.numbers = numbers;
     }
    
+    public ImageIcon getScaledImageIcon(int width, int height) {
+        if (this.imageData != null && this.imageData.length > 0) {
+            ImageIcon icon = new ImageIcon(this.imageData);
+            Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            return new ImageIcon(img);
+        }
+        return null; // Hoặc trả về một ảnh mặc định (default image)
+    }
 }

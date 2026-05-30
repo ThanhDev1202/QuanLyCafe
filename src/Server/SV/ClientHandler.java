@@ -28,7 +28,6 @@ public class ClientHandler implements Runnable {
     private TableFoodDAO tbdao;
     private BillDAO bd;
     private BillInforDAO bid;
-    private BillTableDAO btd;
 
     public ClientHandler(Socket soc_client) {
         this.socket = soc_client;
@@ -38,7 +37,6 @@ public class ClientHandler implements Runnable {
         this.tbdao = new TableFoodDAO();
         this.bd = new BillDAO();
         this.bid = new BillInforDAO();
-        this.btd = new BillTableDAO();
         this.conn = Connect_Disconnect.getConnection();
     }
 
@@ -378,6 +376,93 @@ public class ClientHandler implements Runnable {
                 } else {
                     res.setStatus("FAILED");
                     res.setMessage("DELETE TABLE FAILED");
+                }
+                break;
+            }
+            case "CREATE ORDER": {
+                try {
+                    // 1. Nhận dữ liệu từ Client: {int tableId, List<BillInfor> list}
+                    Object[] data = (Object[]) req.getData();
+                    int tableId = (int) data[0];
+                    List<BillInfor> listBillInfor = (List<BillInfor>) data[1];
+                    java.math.BigDecimal totalFromClient = (java.math.BigDecimal) data[2];
+                    // 2. Tắt auto-commit để bắt đầu Transaction
+                    conn.setAutoCommit(false);
+                    // 3. Tạo Bill mới
+                    Bill newBill = new Bill();
+                    newBill.setTableID(tableId);
+                    newBill.setDateCheckIn(new java.util.Date()); // Thời gian hiện tại
+                    newBill.setDiscount(0);
+                    newBill.setTotalPrice(totalFromClient);;
+                    newBill.setStatus(0); // 0: Chưa thanh toán
+                    bd.setConn(conn);
+                    int billId = bd.createBillAndGetId(newBill);
+                    if (billId != -1) {
+                        // 4. Lưu danh sách món ăn vào BillInfo
+                        bid.setConn(conn);
+                        boolean success = bid.saveBillInfors(billId, listBillInfor);
+                        // 5. Cập nhật trạng thái bàn (Giả sử bạn có hàm updateTableStatus trong TableFoodDAO)
+                        tbdao.setConn(conn);
+                        boolean updateTable = tbdao.updateTableStatus(tableId, "có khách"); // 1: Có khách
+                        if (success && updateTable) {
+                            conn.commit(); // Lưu tất cả nếu thành công
+                            res.setStatus("SUCCESS");
+                            res.setMessage("Tạo hóa đơn thành công!");
+                        } else {
+                            conn.rollback(); // Hủy bỏ nếu có lỗi
+                            res.setStatus("FAILED");
+                            res.setMessage("Tạo hóa đơn thất bại!");
+                        }
+                    } else {
+                        conn.rollback();
+                        res.setStatus("FAILED");
+                        res.setMessage("Không thể tạo hóa đơn!");
+                    }
+                    conn.setAutoCommit(true); // Trả lại trạng thái ban đầu
+                } catch (Exception e) {
+                    try {
+                        conn.rollback();
+                        conn.setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    res.setStatus("ERROR");
+                    res.setMessage("Lỗi hệ thống: " + e.getMessage());
+                }
+                break;
+            }
+            case "PAY BILL": {
+                try {
+                    // 1. Nhận tableId từ Client
+                    int tableId = (int) req.getData();
+                    // 2. Bắt đầu Transaction
+                    conn.setAutoCommit(false);
+                    // 3. Khởi tạo và thực hiện qua DAO
+                    bd.setConn(conn);
+                    tbdao.setConn(conn);
+                    // Thực hiện cập nhật hóa đơn sang "Đã thanh toán" (status = 1)
+                    boolean billUpdated = bd.payBill(tableId); // Lưu ý: hàm này cần được định nghĩa trong BillDAO
+                    // Thực hiện giải phóng bàn về "Trống"
+                    boolean tableUpdated = tbdao.updateTableStatus(tableId, "Trống");
+                    if (billUpdated && tableUpdated) {
+                        conn.commit(); // Lưu thay đổi
+                        res.setStatus("SUCCESS");
+                        res.setMessage("Thanh toán thành công và đã giải phóng bàn.");
+                    } else {
+                        conn.rollback(); // Hủy nếu một trong hai bước thất bại
+                        res.setStatus("FAILED");
+                        res.setMessage("Thanh toán thất bại: Không tìm thấy hóa đơn hoặc lỗi dữ liệu.");
+                    }
+                    conn.setAutoCommit(true); // Trả lại chế độ mặc định
+                } catch (Exception e) {
+                    try {
+                        conn.rollback();
+                        conn.setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    res.setStatus("ERROR");
+                    res.setMessage("Lỗi hệ thống khi thực hiện thanh toán: " + e.getMessage());
                 }
                 break;
             }

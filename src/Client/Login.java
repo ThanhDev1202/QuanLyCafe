@@ -1,5 +1,6 @@
 package Client;
 import Client.ManagerGUI.ManagerGUI;
+import Client.StaffGUI.StaffGUI;
 import shared.Model.Account;
 import shared.RequestResponse.Request;
 import shared.RequestResponse.Response;
@@ -117,12 +118,14 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, res.getMessage());
             //hiển thị phần làm việc
             if ("SUCCESS".equals(res.getStatus())) {
+                ClientConnection.setIn(in);
+                ClientConnection.setOut(out);
                 int role = (Integer) res.getData(); 
                 if (role == 0) {
-                    //new StaffGUI(in, out).setVisible(true);
+                    new StaffGUI().setVisible(true);
                 } 
                 else if (role == 1) {
-                    new ManagerGUI(in, out).setVisible(true);
+                    new ManagerGUI().setVisible(true);
                 }
 
                 this.dispose();

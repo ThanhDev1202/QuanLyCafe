@@ -17,6 +17,7 @@ public class Bill implements Serializable{
     private ArrayList<BillInfor> billInfors;// nhiều món
     private int discount;
     private BigDecimal totalPrice;
+    private int tableID;
     private int status;
     public Bill() {
         tableIds = new ArrayList<>();
@@ -116,5 +117,13 @@ public class Bill implements Serializable{
             this.billInfors = new ArrayList<>();
         }
         this.billInfors.add(infor);
+    }
+
+    public int getTableID() {
+        return tableID;
+    }
+
+    public void setTableID(int tableID) {
+        this.tableID = tableID;
     }
 }

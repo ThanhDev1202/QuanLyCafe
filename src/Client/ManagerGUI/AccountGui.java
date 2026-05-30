@@ -4,6 +4,7 @@
  */
 package Client.ManagerGUI;
 
+import Client.ClientConnection;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
@@ -21,13 +22,9 @@ public class AccountGui extends javax.swing.JPanel {
     /**
      * Creates new form AccountGui
      */
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
 
-    public AccountGui(ObjectInputStream in, ObjectOutputStream out) {
-        this.in = in;
-        this.out = out;
 
+    public AccountGui() {
         initComponents();
 
         try {
@@ -153,9 +150,10 @@ public class AccountGui extends javax.swing.JPanel {
         Account ac = new Account(displayname, username, password, type);
 
         try {
-            out.writeObject(new Request("ADD ACCOUNT", ac));
-            out.flush();
-            Response res = (Response) in.readObject();
+            Request req = new Request("ADD ACCOUNT", ac);
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
             if (res.getStatus().equals("SUCCESS")) {
                 load();
@@ -183,9 +181,10 @@ public class AccountGui extends javax.swing.JPanel {
             ac.setType(choice.startsWith("0") ? 0 : 1);
 
             try {
-                out.writeObject(new Request("UPDATE ACCOUNT", ac));
-                out.flush();
-                Response res = (Response) in.readObject();
+                Request req = new Request("UPDATE ACCOUNT", ac);
+                ClientConnection.getOut().writeObject(req);
+                ClientConnection.getOut().flush();
+                Response res = (Response) ClientConnection.getIn().readObject();
                 JOptionPane.showMessageDialog(this, res.getMessage());
                 if (res.getStatus().equals("SUCCESS")) {
                     load();
@@ -212,9 +211,10 @@ public class AccountGui extends javax.swing.JPanel {
             ac.setId(id);
 
             try {
-                out.writeObject(new Request("DELETE ACCOUNT", ac));
-                out.flush();
-                Response res = (Response) in.readObject();
+                Request req = new Request("DELETE ACCOUNT", ac);
+                ClientConnection.getOut().writeObject(req);
+                ClientConnection.getOut().flush();
+                Response res = (Response) ClientConnection.getIn().readObject();
                 JOptionPane.showMessageDialog(this, res.getMessage());
                 if (res.getStatus().equals("SUCCESS")) {
                     load();
@@ -228,9 +228,9 @@ public class AccountGui extends javax.swing.JPanel {
     public void load() {
         try {
             Request req = new Request("GET ACCOUNTS", null);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
 
             if (res.getStatus().equals("SUCCESS")) {
                 List<Account> list = (List<Account>) res.getData();

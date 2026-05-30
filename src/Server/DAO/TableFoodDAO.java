@@ -92,4 +92,15 @@ public class TableFoodDAO {
         }
         return false;
     }
+    public boolean updateTableStatus(int tableId, String status) {
+        String sql = "UPDATE TableFood SET status = ? WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, tableId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

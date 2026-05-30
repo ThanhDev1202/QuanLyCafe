@@ -5,8 +5,7 @@
 package Client.ManagerGUI;
 
 import java.awt.CardLayout;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +15,7 @@ import javax.swing.JOptionPane;
 public class ManagerGUI extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ManagerGUI.class.getName());
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+
     private CardLayout cardLayout; // Khai báo biến CardLayout
     private IventoryGui inventoryPanel;
     private TableGui tablemanagementPanel;
@@ -25,14 +23,12 @@ public class ManagerGUI extends javax.swing.JFrame {
     /**
      * Creates new form ManagerGUI
      */
-    public ManagerGUI(ObjectInputStream in, ObjectOutputStream out) {
-        this.in = in;
-        this.out = out;
+    public ManagerGUI() {
         initComponents();
         cardLayout = (CardLayout) jPanel2.getLayout();
-        inventoryPanel = new IventoryGui(in, out);
-        tablemanagementPanel = new TableGui(in, out);
-        accountmanagementPanel = new AccountGui(in, out);
+        inventoryPanel = new IventoryGui();
+        tablemanagementPanel = new TableGui();
+        accountmanagementPanel = new AccountGui();
         
         jPanel2.add(inventoryPanel, "INVENTORY");
         jPanel2.add(tablemanagementPanel, "TABLE MANAGEMENT");

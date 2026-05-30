@@ -66,6 +66,7 @@ public class FoodDAO {
                 food.setIdcategory(rs.getInt("idCategory"));
                 food.setNumbers(rs.getInt("soLuong"));
                 food.setPriceOut(rs.getBigDecimal("priceOut"));
+                food.setImagePath(rs.getString("imagePath"));
                 list.add(food);
             }
         } catch (Exception e) {

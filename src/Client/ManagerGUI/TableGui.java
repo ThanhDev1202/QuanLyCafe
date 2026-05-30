@@ -4,6 +4,7 @@
  */
 package Client.ManagerGUI;
 
+import Client.ClientConnection;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,23 +22,13 @@ import shared.RequestResponse.Response;
  * @author admin
  */
 public class TableGui extends javax.swing.JPanel {
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
-    
+
     /**
      * Creates new form TableGui
      */
-    public TableGui(ObjectInputStream in, ObjectOutputStream out) {
+    public TableGui() {
         initComponents();
-        this.in = in;
-        this.out = out;
-        try {
-            load();
-        } catch (IOException ex) {
-            Logger.getLogger(TableGui.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TableGui.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        load();
     }
 
     /**
@@ -125,13 +116,10 @@ public class TableGui extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Tên bàn không hợp lệ");
                 return;
             }
-
             tbf.setName(name.trim());
             tbf.setStatus("Trống");
             Request req = new Request("ADD TABLE", tbf);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
+            Response res = (Response) ClientConnection.sendRequest(req);
             JOptionPane.showMessageDialog(this, res.getMessage());
             load();
         } catch (Exception e) {
@@ -140,61 +128,54 @@ public class TableGui extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
     //xóa bàn
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Delete Table
         int row = jTable1.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "vui lòng chọn bàn cần xóa");
-        } else {
-            try {
-                // Nếu Bàn đang có người ngồi thì không xóa được
-                String status = jTable1.getValueAt(row, 2).toString();
-                if (status.trim().equalsIgnoreCase("Có người")) {
-                    JOptionPane.showMessageDialog(this, "bàn có người, không xóa được");
-                    return;
-                }
-                // Lấy ID từ textfield
-                int id = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
-                // Tạo object gửi server
-                TableFood tbf = new TableFood();
-                tbf.setId(id);
-                // Gửi request xóa
-                Request req = new Request("DELETE TABLE", tbf);
-                out.writeObject(req);
-                out.flush();
-                // Nhận phản hồi
-                Response res = (Response) in.readObject();
-                JOptionPane.showMessageDialog(this, res.getMessage());
-                // Nếu xóa thành công thì load lại bảng
-                if (res.getStatus().equals("SUCCESS")) {
-                    load();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn bàn cần xóa");
+            return;
+        }
+        // Kiểm tra trạng thái bàn
+        String status = jTable1.getValueAt(row, 2).toString();
+        if (status.trim().equalsIgnoreCase("Có người")) {
+            JOptionPane.showMessageDialog(this, "Bàn đang có người, không xóa được");
+            return;
+        }
+        try {
+            int id = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
+            TableFood tbf = new TableFood();
+            tbf.setId(id);
+
+            // Gửi request thông qua ClientConnection
+            Request req = new Request("DELETE TABLE", tbf);
+            Response res = (Response) ClientConnection.sendRequest(req);
+            JOptionPane.showMessageDialog(this, res.getMessage());
+            // Nếu xóa thành công thì load lại bảng
+            if ("SUCCESS".equals(res.getStatus())) {
+                load();
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi xóa bàn: " + e.getMessage());
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void load() throws IOException, ClassNotFoundException {
+    public void load() {
         try {
             Request req = new Request("GET TABLES", null);
-            out.writeObject(req);
-            out.flush();
-            Response res = (Response) in.readObject();
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            List<TableFood> list = (List<TableFood>) res.getData();
-            if (list == null) {
-                return;
+            // Sử dụng phương thức tập trung thay vì gọi trực tiếp out/in
+            Response res = (Response) ClientConnection.sendRequest(req);
+
+            if ("SUCCESS".equals(res.getStatus())) {
+                List<TableFood> list = (List<TableFood>) res.getData();
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+                if (list != null) {
+                    for (TableFood tf : list) {
+                        model.addRow(new Object[]{tf.getId(), tf.getName(), tf.getStatus()});
+                    }
+                }
             }
-            model.setRowCount(0);
-            for (int i = 0; i < list.size(); i++) {
-                model.addRow(new Object[]{
-                    list.get(i).getId(),
-                    list.get(i).getName(),
-                    list.get(i).getStatus()
-                });
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi tải dữ liệu: " + e.getMessage());
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
