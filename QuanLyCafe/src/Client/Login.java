@@ -2,15 +2,22 @@ package Client;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.net.Socket;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import shared.*;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
@@ -34,10 +41,48 @@ public class Login extends javax.swing.JFrame {
         }
         initComponents();
         conneted();
-    }
 
-    private void initRegister() {
+        SlidePanel = new javax.swing.JPanel() {
+            @Override
+            protected void paintComponent(java.awt.Graphics g) {
+                super.paintComponent(g);
+                java.awt.Graphics2D g2 = (java.awt.Graphics2D) g.create();
+                g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
+                        java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+                java.awt.GradientPaint gp = new java.awt.GradientPaint(
+                        0, 0, new java.awt.Color(74, 37, 14),
+                        getWidth(), getHeight(), new java.awt.Color(111, 60, 20)
+                );
+                g2.setPaint(gp);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.setColor(new java.awt.Color(255, 255, 255, 15));
+                g2.setStroke(new java.awt.BasicStroke(1f));
+                g2.drawOval(-30, -30, 120, 120);
+                g2.drawOval(getWidth() - 80, getHeight() - 80, 140, 140);
+                g2.drawOval(getWidth() - 55, 8, 100, 100);
+                g2.drawOval(5, getHeight() - 65, 100, 100);
+                g2.dispose();
+            }
+        };
 
+        // Giữ nguyên kích thước và vị trí cũ
+        SlidePanel.setBounds(0, 0, 400, 500);
+
+        // Thêm lại các component con (Logo, jLabel9, jLabel7)
+        SlidePanel.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        SlidePanel.add(Logo, gbc);
+        SlidePanel.add(jLabel9, gbc);
+        gbc.insets = new java.awt.Insets(25, 0, 25, 0);
+        SlidePanel.add(jLabel7, gbc);
+
+        // Thay thế trong jLayeredPane1
+        jLayeredPane1.remove(0); // xóa SlidePanel cũ
+        jLayeredPane1.setLayer(SlidePanel, javax.swing.JLayeredPane.PALETTE_LAYER);
+        jLayeredPane1.add(SlidePanel,
+                new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 500));
+        jLayeredPane1.repaint();
     }
 
     /**
@@ -59,6 +104,7 @@ public class Login extends javax.swing.JFrame {
         RegisterPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
         txtUserNameRegister = new javax.swing.JTextField();
         txtPassRegister = new javax.swing.JPasswordField();
         btnSignup = new javax.swing.JButton();
@@ -120,6 +166,27 @@ public class Login extends javax.swing.JFrame {
 
         jLayeredPane1.setLayer(SlidePanel, javax.swing.JLayeredPane.PALETTE_LAYER);
         jLayeredPane1.add(SlidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 500));
+        SlidePanel = new javax.swing.JPanel() {
+            @Override
+            protected void paintComponent(java.awt.Graphics g) {
+                java.awt.Graphics2D g2 = (java.awt.Graphics2D) g.create();
+                g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
+                    java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+                java.awt.GradientPaint gp = new java.awt.GradientPaint(
+                    0, 0, new java.awt.Color(74,37,14),
+                    getWidth(), getHeight(), new java.awt.Color(111,60,20)
+                );
+                g2.setPaint(gp);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.setColor(new java.awt.Color(255,255,255,15));
+                g2.setStroke(new java.awt.BasicStroke(1f));
+                g2.drawOval(-30, -30, 120, 120);
+                g2.drawOval(getWidth()-80, getHeight()-80, 140, 140);
+                g2.drawOval(getWidth()-55, 8, 100, 100);
+                g2.drawOval(5, getHeight()-65, 100, 100);
+                g2.dispose();
+            }
+        };
 
         RegisterPanel.setBackground(new java.awt.Color(245, 235, 230));
         RegisterPanel.setPreferredSize(new java.awt.Dimension(400, 500));
@@ -145,6 +212,21 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 35, 0);
         RegisterPanel.add(jLabel4, gridBagConstraints);
 
+        txtName.setToolTipText("");
+        txtName.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtName.setMinimumSize(new java.awt.Dimension(280, 35));
+        txtName.setPreferredSize(new java.awt.Dimension(280, 35));
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 25, 0);
+        RegisterPanel.add(txtName, gridBagConstraints);
+
         txtUserNameRegister.setToolTipText("");
         txtUserNameRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtUserNameRegister.setMinimumSize(new java.awt.Dimension(280, 35));
@@ -164,9 +246,6 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.insets = new java.awt.Insets(25, 0, 0, 0);
         RegisterPanel.add(txtPassRegister, gridBagConstraints);
-        txtPassLogin.setText("");
-        txtPassLogin.putClientProperty("JPasswordField.placeholderText", "Password");
-        txtPassLogin.putClientProperty("JPasswordField.showRevealButton", true);
 
         btnSignup.setBackground(new java.awt.Color(93, 64, 55));
         btnSignup.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -210,6 +289,7 @@ public class Login extends javax.swing.JFrame {
         jLayeredPane1.add(RegisterPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 500));
         txtUserNameRegister.putClientProperty("JTextField.placeholderText", "Username");
         txtPassRegister.putClientProperty("JTextField.placeholderText", "Password");
+        txtName.putClientProperty("JTextField.placeholderText", "Name");
 
         LoginPanel.setBackground(new java.awt.Color(245, 235, 230));
         LoginPanel.setLayout(new java.awt.GridBagLayout());
@@ -394,9 +474,9 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSignInActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-                try{    
+        try {
             String username = txtUserNameLogin.getText();
-            String password =String.valueOf(txtPassLogin.getPassword());
+            String password = String.valueOf(txtPassLogin.getPassword());
             //tạo user
             Account acc = new Account();
             acc.setUsername(username);
@@ -405,11 +485,11 @@ public class Login extends javax.swing.JFrame {
             Request req = new Request("LOGIN", acc);
             //gửi request
             out.writeObject(req);
-            out.flush(); 
+            out.flush();
             //nhận response
-            Response res =(Response)in.readObject();
-            JOptionPane.showMessageDialog(this,res.getMessage());
-        }catch(Exception e){
+            Response res = (Response) in.readObject();
+            JOptionPane.showMessageDialog(this, res.getMessage());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -435,6 +515,10 @@ public class Login extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnSignupActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
 
     public static void main(String args[]) {
         com.formdev.flatlaf.FlatLightLaf.setup();
@@ -475,6 +559,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JTextField txtName;
     private javax.swing.JPasswordField txtPassLogin;
     private javax.swing.JPasswordField txtPassRegister;
     private javax.swing.JTextField txtUserNameLogin;
