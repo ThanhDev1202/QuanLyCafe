@@ -18,9 +18,10 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
     /**
      * Creates new form FoodGUI
      */
+    private FoodAdditionListener listener;
     private JPanel categoryPanel;
     private JPanel foodPanel;
-    private OrderGUI orderGuiRef; //tham chiếu đến order
+
     public FoodGUI() {
         initComponents();
         setLayout(new BorderLayout());
@@ -32,9 +33,10 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
         add(new JScrollPane(foodPanel), BorderLayout.CENTER);
         loadCategories();
     }
-    public void setOrderGui(OrderGUI orderGui) {
-        this.orderGuiRef = orderGui;
-    }
+public void setOrderGui(FoodAdditionListener listener) {
+    this.listener = listener;
+}
+
     public void loadCategories() {
         new SwingWorker<List<CategoryFood>, Void>() {
             //swingworker: chạy tác vụ nặng background thread
@@ -113,10 +115,10 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
             }
         }
         btn.addActionListener(e -> {
-                if (orderGuiRef != null) {
-                    orderGuiRef.addFoodToTempList(f);
-                }
-            });
+            if (listener != null) {
+                listener.addFoodToTempList(f);
+            }
+        });
             return btn;
     }
 

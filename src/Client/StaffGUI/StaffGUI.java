@@ -3,6 +3,7 @@ package Client.StaffGUI;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -10,10 +11,13 @@ import javax.swing.JScrollPane;
  */
 public class StaffGUI extends javax.swing.JFrame {//staff gui: điều phối trung tâm
 
+    private Timer refreshTimer;
     private CardLayout cardLayout;
     private TableGui tablegui;
     private FoodGUI foodgui;
     private OrderGUI ordergui;
+    private FoodGUI foodgui2;
+    private OrderGUI2 ordergui2;
     private int currentTable = -1; //bàn đang chọn
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(StaffGUI.class.getName());
 
@@ -23,41 +27,70 @@ public class StaffGUI extends javax.swing.JFrame {//staff gui: điều phối tr
     public StaffGUI() {
         initComponents();
 
-        // 1. Khởi tạo các thành phần trước
+        // --- 1. TẠO TAB 1 
         tablegui = new TableGui();
         foodgui = new FoodGUI();
         ordergui = new OrderGUI();
-        
-        //gắn tham chiếu 
         foodgui.setOrderGui(ordergui);
-        
-        // 2. Thiết lập CardLayout cho jPanel4 (food)
+
         cardLayout = new CardLayout();
         jPanel4.setLayout(cardLayout);
-        // 3. Thêm các màn hình vào CardLayout
         jPanel4.add(new javax.swing.JLabel("Vui lòng chọn bàn để xem menu..."), "EMPTY");
         jPanel4.add(foodgui, "MENU_SCREEN");
-        // 4. Cấu hình jPanel3 (Danh sách bàn)
+
         jPanel3.setLayout(new BorderLayout());
         jPanel3.add(new JScrollPane(tablegui), BorderLayout.CENTER);
-        // cấu hình jpanle 5 (món đã chọn)
+
         jPanel5.setLayout(new BorderLayout());
         jPanel5.add(ordergui, BorderLayout.CENTER);
-        // 5. Gọi dữ liệu
+
         tablegui.loadTables();
         cardLayout.show(jPanel4, "EMPTY");
-        
+
         ordergui.setOrderUpdateListener(new OrderUpdateListener() {
             @Override
             public void onOrderPlacedSuccessfully() {
-                // Khi nhận được tín hiệu, làm mới danh sách bàn
                 tablegui.loadTables();
-
-                // (Tùy chọn) Chuyển về màn hình "EMPTY" hoặc reset trạng thái chọn bàn
                 cardLayout.show(jPanel4, "EMPTY");
                 currentTable = -1;
             }
         });
+
+        // --- 2. TẠO TAB 2 
+        foodgui2 = new FoodGUI();
+        ordergui2 = new OrderGUI2();
+        foodgui2.setOrderGui(ordergui2);
+
+        // Cấu hình giao diện jPanel2
+        jPanel2.setLayout(new BorderLayout());
+        javax.swing.JSplitPane splitPane2 = new javax.swing.JSplitPane(
+                javax.swing.JSplitPane.HORIZONTAL_SPLIT,
+                new JScrollPane(foodgui2),
+                ordergui2
+        );
+        splitPane2.setDividerLocation(500);
+        jPanel2.add(splitPane2, BorderLayout.CENTER);
+
+        // Load dữ liệu
+        foodgui.loadCategories();
+        foodgui2.loadCategories();
+
+        // --- 3. KHỞI TẠO TIMER ---
+        refreshTimer = new Timer(1000, e -> {
+            refreshTableData();
+        });
+        refreshTimer.start();
+    }
+
+    private void refreshTableData() {
+        // Chỉ reload khi không ở trong quá trình chọn bàn hoặc thao tác quan trọng
+        // Để tránh giật lag khi đang chọn món
+        tablegui.loadTables();
+
+        // Nếu muốn cập nhật cả đơn hàng của bàn đang chọn
+        if (currentTable != -1) {
+            tablegui.loadTables();
+        }
     }
 
     /**
@@ -182,10 +215,10 @@ public class StaffGUI extends javax.swing.JFrame {//staff gui: điều phối tr
 
         // Gán tableId cho OrderGUI để khi xác nhận nó biết tạo bill cho bàn nào
         ordergui.setCurrentTableId(tableId);
-        
+
         foodgui.loadFoodsByCategory(1); // Mặc định gọi danh mục đầu tiên 
         cardLayout.show(jPanel4, "MENU_SCREEN");
-;
+        ;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

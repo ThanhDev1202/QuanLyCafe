@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import shared.Model.*;
 import java.io.File;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 
 public class ClientHandler implements Runnable {
@@ -64,7 +65,7 @@ public class ClientHandler implements Runnable {
                     out.close();
                 }
                 if (conn != null) {
-                    Connect_Disconnect.closeConnection();
+                    conn.close();
                 }
                 if (socket != null) {
                     socket.close();
@@ -463,6 +464,58 @@ public class ClientHandler implements Runnable {
                     }
                     res.setStatus("ERROR");
                     res.setMessage("Lỗi hệ thống khi thực hiện thanh toán: " + e.getMessage());
+                }
+                break;
+            }
+            case "CREATE ORDER WITH NO TABLE": {
+                try {
+                    Object[] data = (Object[]) req.getData();
+                    List<BillInfor> listBillInfor
+                            = (List<BillInfor>) data[0];
+
+                    BigDecimal totalFromClient
+                            = (BigDecimal) data[1];
+                    conn.setAutoCommit(false);
+                    Bill newBill = new Bill();
+                    newBill.setDateCheckIn(new java.util.Date());
+                    newBill.setDiscount(0);
+                    newBill.setTotalPrice(totalFromClient);
+                    newBill.setStatus(1);
+                    newBill.setDateCheckOut(new java.util.Date());
+                    bd.setConn(conn);
+                    int billId = bd.createBillAndGetId_NoTable(newBill);
+                    if (billId != -1) {
+                        bid.setConn(conn);
+                        boolean success
+                                = bid.saveBillInfors(
+                                        billId,
+                                        listBillInfor
+                                );
+                        if (success) {
+                            conn.commit();
+                            res.setStatus("SUCCESS");
+                            res.setMessage("Tạo hóa đơn thành công");
+                        } else {
+                            conn.rollback();
+                            res.setStatus("FAILED");
+                            res.setMessage("Lưu chi tiết hóa đơn thất bại");
+                        }
+                    } else {
+                        conn.rollback();
+                        res.setStatus("FAILED");
+                        res.setMessage("Không thể tạo hóa đơn");
+                    }
+                    conn.setAutoCommit(true);
+                } catch (Exception e) {
+                    try {
+                        conn.rollback();
+                        conn.setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    e.printStackTrace();
+                    res.setStatus("ERROR");
+                    res.setMessage(e.getMessage());
                 }
                 break;
             }

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package Client.StaffGUI;
 
 import Client.ClientConnection;
@@ -6,71 +10,27 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import shared.Model.BillInfor;
 import shared.Model.Food;
-import shared.RequestResponse.*;
+import shared.RequestResponse.Request;
+import shared.RequestResponse.Response;
 
 /**
  *
  * @author admin
  */
-public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener{
+public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListener{
+
+    private OrderUpdateListener listener;
+    private List<BillInfor> tempOrderList = new ArrayList<>();
 
     /**
-     * Creates new form OrderGUI
+     * Creates new form OrderGUI2
      */
-    private int currentTableId;
-    private List<BillInfor> tempOrderList = new ArrayList<>();
-    private FoodAdditionListener listener;
-    private OrderUpdateListener updateListener;
-
-    public OrderGUI() {
+    public OrderGUI2() {
         initComponents();
     }
 
-    public void setCurrentTableId(int id) {
-        this.currentTableId = id;
-        if (id > 0) {
-            jLabel2.setText(String.valueOf(id));
-        } else {
-            jLabel2.setText("Chưa chọn");
-        }
-        tempOrderList.clear();
-        updateTable(tempOrderList);
-    }
-    public void setOrderGui(FoodAdditionListener listener) {
-        this.listener = listener;
-    }
     public void setOrderUpdateListener(OrderUpdateListener listener) {
-        this.updateListener = listener;
-    }
-    public void addFoodToTempList(Food food) {
-        // Logic thêm món bạn đã viết trước đó
-        boolean found = false;
-        for (BillInfor item : tempOrderList) {
-            if (item.getIdFood() == food.getId()) {
-                item.setQuantity(item.getQuantity() + 1);
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            tempOrderList.add(new BillInfor(0, -1, food.getId(), food.getNameFood(), 1, food.getPriceOut()));
-        }
-        updateTable(tempOrderList);
-    }
-
-    public void updateTable(List<BillInfor> list) {
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Xóa dữ liệu cũ
-        for (BillInfor item : list) {
-            // Giả sử thành tiền = đơn giá * số lượng
-            java.math.BigDecimal total = item.getPrice().multiply(new java.math.BigDecimal(item.getQuantity()));
-            model.addRow(new Object[]{
-                item.getFoodName(),
-                item.getPrice(),
-                item.getQuantity(),
-                total,  
-            });
-        }
+        this.listener = listener;
     }
 
     /**
@@ -87,15 +47,15 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabelTotal = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "tên", "Đơn giá", "Số lượng", "thành tiền"
+                "tên", "đơn giá", "số lươngj", "thành tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -115,23 +75,23 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
             }
         });
 
-        jButton2.setText("xóa toàn bộ");
+        jButton2.setText("xóa");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("xóa");
+        jButton3.setText("xóa toàn bộ");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("bàn đang chọn:");
+        jLabelTotal.setText("....");
 
-        jLabel2.setText("......");
+        jLabel1.setText("tổng tiền");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -140,49 +100,56 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2))
+                            .addComponent(jButton1)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel2)))
-                        .addGap(0, 112, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelTotal)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabelTotal)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //xóa món đang chọn
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow >= 0) {
+            tempOrderList.remove(selectedRow);
+            updateTable(tempOrderList);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng chọn món cần xóa!");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    //xác nhận tạo hóa đơn
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (tempOrderList.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Danh sách món đang trống!");
             return;
         }
-        if (currentTableId <= 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Chưa chọn bàn!");
-            return;
-        }
+
         jButton1.setEnabled(false);
         try {
             //tổng giá tiền
@@ -192,19 +159,18 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
             }
 
             Object[] data = {
-            currentTableId,
-            tempOrderList,
-            totalBill
+                tempOrderList,
+                totalBill
             };
-            Request req = new Request("CREATE ORDER",data);
-            Response res = (Response)ClientConnection.sendRequest(req);
+            Request req = new Request("CREATE ORDER WITH NO TABLE", data);
+            Response res = (Response) ClientConnection.sendRequest(req);
             if (res != null && "SUCCESS".equals(res.getStatus())) {
                 JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công");
                 tempOrderList.clear();
                 updateTable(tempOrderList);
-            if (updateListener != null) {
-                updateListener.onOrderPlacedSuccessfully();
-            }
+                if (listener != null) {
+                    listener.onOrderPlacedSuccessfully();
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Tạo hóa đơn thất bại");
             }
@@ -215,30 +181,46 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //xóa hết
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // xóa món hiện tại khỏi danh sách chọn tạm
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow >= 0) {
-            tempOrderList.remove(selectedRow);
-            updateTable(tempOrderList);
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng chọn món cần xóa!");
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // xóa sạch
         tempOrderList.clear();
         updateTable(tempOrderList);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
+    public void updateTable(List<BillInfor> list) {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        java.math.BigDecimal grandTotal = java.math.BigDecimal.ZERO;
 
+        for (BillInfor item : list) {
+            java.math.BigDecimal total = item.getPrice().multiply(new java.math.BigDecimal(item.getQuantity()));
+            grandTotal = grandTotal.add(total);
+            model.addRow(new Object[]{item.getFoodName(), item.getPrice(), item.getQuantity(), total});
+        }
+        // Cập nhật tổng tiền vào label (Giả sử bạn đã thêm jLabelTotal trong thiết kế)
+        jLabelTotal.setText("Tổng cộng: " + grandTotal.toString() + " VNĐ");
+    }
+// Thêm hàm này vào class OrderGUI2
 
+    public void addFoodToTempList(Food food) {
+        boolean found = false;
+        for (BillInfor item : tempOrderList) {
+            if (item.getIdFood() == food.getId()) {
+                item.setQuantity(item.getQuantity() + 1);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            tempOrderList.add(new BillInfor(0, -1, food.getId(), food.getNameFood(), 1, food.getPriceOut()));
+        }
+        updateTable(tempOrderList);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelTotal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
