@@ -33,15 +33,13 @@ public class FoodDAO {
         int idCategory = category.getId();
         BigDecimal pricein = food.getPriceIn();
         BigDecimal priceout = food.getPriceOut();
-        int soLuong = food.getNumbers();
         try {
-            String sql = "INSERT INTO Food(ten, idCategory, priceIn  , soLuong , priceOut) VALUES (?, ?, ?,? ,?)";
+            String sql = "INSERT INTO Food(ten, idCategory, priceIn  , priceOut) VALUES (?, ?, ? ,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, ten);
             ps.setInt(2, idCategory);
             ps.setBigDecimal(3, pricein);
-            ps.setInt(4, soLuong);
-            ps.setBigDecimal(5, priceout);
+            ps.setBigDecimal(4, priceout);
             int rows = ps.executeUpdate();
             return rows > 0;
         } catch (Exception e) {
@@ -64,7 +62,6 @@ public class FoodDAO {
                 food.setNameFood(rs.getString("ten"));
                 food.setPriceIn(rs.getBigDecimal("priceIn"));
                 food.setIdcategory(rs.getInt("idCategory"));
-                food.setNumbers(rs.getInt("soLuong"));
                 food.setPriceOut(rs.getBigDecimal("priceOut"));
                 food.setImagePath(rs.getString("imagePath"));
                 list.add(food);
@@ -73,20 +70,6 @@ public class FoodDAO {
             e.printStackTrace();
         }
         return list;
-    }
-    // sửa số lượng food
-    public boolean updateFoodQuantity(int foodId, int newQuantity) {
-        try {
-            String sql = "UPDATE Food SET soLuong = ? WHERE id = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, newQuantity);
-            ps.setInt(2, foodId);
-            int rows = ps.executeUpdate();
-            return rows > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
     
     // xóa food

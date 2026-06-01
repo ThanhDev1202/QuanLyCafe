@@ -20,6 +20,7 @@ public class ManagerGUI extends javax.swing.JFrame {
     private IventoryGui inventoryPanel;
     private TableGui tablemanagementPanel;
     private AccountGui accountmanagementPanel;
+    private BillManagerGUI billManagerPanel;
     /**
      * Creates new form ManagerGUI
      */
@@ -29,10 +30,11 @@ public class ManagerGUI extends javax.swing.JFrame {
         inventoryPanel = new IventoryGui();
         tablemanagementPanel = new TableGui();
         accountmanagementPanel = new AccountGui();
-        
+        billManagerPanel = new BillManagerGUI();
         jPanel2.add(inventoryPanel, "INVENTORY");
         jPanel2.add(tablemanagementPanel, "TABLE MANAGEMENT");
         jPanel2.add(accountmanagementPanel,"ACCOUNT MANAGEMENT");
+        jPanel2.add(billManagerPanel, "BILL MANAGEMENT");
         cardLayout.show(jPanel2, "card2");
        
     }
@@ -98,6 +100,11 @@ public class ManagerGUI extends javax.swing.JFrame {
         });
 
         jButton6.setText("Quản lý Doanh Thu");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -202,6 +209,11 @@ public class ManagerGUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "chào tạm biệt!");
         System.exit(0);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    //quản lý doanh thu
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        cardLayout.show(jPanel2, "BILL MANAGEMENT");
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

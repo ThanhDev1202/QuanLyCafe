@@ -238,20 +238,6 @@ public class ClientHandler implements Runnable {
                 }
                 break;
             }
-            case "UPDATE QUANTITY": {
-                fd.setConn(conn);
-                Food food = (Food) req.getData();
-                // Gọi phương thức DAO đã tạo trước đó
-                boolean check = fd.updateFoodQuantity(food.getId(), food.getNumbers());
-                if (check) {
-                    res.setStatus("SUCCESS");
-                    res.setMessage("UPDATE QUANTITY SUCCESSFUL");
-                } else {
-                    res.setStatus("FAILED");
-                    res.setMessage("UPDATE QUANTITY FAILED");
-                }
-                break;
-            }
             case "UPLOAD IMAGE": {
                 try {
                     fd.setConn(conn);
@@ -465,6 +451,21 @@ public class ClientHandler implements Runnable {
                     res.setStatus("ERROR");
                     res.setMessage("Lỗi hệ thống khi thực hiện thanh toán: " + e.getMessage());
                 }
+                break;
+            }
+            case "GET ALL BILLS": {
+                bd.setConn(conn);
+                List<Bill> bills = bd.getAllBills();
+
+                if (bills != null) {
+                    res.setStatus("SUCCESS");
+                    res.setData(bills);
+                    res.setMessage("GET ALL BILL SUCCESS"); 
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("GET ALL BILL FAILED");
+                }
+
                 break;
             }
             case "CREATE ORDER WITH NO TABLE": {

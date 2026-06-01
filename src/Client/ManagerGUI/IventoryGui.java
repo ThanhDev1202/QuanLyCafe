@@ -7,8 +7,6 @@ import Client.ClientConnection;
 import java.text.DecimalFormat;
 import java.awt.Image;
 import java.io.File;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -66,7 +64,6 @@ public class IventoryGui extends javax.swing.JPanel {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -111,9 +108,17 @@ public class IventoryGui extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Name", "Price In", "Quantity", "Price Out"
+                "ID", "Name", "Price In", "Price Out"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jButton3.setText("thêm món");
@@ -151,13 +156,6 @@ public class IventoryGui extends javax.swing.JPanel {
             }
         });
 
-        jButton8.setText("chỉnh số lượng");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel3.setText("Không có ảnh");
@@ -185,9 +183,7 @@ public class IventoryGui extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton8))
+                                .addComponent(jButton4))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,8 +235,7 @@ public class IventoryGui extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton3)
                         .addComponent(jButton4)
-                        .addComponent(jButton6)
-                        .addComponent(jButton8)))
+                        .addComponent(jButton6)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -350,15 +345,10 @@ public class IventoryGui extends javax.swing.JPanel {
             if (priceinStr == null || priceinStr.trim().isEmpty()) {
                 return;
             }
-            String numberStr = JOptionPane.showInputDialog(this, "Nhập số lượng:");
-            if (numberStr == null || numberStr.trim().isEmpty()) {
-                return;
-            }
             String priceoutStr = JOptionPane.showInputDialog(this, "giá bán:");
             if (priceoutStr == null || priceoutStr.trim().isEmpty()) {
                 return;
             }
-            int numbers = Integer.parseInt(numberStr);
             BigDecimal pricein = new BigDecimal(priceinStr);
             BigDecimal priceout = new BigDecimal(priceoutStr);
             Food food = new Food();
@@ -366,7 +356,6 @@ public class IventoryGui extends javax.swing.JPanel {
             food.setPriceIn(pricein);
             food.setPriceOut(priceout);
             food.setIdcategory(currentCategoryId);
-            food.setNumbers(numbers);
             Request req = new Request("INSERT FOOD", food);
             ClientConnection.getOut().writeObject(req);
             ClientConnection.getOut().flush();
@@ -459,52 +448,6 @@ public class IventoryGui extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    //edit quantity
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if (currentCategoryId == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn Category");
-            return;
-        }
-        int row = jTable2.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn món ăn cần sửa số lượng!");
-            return;
-        }
-        try {
-            // Lấy ID món ăn và số lượng hiện tại từ bảng
-            int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
-            String currentQty = jTable2.getValueAt(row, 3).toString();
-            // Mở hộp thoại để người dùng nhập số lượng mới
-            String input = JOptionPane.showInputDialog(this, "Nhập số lượng mới:", currentQty);
-            if (input == null || input.trim().isEmpty()) {
-                return;
-            }
-            int newQuantity = Integer.parseInt(input);
-            if (newQuantity < 0) {
-                JOptionPane.showMessageDialog(this, "Số lượng không được là số âm!");
-                return;
-            }
-            // Tạo đối tượng Food để gửi lên server
-            Food food = new Food();
-            food.setId(foodId);
-            food.setNumbers(newQuantity);
-            // Gửi yêu cầu cập nhật lên server
-            Request req = new Request("UPDATE QUANTITY", food);
-            ClientConnection.getOut().writeObject(req);
-            ClientConnection.getOut().flush();
-            Response res = (Response) ClientConnection.getIn().readObject();
-            JOptionPane.showMessageDialog(this, res.getMessage());
-            // Nếu thành công thì làm mới lại danh sách trên bảng
-            if ("SUCCESS".equals(res.getStatus())) {
-                displayFood(currentCategoryId);
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số lượng phải là một số nguyên hợp lệ.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     public void showFoodImage() {
         int row = jTable2.getSelectedRow();
         if (row == -1) {
@@ -552,7 +495,6 @@ public class IventoryGui extends javax.swing.JPanel {
                         f.getId(),
                         f.getNameFood(),
                         priceInFormatted,
-                        f.getNumbers(),
                         priceOutFormatted});
                 }
             } else {
@@ -601,7 +543,6 @@ public class IventoryGui extends javax.swing.JPanel {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
