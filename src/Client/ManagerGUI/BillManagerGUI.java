@@ -11,12 +11,26 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import shared.Model.Bill;
 import shared.RequestResponse.*;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.chart.plot.CategoryPlot;
+import javax.swing.JFrame;
 
 /**
  *
  * @author admin
  */
 public class BillManagerGUI extends javax.swing.JPanel {
+
+    private List<Bill> bills;
 
     /**
      * Creates new form BillManagerGUI
@@ -37,8 +51,7 @@ public class BillManagerGUI extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -58,9 +71,12 @@ public class BillManagerGUI extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setText("doanh thu:");
-
-        jLabel2.setText("........");
+        jButton1.setText("thống kê");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,56 +85,49 @@ public class BillManagerGUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+                        .addGap(27, 27, 27))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        showRevenueChart();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void loadData() {
         try {
             Request req = new Request("GET ALL BILLS", null);
             Response res = (Response) ClientConnection.sendRequest(req);
             if (res != null && "SUCCESS".equals(res.getStatus())) {
-                List<Bill> bills = (List<Bill>) res.getData();
+                bills = (List<Bill>) res.getData();
                 loadBill(bills);
             } else {
-                JOptionPane.showMessageDialog(this,
-                        "Không tải được danh sách hóa đơn");
+                JOptionPane.showMessageDialog(this, "Không tải được danh sách hóa đơn");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this,
-                    "Lỗi kết nối server");
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối server");
         }
     }
 
     public void loadBill(List<Bill> bills) {
 
-        DefaultTableModel model
-                = (DefaultTableModel) jTable1.getModel();
-
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-
         BigDecimal revenue = BigDecimal.ZERO;
-
         for (Bill bill : bills) {
-
             model.addRow(new Object[]{
                 bill.getId(),
                 bill.getDateCheckIn(),
@@ -130,18 +139,79 @@ public class BillManagerGUI extends javax.swing.JPanel {
                 : "Đã thanh toán",
                 bill.getTableID()
             });
-
             if (bill.getStatus() == 1) {
                 revenue = revenue.add(bill.getTotalPrice());
             }
         }
-
-        jLabel2.setText(revenue.toString() + " VNĐ");
     }
 
+    private void showRevenueChart() {
+        if (bills == null || bills.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Không có dữ liệu");
+            return;
+        }
+        Map<String, BigDecimal> revenueByDate = new TreeMap<>();
+
+        SimpleDateFormat sdf
+                = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (Bill bill : bills) {
+
+            if (bill.getStatus() != Bill.PAID
+                    || bill.getDateCheckOut() == null) {
+                continue;
+            }
+            String date = sdf.format(bill.getDateCheckOut());
+            revenueByDate.put(
+                    date,
+                    revenueByDate.getOrDefault(
+                            date,
+                            BigDecimal.ZERO)
+                            .add(bill.getTotalPrice())
+            );
+        }
+        DefaultCategoryDataset dataset
+                = new DefaultCategoryDataset();
+        for (Map.Entry<String, BigDecimal> entry
+                : revenueByDate.entrySet()) {
+            dataset.addValue(
+                    entry.getValue(),
+                    "Doanh thu",
+                    entry.getKey()
+            );
+        }
+        JFreeChart chart
+                = ChartFactory.createLineChart(
+                        "Doanh thu theo ngày",
+                        "Ngày",
+                        "VNĐ",
+                        dataset
+                );
+        ChartPanel panel
+                = new ChartPanel(chart);
+        JFrame frame
+                = new JFrame("Biểu đồ doanh thu");
+        frame.setDefaultCloseOperation(
+                JFrame.DISPOSE_ON_CLOSE);
+        frame.add(panel);
+        frame.setSize(900, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        CategoryPlot plot = chart.getCategoryPlot();
+
+        LineAndShapeRenderer renderer
+                = (LineAndShapeRenderer) plot.getRenderer();
+
+        renderer.setDefaultShapesVisible(true);
+        renderer.setDefaultShapesFilled(true);
+
+        renderer.setDefaultItemLabelsVisible(true);
+        renderer.setDefaultItemLabelGenerator(
+                new StandardCategoryItemLabelGenerator());
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -4,7 +4,9 @@ import Client.ClientConnection;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.*;
 import shared.Model.*;
 import shared.RequestResponse.*;
@@ -18,6 +20,7 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
     /**
      * Creates new form FoodGUI
      */
+    private final Map<String, ImageIcon> imageCache = new HashMap<>();
     private FoodAdditionListener listener;
     private JPanel categoryPanel;
     private JPanel foodPanel;
@@ -33,9 +36,10 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
         add(new JScrollPane(foodPanel), BorderLayout.CENTER);
         loadCategories();
     }
-public void setOrderGui(FoodAdditionListener listener) {
-    this.listener = listener;
-}
+
+    public void setOrderGui(FoodAdditionListener listener) {
+        this.listener = listener;
+    }
 
     public void loadCategories() {
         new SwingWorker<List<CategoryFood>, Void>() {
@@ -74,6 +78,7 @@ public void setOrderGui(FoodAdditionListener listener) {
                 Response res = (Response) ClientConnection.sendRequest(new Request("SELECT FOOD BY CATEGORY", categoryId));
                 return (List<Food>) res.getData();
             }
+
             @Override
             protected void done() {
                 try {
@@ -107,9 +112,22 @@ public void setOrderGui(FoodAdditionListener listener) {
             String fullPath = System.getProperty("user.dir") + "/" + imagePath;
             java.io.File imgFile = new java.io.File(fullPath);
             if (imgFile.exists()) {
-                ImageIcon icon = new ImageIcon(fullPath);
-                Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
-                btn.setIcon(new ImageIcon(img));
+                ImageIcon cachedIcon = imageCache.get(fullPath);
+
+                if (cachedIcon == null) {
+                    ImageIcon icon = new ImageIcon(fullPath);
+                    Image img = icon.getImage().getScaledInstance(
+                            120,
+                            120,
+                            Image.SCALE_SMOOTH
+                    );
+
+                    cachedIcon = new ImageIcon(img);
+
+                    imageCache.put(fullPath, cachedIcon);
+                }
+
+                btn.setIcon(cachedIcon);
             } else {
                 btn.setText("<html><center>No Image<br/>" + f.getNameFood() + "</center></html>");
             }
@@ -119,7 +137,7 @@ public void setOrderGui(FoodAdditionListener listener) {
                 listener.addFoodToTempList(f);
             }
         });
-            return btn;
+        return btn;
     }
 
     /**

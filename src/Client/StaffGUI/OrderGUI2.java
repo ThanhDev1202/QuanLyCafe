@@ -199,8 +199,7 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         // Cập nhật tổng tiền vào label (Giả sử bạn đã thêm jLabelTotal trong thiết kế)
         jLabelTotal.setText("Tổng cộng: " + grandTotal.toString() + " VNĐ");
     }
-// Thêm hàm này vào class OrderGUI2
-
+    // Thêm hàm này vào class OrderGUI2
     public void addFoodToTempList(Food food) {
         boolean found = false;
         for (BillInfor item : tempOrderList) {
