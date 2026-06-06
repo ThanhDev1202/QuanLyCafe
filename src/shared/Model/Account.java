@@ -7,7 +7,7 @@ public class Account  implements Serializable{
     private String displayName;
     private String username;
     private String password;
-    private int type;
+    private int type; //0-staff  1-manager
 
     public Account(){
     }
@@ -53,6 +53,10 @@ public class Account  implements Serializable{
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
 }
