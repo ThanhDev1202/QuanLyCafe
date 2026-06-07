@@ -299,7 +299,7 @@ public class Login extends javax.swing.JFrame {
         txtPassRegister.putClientProperty("JTextField.placeholderText", "Password");
         txtName.putClientProperty("JTextField.placeholderText", "Name");
 
-        LoginPanel.setBackground(new java.awt.Color(245, 235, 230));
+        LoginPanel.setBackground(new java.awt.Color(250, 246, 240));
         LoginPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N

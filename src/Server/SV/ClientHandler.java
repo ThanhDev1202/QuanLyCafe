@@ -167,14 +167,27 @@ public class ClientHandler implements Runnable {
             // DELETE CATEGORY
             case "DELETE CATEGORY": {
                 cfd.setConn(conn);
-                CategoryFood category = (CategoryFood) req.getData();
-                boolean check = cfd.deleteCategory(category);
-                if (check) {
-                    res.setStatus("SUCCESS");
-                    res.setMessage("DELETE CATEGORY SUCCESSFUL");
-                } else {
+
+                try {
+                    // Đọc ID kiểu int gửi từ Client sang (Hợp nhất dữ liệu)
+                    int categoryId = (int) req.getData();
+
+                    // Tạo bọc đối tượng đóng gói truyền xuống hàm DAO cũ của bạn
+                    CategoryFood category = new CategoryFood();
+                    category.setId(categoryId);
+
+                    boolean check = cfd.deleteCategory(category);
+                    if (check) {
+                        res.setStatus("SUCCESS");
+                        res.setMessage("Xóa danh mục và toàn bộ món ăn bên trong thành công!");
+                    } else {
+                        res.setStatus("FAILED");
+                        res.setMessage("Xóa danh mục thất bại, vui lòng kiểm tra lại Cơ sở dữ liệu!");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                     res.setStatus("FAILED");
-                    res.setMessage("DELETE CATEGORY FAILED");
+                    res.setMessage("Lỗi xử lý dữ liệu xóa danh mục phía Server!");
                 }
                 break;
             }
@@ -460,7 +473,7 @@ public class ClientHandler implements Runnable {
                 if (bills != null) {
                     res.setStatus("SUCCESS");
                     res.setData(bills);
-                    res.setMessage("GET ALL BILL SUCCESS"); 
+                    res.setMessage("GET ALL BILL SUCCESS");
                 } else {
                     res.setStatus("FAILED");
                     res.setMessage("GET ALL BILL FAILED");

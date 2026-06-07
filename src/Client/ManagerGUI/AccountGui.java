@@ -144,7 +144,7 @@ public class AccountGui extends javax.swing.JPanel {
 
         add(panelCard, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(250, 246, 240));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 15, 0));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 

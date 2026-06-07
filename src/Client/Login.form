@@ -343,7 +343,7 @@
             <Container class="javax.swing.JPanel" name="LoginPanel">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="e6" green="eb" red="f5" type="rgb"/>
+                  <Color blue="f0" green="f6" red="fa" type="rgb"/>
                 </Property>
               </Properties>
               <AuxValues>

@@ -19,7 +19,7 @@ public class ManagerGUI extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ManagerGUI.class.getName());
 
     private CardLayout cardLayout; // Khai báo biến CardLayout
-    private IventoryGui inventoryPanel;
+    private InventoryGui inventoryPanel;
     private TableGui1 tablemanagementPanel;
     private AccountGui accountmanagementPanel;
     private BillManagerGUI billManagerPanel;
@@ -32,10 +32,10 @@ public class ManagerGUI extends javax.swing.JFrame {
         initComponents();
 
         cardLayout = (CardLayout) jPanel2.getLayout();
-        inventoryPanel = new IventoryGui();
+        inventoryPanel = new InventoryGui();
 
         cardLayout = (CardLayout) jPanel2.getLayout();
-        inventoryPanel = new IventoryGui();
+        inventoryPanel = new InventoryGui();
         tablemanagementPanel = new TableGui1();
         accountmanagementPanel = new AccountGui();
         billManagerPanel = new BillManagerGUI();
@@ -333,7 +333,7 @@ public class ManagerGUI extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         getContentPane().removeAll();
-        getContentPane().setLayout(new net.miginfocom.swing.MigLayout("ins 0, fill, wrap 2", "[fill, 230!][fill, grow]", "[fill, grow]"));
+        getContentPane().setLayout(new net.miginfocom.swing.MigLayout("ins 0, gapx 0, fill, wrap 2", "[fill, 230!][fill, grow]", "[fill, grow]"));
         getContentPane().add(jPanel1, "growy");
         getContentPane().add(jPanel2, "grow");
         getContentPane().revalidate();
