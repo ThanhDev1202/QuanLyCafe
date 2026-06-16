@@ -20,7 +20,7 @@ public class ManagerGUI extends javax.swing.JFrame {
 
     private CardLayout cardLayout; // Khai báo biến CardLayout
     private InventoryGui inventoryPanel;
-    private TableGui1 tablemanagementPanel;
+    private TableGui tablemanagementPanel;
     private AccountGui accountmanagementPanel;
     private BillManagerGUI billManagerPanel;
     ImageIcon icon = new ImageIcon("src/images/book.png");
@@ -36,7 +36,7 @@ public class ManagerGUI extends javax.swing.JFrame {
 
         cardLayout = (CardLayout) jPanel2.getLayout();
         inventoryPanel = new InventoryGui();
-        tablemanagementPanel = new TableGui1();
+        tablemanagementPanel = new TableGui();
         accountmanagementPanel = new AccountGui();
         billManagerPanel = new BillManagerGUI();
         jPanel2.add(inventoryPanel, "INVENTORY");
@@ -70,8 +70,8 @@ public class ManagerGUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -79,7 +79,6 @@ public class ManagerGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1050, 680));
-        setPreferredSize(new java.awt.Dimension(1050, 680));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -121,6 +120,7 @@ public class ManagerGUI extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(62, 39, 35));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(250, 246, 240));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/book (1).png"))); // NOI18N
         jButton1.setText("Chung");
         jButton1.setAutoscrolls(true);
         jButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -135,6 +135,7 @@ public class ManagerGUI extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -215,36 +216,10 @@ public class ManagerGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
         jPanel1.add(jButton4, gridBagConstraints);
 
-        jButton5.setBackground(new java.awt.Color(146, 51, 51));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(250, 246, 240));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/switch.png"))); // NOI18N
-        jButton5.setText("Thoát hệ thống");
-        jButton5.setAutoscrolls(true);
-        jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton5.setIconTextGap(10);
-        jButton5.setMaximumSize(new java.awt.Dimension(100, 30));
-        jButton5.setMinimumSize(new java.awt.Dimension(80, 32));
-        jButton5.setPreferredSize(new java.awt.Dimension(100, 30));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 104;
-        gridBagConstraints.ipady = 12;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
-        jPanel1.add(jButton5, gridBagConstraints);
-
         jButton6.setBackground(new java.awt.Color(62, 39, 35));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(250, 246, 240));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/money.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/salary.png"))); // NOI18N
         jButton6.setText("Quản lý doanh thu");
         jButton6.setAutoscrolls(true);
         jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -267,11 +242,37 @@ public class ManagerGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
         jPanel1.add(jButton6, gridBagConstraints);
 
+        jButton5.setBackground(new java.awt.Color(146, 51, 51));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(250, 246, 240));
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logout.png"))); // NOI18N
+        jButton5.setText("Thoát hệ thống");
+        jButton5.setAutoscrolls(true);
+        jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton5.setIconTextGap(10);
+        jButton5.setMaximumSize(new java.awt.Dimension(100, 30));
+        jButton5.setMinimumSize(new java.awt.Dimension(80, 32));
+        jButton5.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 104;
+        gridBagConstraints.ipady = 12;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
+        jPanel1.add(jButton5, gridBagConstraints);
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.setLayout(new java.awt.CardLayout());
 
-        jPanel3.setBackground(new java.awt.Color(250, 246, 240));
+        jPanel3.setBackground(new java.awt.Color(245, 235, 230));
         jPanel3.setMinimumSize(new java.awt.Dimension(800, 600));
         jPanel3.setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -311,11 +312,6 @@ public class ManagerGUI extends javax.swing.JFrame {
         cardLayout.show(jPanel2, "INVENTORY");
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    //giao diện ban đầu
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        cardLayout.show(jPanel2, "card2");
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     //quản lý bàn
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         cardLayout.show(jPanel2, "TABLE MANAGEMENT");
@@ -339,6 +335,11 @@ public class ManagerGUI extends javax.swing.JFrame {
         getContentPane().revalidate();
         getContentPane().repaint();
     }//GEN-LAST:event_formWindowOpened
+
+    //giao diện ban đầu
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cardLayout.show(jPanel2, "card2");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

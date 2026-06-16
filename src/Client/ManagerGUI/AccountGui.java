@@ -67,8 +67,8 @@ public class AccountGui extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
 
-        HeadPanel.setBackground(new java.awt.Color(250, 246, 240));
-        HeadPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 30, 10, 30));
+        HeadPanel.setBackground(new java.awt.Color(245, 235, 230));
+        HeadPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 25, 10, 25));
         HeadPanel.setMinimumSize(new java.awt.Dimension(261, 40));
         HeadPanel.setLayout(new java.awt.BorderLayout());
 
@@ -88,7 +88,7 @@ public class AccountGui extends javax.swing.JPanel {
         jScrollPane1.setBackground(new java.awt.Color(250, 246, 240));
         jScrollPane1.setMinimumSize(new java.awt.Dimension(800, 600));
 
-        tbAccount.setBackground(new java.awt.Color(250, 246, 240));
+        tbAccount.setBackground(new java.awt.Color(245, 235, 230));
         tbAccount.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -144,13 +144,14 @@ public class AccountGui extends javax.swing.JPanel {
 
         add(panelCard, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setBackground(new java.awt.Color(250, 246, 240));
+        jPanel1.setBackground(new java.awt.Color(245, 235, 230));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 15, 0));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
         btnThem.setBackground(new java.awt.Color(92, 82, 49));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (1).png"))); // NOI18N
         btnThem.setText("Thêm tài khoản");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,6 +162,7 @@ public class AccountGui extends javax.swing.JPanel {
 
         btnSua.setBackground(new java.awt.Color(242, 235, 235));
         btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/profile (2).png"))); // NOI18N
         btnSua.setText("Sửa tài khoản");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,9 +171,10 @@ public class AccountGui extends javax.swing.JPanel {
         });
         jPanel1.add(btnSua);
 
-        btnXoa.setBackground(new java.awt.Color(219, 68, 85));
+        btnXoa.setBackground(new java.awt.Color(139, 26, 26));
         btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (3).png"))); // NOI18N
         btnXoa.setText("Xóa tài khoản");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -3,9 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/duanlon/coffee-shop-manager/QuanLyCafe/src/Client/ManagerGUI/InventoryGui.java</file>
-            <file>file:/D:/duanlon/coffee-shop-manager/QuanLyCafe/src/Client/Login.java</file>
-            <file>file:/D:/duanlon/coffee-shop-manager/QuanLyCafe/src/Client/ManagerGUI/ManagerGUI.java</file>
+            <file>file:/D:/duanlon/coffee-shop-manager/QuanLyCafe/src/Client/ManagerGUI/AccountGui.java</file>
+            <file>file:/D:/duanlon/coffee-shop-manager/QuanLyCafe/src/Client/ManagerGUI/BillManagerGUI.java</file>
         </group>
     </open-files>
 </project-private>

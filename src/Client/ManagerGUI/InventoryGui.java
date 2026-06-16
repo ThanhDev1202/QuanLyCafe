@@ -140,13 +140,14 @@ public class InventoryGui extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(250, 246, 240));
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(16, 16, 16, 16), new javax.swing.border.LineBorder(new java.awt.Color(235, 230, 225), 1, true)));
+        setBackground(new java.awt.Color(245, 235, 230));
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(15, 25, 10, 25), new javax.swing.border.LineBorder(new java.awt.Color(245, 235, 230), 1, true)));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
 
-        HeadPanel.setBackground(new java.awt.Color(250, 246, 240));
+        HeadPanel.setBackground(new java.awt.Color(245, 235, 230));
+        HeadPanel.setOpaque(false);
         net.miginfocom.swing.MigLayout migLayout1 = new net.miginfocom.swing.MigLayout();
         migLayout1.setLayoutConstraints("ins 0 0 10 0, fillx, wrap 1");
         HeadPanel.setLayout(migLayout1);
@@ -208,7 +209,7 @@ public class InventoryGui extends javax.swing.JPanel {
         LeftPanel.add(jScrollPane2);
         LeftPanel.add(filler3);
 
-        btnXoaLoai.setBackground(new java.awt.Color(219, 68, 85));
+        btnXoaLoai.setBackground(new java.awt.Color(146, 51, 51));
         btnXoaLoai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXoaLoai.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaLoai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/minus-sign.png"))); // NOI18N

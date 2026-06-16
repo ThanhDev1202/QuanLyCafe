@@ -3,17 +3,17 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-      <Color blue="f0" green="f6" red="fa" type="rgb"/>
+      <Color blue="e6" green="eb" red="f5" type="rgb"/>
     </Property>
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
         <CompoundBorder>
           <Border PropertyName="outside" info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-            <EmptyBorder bottom="16" left="16" right="16" top="16"/>
+            <EmptyBorder bottom="10" left="25" right="25" top="15"/>
           </Border>
           <Border PropertyName="inside" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
             <LineBorder roundedCorners="true">
-              <Color PropertyName="color" blue="e1" green="e6" red="eb" type="rgb"/>
+              <Color PropertyName="color" blue="e6" green="eb" red="f5" type="rgb"/>
             </LineBorder>
           </Border>
         </CompoundBorder>
@@ -44,8 +44,9 @@
     <Container class="javax.swing.JPanel" name="HeadPanel">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="f0" green="f6" red="fa" type="rgb"/>
+          <Color blue="e6" green="eb" red="f5" type="rgb"/>
         </Property>
+        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -298,7 +299,7 @@
         <Component class="javax.swing.JButton" name="btnXoaLoai">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="55" green="44" red="db" type="rgb"/>
+              <Color blue="33" green="33" red="92" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>

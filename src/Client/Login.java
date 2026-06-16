@@ -53,7 +53,7 @@ public class Login extends javax.swing.JFrame {
                         java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
                 java.awt.GradientPaint gp = new java.awt.GradientPaint(
                         0, 0, new java.awt.Color(74, 37, 14),
-                        getWidth(), getHeight(), new java.awt.Color(111, 60, 20)
+                        getWidth(), getHeight(), new java.awt.Color(62, 39, 35)
                 );
                 g2.setPaint(gp);
                 g2.fillRect(0, 0, getWidth(), getHeight());
@@ -136,7 +136,7 @@ public class Login extends javax.swing.JFrame {
         jLayeredPane1.setMinimumSize(new java.awt.Dimension(800, 500));
         jLayeredPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        SlidePanel.setBackground(new java.awt.Color(62, 39, 35));
+        SlidePanel.setBackground(new java.awt.Color(111, 60, 20));
         SlidePanel.setPreferredSize(new java.awt.Dimension(400, 500));
         SlidePanel.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
@@ -299,7 +299,7 @@ public class Login extends javax.swing.JFrame {
         txtPassRegister.putClientProperty("JTextField.placeholderText", "Password");
         txtName.putClientProperty("JTextField.placeholderText", "Name");
 
-        LoginPanel.setBackground(new java.awt.Color(250, 246, 240));
+        LoginPanel.setBackground(new java.awt.Color(245, 235, 230));
         LoginPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
