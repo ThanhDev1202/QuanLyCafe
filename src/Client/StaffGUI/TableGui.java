@@ -32,8 +32,6 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
 
         try {
             FlatLightLaf.setup();
-            UIManager.put("Button.arc", 10);
-            UIManager.put("Component.arc", 15);
         } catch (Exception e) {
             e.printStackTrace();
         }
