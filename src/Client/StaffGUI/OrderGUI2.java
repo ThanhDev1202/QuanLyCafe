@@ -5,10 +5,26 @@
 package Client.StaffGUI;
 
 import Client.ClientConnection;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import shared.Model.BillInfor;
+import shared.Model.Bill;
 import shared.Model.Food;
 import shared.RequestResponse.Request;
 import shared.RequestResponse.Response;
@@ -17,10 +33,12 @@ import shared.RequestResponse.Response;
  *
  * @author admin
  */
-public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListener{
+public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListener {
 
     private OrderUpdateListener listener;
     private List<BillInfor> tempOrderList = new ArrayList<>();
+    private List<BillInfor> pendingOrder = new ArrayList<>();
+    private BigDecimal pendingTotal = BigDecimal.ZERO;
 
     /**
      * Creates new form OrderGUI2
@@ -146,36 +164,28 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
     //xác nhận tạo hóa đơn
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (tempOrderList.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Danh sách món đang trống!");
+            JOptionPane.showMessageDialog(this, "Danh sách món đang trống!");
             return;
         }
 
         jButton1.setEnabled(false);
+
         try {
-            //tổng giá tiền
-            java.math.BigDecimal totalBill = java.math.BigDecimal.ZERO;
+            BigDecimal totalBill = BigDecimal.ZERO;
+
             for (BillInfor item : tempOrderList) {
-                totalBill = totalBill.add(item.getPrice().multiply(new java.math.BigDecimal(item.getQuantity())));
+                totalBill = totalBill.add(
+                        item.getPrice().multiply(
+                                BigDecimal.valueOf(item.getQuantity())
+                        )
+                );
             }
 
-            Object[] data = {
-                tempOrderList,
-                totalBill
-            };
-            Request req = new Request("CREATE ORDER WITH NO TABLE", data);
-            Response res = (Response) ClientConnection.sendRequest(req);
-            if (res != null && "SUCCESS".equals(res.getStatus())) {
-                JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công");
-                tempOrderList.clear();
-                updateTable(tempOrderList);
-                if (listener != null) {
-                    listener.onOrderPlacedSuccessfully();
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Tạo hóa đơn thất bại");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            pendingOrder = new ArrayList<>(tempOrderList);
+            pendingTotal = totalBill;
+
+            showQrPayment(pendingOrder, pendingTotal);
+
         } finally {
             jButton1.setEnabled(true);
         }
@@ -200,6 +210,172 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         jLabelTotal.setText("Tổng cộng: " + grandTotal.toString() + " VNĐ");
     }
 // Thêm hàm này vào class OrderGUI2
+
+    private void showQrPayment(List<BillInfor> details,
+            java.math.BigDecimal totalAmount) {
+        new Thread(() -> {
+            try {
+
+                String qrUrl
+                        = "https://img.vietqr.io/image/TCB-6042088888-compact2.png"
+                        + "?amount=" + totalAmount
+                        + "&addInfo=ORDER_PAYMENT";
+
+                BufferedImage qrImage
+                        = ImageIO.read(new URL(qrUrl));
+
+                Image scaled
+                        = qrImage.getScaledInstance(
+                                400,
+                                500,
+                                Image.SCALE_SMOOTH);
+
+                ImageIcon icon
+                        = new ImageIcon(scaled);
+
+                SwingUtilities.invokeLater(() -> {
+
+                    JPanel panel
+                            = new JPanel(
+                                    new GridLayout(1, 2, 10, 10));
+
+                    // ======================
+                    // BÊN TRÁI: HÓA ĐƠN
+                    // ======================
+                    JTextArea txtBill
+                            = new JTextArea();
+
+                    txtBill.setEditable(false);
+
+                    txtBill.setFont(
+                            new java.awt.Font(
+                                    "Monospaced",
+                                    java.awt.Font.PLAIN,
+                                    14));
+
+                    txtBill.append("CHI TIẾT ĐƠN HÀNG\n\n");
+
+                    for (BillInfor item : details) {
+
+                        java.math.BigDecimal lineTotal
+                                = item.getPrice().multiply(
+                                        new java.math.BigDecimal(
+                                                item.getQuantity()));
+
+                        txtBill.append(
+                                String.format(
+                                        "%-20s x%-3d %10s\n",
+                                        item.getFoodName(),
+                                        item.getQuantity(),
+                                        lineTotal));
+                    }
+                    txtBill.append(
+                            "\n------------------------------\n");
+                    txtBill.append(
+                            "TỔNG TIỀN: "
+                            + totalAmount
+                            + " VNĐ");
+
+                    JScrollPane billScroll
+                            = new JScrollPane(txtBill);
+
+                    JPanel leftPanel
+                            = new JPanel(
+                                    new BorderLayout());
+
+                    leftPanel.add(
+                            billScroll,
+                            BorderLayout.CENTER);
+
+                    // ======================
+                    // BÊN PHẢI: QR
+                    // ======================
+                    JLabel qrLabel
+                            = new JLabel(icon);
+
+                    qrLabel.setHorizontalAlignment(
+                            SwingConstants.CENTER);
+
+                    JPanel rightPanel
+                            = new JPanel(
+                                    new BorderLayout());
+
+                    rightPanel.add(
+                            qrLabel,
+                            BorderLayout.CENTER);
+
+                    panel.add(leftPanel);
+                    panel.add(rightPanel);
+
+                    int result = JOptionPane.showConfirmDialog(
+                            OrderGUI2.this,
+                            panel,
+                            "Thanh toán QR",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.PLAIN_MESSAGE
+                    );
+
+                    if (result == JOptionPane.YES_OPTION) {
+                        handlePaymentSuccess();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Đã hủy thanh toán!");
+                    }
+
+                });
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
+                SwingUtilities.invokeLater(()
+                        -> JOptionPane.showMessageDialog(
+                                OrderGUI2.this,
+                                "Không thể tạo QR!",
+                                "Lỗi",
+                                JOptionPane.ERROR_MESSAGE));
+            }
+        }).start();
+    }
+
+    private void handlePaymentSuccess() {
+
+        try {
+            Object[] data = {
+                pendingOrder,
+                pendingTotal
+            };
+
+            Request req = new Request(
+                    "CREATE ORDER WITH NO TABLE",
+                    data
+            );
+            Response res = (Response) ClientConnection.sendRequest(req);
+            if (res == null || !"SUCCESS".equals(res.getStatus())) {
+                JOptionPane.showMessageDialog(this, "Thanh toán thất bại!");
+                return;
+            }
+            int billId = ((Number) res.getData()).intValue();
+            Bill bill = new Bill();
+            bill.setId(billId);
+            bill.setTotalPrice(pendingTotal);
+
+            shared.PrintInvoice.saveInvoice(bill, pendingOrder);
+
+            JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
+
+            tempOrderList.clear();
+            pendingOrder.clear();
+            pendingTotal = BigDecimal.ZERO;
+
+            updateTable(new ArrayList<>());
+            if (listener != null) {
+                listener.onOrderPlacedSuccessfully();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
 
     public void addFoodToTempList(Food food) {
         boolean found = false;

@@ -74,4 +74,43 @@ public class BillInforDAO {
 
         return list;
     }
+public List<BillInfor> getBillInforsByBillId(int billId) {
+
+    List<BillInfor> list = new ArrayList<>();
+
+    String sql =
+            "SELECT * FROM BillInfo WHERE idBill = ?";
+
+    try (PreparedStatement ps =
+            conn.prepareStatement(sql)) {
+
+        ps.setInt(1, billId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+
+            BillInfor bi = new BillInfor();
+
+            bi.setIdFood(
+                    rs.getInt("idFood"));
+
+            bi.setQuantity(
+                    rs.getInt("quantity"));
+
+            bi.setPrice(
+                    rs.getBigDecimal("price"));
+
+            bi.setFoodName(
+                    rs.getString("foodname"));
+
+            list.add(bi);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return list;
+}
 }

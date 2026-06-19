@@ -11,6 +11,7 @@ public class ClientConnection {
     // Sử dụng synchronized để đảm bảo chỉ 1 luồng được gửi/nhận tại một thời điểm
     public static synchronized Object sendRequest(Request request) throws Exception {
         out.writeObject(request);
+        out.reset();
         out.flush();
         return in.readObject(); // Chờ và nhận về Response
     }

@@ -440,6 +440,14 @@ public class ClientHandler implements Runnable {
                     // 3. Khởi tạo và thực hiện qua DAO
                     bd.setConn(conn);
                     tbdao.setConn(conn);
+                            Bill bill = bd.getCurrentBillByTable(tableId);
+
+        if (bill == null) {
+            conn.rollback();
+            res.setStatus("FAILED");
+            res.setMessage("Không tìm thấy hóa đơn");
+            break;
+        }
                     // Thực hiện cập nhật hóa đơn sang "Đã thanh toán" (status = 1)
                     boolean billUpdated = bd.payBill(tableId); // Lưu ý: hàm này cần được định nghĩa trong BillDAO
                     // Thực hiện giải phóng bàn về "Trống"
@@ -448,6 +456,7 @@ public class ClientHandler implements Runnable {
                         conn.commit(); // Lưu thay đổi
                         res.setStatus("SUCCESS");
                         res.setMessage("Thanh toán thành công và đã giải phóng bàn.");
+                        res.setData(bill); 
                     } else {
                         conn.rollback(); // Hủy nếu một trong hai bước thất bại
                         res.setStatus("FAILED");
@@ -509,6 +518,7 @@ public class ClientHandler implements Runnable {
                             conn.commit();
                             res.setStatus("SUCCESS");
                             res.setMessage("Tạo hóa đơn thành công");
+                            res.setData(billId); 
                         } else {
                             conn.rollback();
                             res.setStatus("FAILED");
@@ -547,6 +557,41 @@ public class ClientHandler implements Runnable {
 
                 break;
             }
+case "GET BILL BY TABLE": {
+
+    bd.setConn(conn);
+
+    int tableId = (Integer) req.getData();
+
+    Bill bill = bd.getCurrentBillByTable(tableId);
+
+    if (bill == null) {
+        res.setStatus("FAILED");
+        res.setMessage("Bàn chưa có hóa đơn hoặc đã thanh toán");
+        res.setData(null);
+        break;
+    }
+
+    res.setStatus("SUCCESS");
+    res.setData(bill);
+    break;
+}
+case "GET BILL DETAIL": {
+
+    int billId =
+            (Integer) req.getData();
+
+    bid.setConn(conn);
+
+    List<BillInfor> list =
+            bid.getBillInforsByBillId(
+                    billId);
+    
+    res.setStatus("SUCCESS");
+    res.setData(list);
+
+    break;
+}
             default: {
                 res.setStatus("ERROR");
                 res.setMessage("UNKNOWN ACTION: " + req.getAction());

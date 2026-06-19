@@ -110,4 +110,45 @@ public class BillDAO {
 
         return list;
     }
+
+    public Bill getCurrentBillByTable(int tableId) {
+
+        String sql
+                = "SELECT TOP 1 * FROM Bill "
+                + "WHERE idTable = ? AND status = 0";
+
+        try (PreparedStatement ps
+                = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, tableId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                Bill bill = new Bill();
+
+                bill.setId(rs.getInt("id"));
+                bill.setDateCheckIn(
+                        rs.getTimestamp("DateCheckIn"));
+                bill.setDateCheckOut(
+                        rs.getTimestamp("DateCheckOut"));
+                bill.setDiscount(
+                        rs.getInt("discount"));
+                bill.setTotalPrice(
+                        rs.getBigDecimal("totalPrice"));
+                bill.setStatus(
+                        rs.getInt("status"));
+                bill.setTableID(
+                        rs.getInt("idTable"));
+
+                return bill;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

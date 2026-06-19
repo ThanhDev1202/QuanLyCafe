@@ -12,11 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Client/ManagerGUI/AccountGui.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Client/ManagerGUI/InventoryGui.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Client/ManagerGUI/BillManagerGUI.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Client/ManagerGUI/TableGui.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Client/Login.java</file>
+            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Client/StaffGUI/TableGui.java</file>
+            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Server/SV/ClientHandler.java</file>
+            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Server/DAO/BillDAO.java</file>
+            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/Client/StaffGUI/OrderGUI2.java</file>
+            <file>file:/C:/Users/admin/OneDrive/Desktop/QuanLyCafe-ManagerGui/src/shared/PrintInvoice.java</file>
         </group>
     </open-files>
 </project-private>

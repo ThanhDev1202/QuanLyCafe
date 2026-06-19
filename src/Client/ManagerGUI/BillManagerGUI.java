@@ -92,7 +92,15 @@ public class BillManagerGUI extends javax.swing.JPanel {
             new String [] {
                 "ID", "Check in", "Check out", "Giảm giá(%)", "Giá tiền (VNĐ)", "Trạng thái", "Bàn đặt"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
