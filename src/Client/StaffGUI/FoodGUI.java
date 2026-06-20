@@ -1,7 +1,10 @@
 package Client.StaffGUI;
 
 import Client.ClientConnection;
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.List;
@@ -23,21 +26,42 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
     private JPanel foodPanel;
 
     public FoodGUI() {
+        try {
+            FlatLightLaf.setup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         initComponents();
         setLayout(new BorderLayout());
         categoryPanel = new JPanel();
-        categoryPanel.setLayout(new GridLayout(0, 1, 5, 5));
+        categoryPanel.setLayout(new BoxLayout(categoryPanel, BoxLayout.Y_AXIS));
+        JScrollPane categoryScrollPane = new JScrollPane(categoryPanel);
+        categoryScrollPane.setPreferredSize(new Dimension(140, 0));
+
         foodPanel = new JPanel();
-        foodPanel.setLayout(new GridLayout(0, 3, 10, 10));
-        add(categoryPanel, BorderLayout.WEST);
-        add(new JScrollPane(foodPanel), BorderLayout.CENTER);
+        foodPanel.setLayout(new GridLayout(0, 3, 15, 15));
+        JScrollPane foodScrollPane = new JScrollPane(foodPanel);
+        add(categoryScrollPane, BorderLayout.WEST);
+        add(foodScrollPane, BorderLayout.CENTER);
+
+        //gui
+        setBackground(new Color(245, 235, 230));
+        setOpaque(true);
+
+        categoryPanel.setBackground(new Color(245, 235, 230));
+
+        foodPanel.setBackground(new Color(245, 235, 230));
+
         loadCategories();
     }
-public void setOrderGui(FoodAdditionListener listener) {
-    this.listener = listener;
-}
+
+    public void setOrderGui(FoodAdditionListener listener) {
+        this.listener = listener;
+    }
 
     public void loadCategories() {
+
         new SwingWorker<List<CategoryFood>, Void>() {
             //swingworker: chạy tác vụ nặng background thread
             @Override
@@ -55,6 +79,10 @@ public void setOrderGui(FoodAdditionListener listener) {
                     for (CategoryFood c : list) {
                         JButton btn = new JButton(c.getTen());
                         btn.addActionListener(e -> loadFoodsByCategory(c.getId()));
+                        btn.setMaximumSize(new Dimension(120, 40));
+                        btn.setAlignmentX(CENTER_ALIGNMENT);
+
+                        btn.putClientProperty("FlatLaf.style","arc:20");
                         categoryPanel.add(btn);
                     }
                     categoryPanel.revalidate();
@@ -74,6 +102,7 @@ public void setOrderGui(FoodAdditionListener listener) {
                 Response res = (Response) ClientConnection.sendRequest(new Request("SELECT FOOD BY CATEGORY", categoryId));
                 return (List<Food>) res.getData();
             }
+
             @Override
             protected void done() {
                 try {
@@ -94,6 +123,16 @@ public void setOrderGui(FoodAdditionListener listener) {
 
     private JButton createFoodButton(Food f) {
         JButton btn = new JButton();
+
+        btn.setPreferredSize(new Dimension(180, 220));
+
+        btn.setFocusPainted(false);
+        btn.putClientProperty("FlatLaf.style", "arc:15");
+
+        btn.setBackground(Color.WHITE);
+
+        btn.setForeground(
+                new Color(108, 67, 44));
 
         // 1. Cấu hình hiển thị Text
         btn.setText("<html><center>" + f.getNameFood() + "<br/>" + f.getPriceOut() + "</center></html>");
@@ -119,7 +158,7 @@ public void setOrderGui(FoodAdditionListener listener) {
                 listener.addFoodToTempList(f);
             }
         });
-            return btn;
+        return btn;
     }
 
     /**
@@ -131,7 +170,8 @@ public void setOrderGui(FoodAdditionListener listener) {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setLayout(new java.awt.GridLayout());
+        setOpaque(false);
+        setLayout(new java.awt.GridLayout(1, 0));
     }// </editor-fold>//GEN-END:initComponents
 
 

@@ -26,8 +26,7 @@ public class StaffGUI extends javax.swing.JFrame {//staff gui: điều phối tr
      */
     public StaffGUI() {
         initComponents();
-        
-        this.setExtendedState(MAXIMIZED_BOTH);
+
         // --- 1. TẠO TAB 1 
         tablegui = new TableGui();
         foodgui = new FoodGUI();
@@ -112,7 +111,6 @@ public class StaffGUI extends javax.swing.JFrame {//staff gui: điều phối tr
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
