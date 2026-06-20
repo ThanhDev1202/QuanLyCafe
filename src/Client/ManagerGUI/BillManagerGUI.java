@@ -69,11 +69,11 @@ public class BillManagerGUI extends javax.swing.JPanel {
         setBackground(new java.awt.Color(245, 235, 230));
         setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 25, 10, 25));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 25, 20, 25));
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(74, 46, 43));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/invoice.png"))); // NOI18N
         jLabel3.setText("Quản lý hóa đơn");

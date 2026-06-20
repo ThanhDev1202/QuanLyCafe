@@ -142,16 +142,17 @@ public class InventoryGui extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(245, 235, 230));
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(30, 30, 30, 30), new javax.swing.border.LineBorder(new java.awt.Color(245, 235, 230), 1, true)));
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(30, 25, 30, 25), new javax.swing.border.LineBorder(new java.awt.Color(245, 235, 230), 1, true)));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
 
         HeadPanel.setBackground(new java.awt.Color(245, 235, 230));
+        HeadPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
         HeadPanel.setOpaque(false);
         HeadPanel.setLayout(new javax.swing.BoxLayout(HeadPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(69, 39, 35));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (1).png"))); // NOI18N
         jLabel3.setText("Quản lý kho hàng");
@@ -369,7 +370,7 @@ public class InventoryGui extends javax.swing.JPanel {
                 .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnXoaAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
@@ -397,7 +398,7 @@ public class InventoryGui extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3);

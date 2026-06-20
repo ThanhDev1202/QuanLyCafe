@@ -85,7 +85,7 @@ public class TableGui extends javax.swing.JPanel {
         TopPanel.setOpaque(false);
         TopPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(74, 46, 43));
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/tablet.png"))); // NOI18N
         jLabel2.setText("Quản lý bàn");

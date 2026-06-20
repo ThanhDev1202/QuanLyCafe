@@ -71,7 +71,7 @@ public class AccountGui extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         HeadPanel.setBackground(new java.awt.Color(245, 235, 230));
-        HeadPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 25, 10, 25));
+        HeadPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 25, 20, 25));
         HeadPanel.setMinimumSize(new java.awt.Dimension(261, 40));
         HeadPanel.setPreferredSize(new java.awt.Dimension(285, 80));
         HeadPanel.setLayout(new java.awt.BorderLayout());
@@ -86,7 +86,7 @@ public class AccountGui extends javax.swing.JPanel {
         add(HeadPanel, java.awt.BorderLayout.NORTH);
 
         panelCard.setBackground(new java.awt.Color(255, 255, 255));
-        panelCard.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 225, 220)), javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20)));
+        panelCard.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 225, 220)), javax.swing.BorderFactory.createEmptyBorder(20, 40, 40, 40)));
         panelCard.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setBackground(new java.awt.Color(250, 246, 240));
@@ -132,8 +132,8 @@ public class AccountGui extends javax.swing.JPanel {
         panelCard.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         panelToolBar.setBackground(new java.awt.Color(255, 255, 255));
-        panelToolBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 20, 0));
-        panelToolBar.setPreferredSize(new java.awt.Dimension(900, 50));
+        panelToolBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        panelToolBar.setPreferredSize(new java.awt.Dimension(900, 80));
 
         txtFind.setColumns(25);
         txtFind.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
