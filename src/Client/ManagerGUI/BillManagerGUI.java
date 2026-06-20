@@ -75,7 +75,7 @@ public class BillManagerGUI extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(74, 46, 43));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/bill (1).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/invoice.png"))); // NOI18N
         jLabel3.setText("Quản lý hóa đơn");
         jLabel3.setIconTextGap(10);
         jPanel1.add(jLabel3, java.awt.BorderLayout.NORTH);
@@ -116,7 +116,7 @@ public class BillManagerGUI extends javax.swing.JPanel {
         jLabel2.setText("VNĐ");
 
         jButton1.setBackground(new java.awt.Color(245, 235, 230));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/coins.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/coins (1).png"))); // NOI18N
 
         jButton2.setText("thống kê");
         jButton2.addActionListener(new java.awt.event.ActionListener() {

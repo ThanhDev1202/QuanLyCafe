@@ -5,11 +5,13 @@
 package Client.ManagerGUI;
 
 import Client.ClientConnection;
+import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import shared.Model.*;
 import shared.RequestResponse.*;
 import java.util.List;
+import static javax.swing.text.StyleConstants.Bold;
 
 /**
  *
@@ -28,7 +30,7 @@ public class AccountGui extends javax.swing.JPanel {
         // Key đúng để hiển thị icon kính lúp bên trái
         txtFind.putClientProperty("JTextField.leadingIcon", new com.formdev.flatlaf.icons.FlatSearchIcon());
         // Placeholder text
-        txtFind.putClientProperty("JTextField.placeholderText", "Tìm kiếm nhân viên");
+        txtFind.putClientProperty("JTextField.placeholderText", "Tìm kiếm nhân viên...");
 
         try {
             load();
@@ -55,9 +57,9 @@ public class AccountGui extends javax.swing.JPanel {
         tbAccount = new javax.swing.JTable();
         panelToolBar = new javax.swing.JPanel();
         txtFind = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
@@ -71,11 +73,12 @@ public class AccountGui extends javax.swing.JPanel {
         HeadPanel.setBackground(new java.awt.Color(245, 235, 230));
         HeadPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 25, 10, 25));
         HeadPanel.setMinimumSize(new java.awt.Dimension(261, 40));
+        HeadPanel.setPreferredSize(new java.awt.Dimension(285, 80));
         HeadPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(62, 39, 35));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (4).png"))); // NOI18N
         jLabel1.setText("Quản lý tài khoản");
         jLabel1.setIconTextGap(10);
         HeadPanel.add(jLabel1, java.awt.BorderLayout.WEST);
@@ -129,8 +132,13 @@ public class AccountGui extends javax.swing.JPanel {
         panelCard.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         panelToolBar.setBackground(new java.awt.Color(255, 255, 255));
+        panelToolBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        panelToolBar.setPreferredSize(new java.awt.Dimension(900, 50));
 
         txtFind.setColumns(25);
+        txtFind.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtFind.setToolTipText("");
+        txtFind.setPreferredSize(new java.awt.Dimension(450, 42));
         txtFind.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFindActionPerformed(evt);
@@ -138,7 +146,21 @@ public class AccountGui extends javax.swing.JPanel {
         });
         panelToolBar.add(txtFind);
 
-        jButton1.setText("tìm kiếm");
+        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Staff" }));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(140, 35));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        panelToolBar.add(jComboBox1);
+
+        jButton1.setBackground(new java.awt.Color(92, 82, 49));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Tìm kiếm");
+        jButton1.setPreferredSize(new java.awt.Dimension(140, 35));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -146,21 +168,17 @@ public class AccountGui extends javax.swing.JPanel {
         });
         panelToolBar.add(jButton1);
 
-        jButton2.setText("reset");
+        jButton2.setBackground(new java.awt.Color(230, 220, 200));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(80, 60, 40));
+        jButton2.setText("Reset");
+        jButton2.setPreferredSize(new java.awt.Dimension(140, 35));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
         panelToolBar.add(jButton2);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Manager", "Staff" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        panelToolBar.add(jComboBox1);
 
         panelCard.add(panelToolBar, java.awt.BorderLayout.NORTH);
 
@@ -171,10 +189,12 @@ public class AccountGui extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
         btnThem.setBackground(new java.awt.Color(92, 82, 49));
-        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnThem.setForeground(new java.awt.Color(255, 255, 255));
-        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (1).png"))); // NOI18N
+        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (5).png"))); // NOI18N
         btnThem.setText("Thêm tài khoản");
+        btnThem.setIconTextGap(8);
+        btnThem.setPreferredSize(new java.awt.Dimension(200, 45));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -183,9 +203,11 @@ public class AccountGui extends javax.swing.JPanel {
         jPanel1.add(btnThem);
 
         btnSua.setBackground(new java.awt.Color(242, 235, 235));
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/profile (2).png"))); // NOI18N
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/write.png"))); // NOI18N
         btnSua.setText("Sửa tài khoản");
+        btnSua.setIconTextGap(8);
+        btnSua.setPreferredSize(new java.awt.Dimension(200, 45));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
@@ -194,10 +216,11 @@ public class AccountGui extends javax.swing.JPanel {
         jPanel1.add(btnSua);
 
         btnXoa.setBackground(new java.awt.Color(139, 26, 26));
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (3).png"))); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (6).png"))); // NOI18N
         btnXoa.setText("Xóa tài khoản");
+        btnXoa.setPreferredSize(new java.awt.Dimension(200, 45));
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaActionPerformed(evt);

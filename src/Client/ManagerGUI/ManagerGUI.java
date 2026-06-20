@@ -5,7 +5,9 @@
 package Client.ManagerGUI;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
 import javax.swing.JOptionPane;
@@ -23,17 +25,17 @@ public class ManagerGUI extends javax.swing.JFrame {
     private TableGui tablemanagementPanel;
     private AccountGui accountmanagementPanel;
     private BillManagerGUI billManagerPanel;
-    ImageIcon icon = new ImageIcon("src/images/book.png");
 
     /**
      * Creates new form ManagerGUI
      */
     public ManagerGUI() {
         initComponents();
+        
+        this.setExtendedState(MAXIMIZED_BOTH);
 
         cardLayout = (CardLayout) jPanel2.getLayout();
         inventoryPanel = new InventoryGui();
-
         cardLayout = (CardLayout) jPanel2.getLayout();
         inventoryPanel = new InventoryGui();
         tablemanagementPanel = new TableGui();
@@ -44,12 +46,6 @@ public class ManagerGUI extends javax.swing.JFrame {
         jPanel2.add(accountmanagementPanel, "ACCOUNT MANAGEMENT");
         jPanel2.add(billManagerPanel, "BILL MANAGEMENT");
         cardLayout.show(jPanel2, "card2");
-        Image img = icon.getImage();
-        Image newImg = img.getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-
-        ImageIcon resizedIcon = new ImageIcon(newImg);
-
-        jButton1.setIcon(resizedIcon);
 
     }
 
@@ -65,13 +61,23 @@ public class ManagerGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         jLabel2 = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
         jButton1 = new javax.swing.JButton();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 25));
         jButton2 = new javax.swing.JButton();
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 25));
         jButton3 = new javax.swing.JButton();
+        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 25));
         jButton4 = new javax.swing.JButton();
+        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 25), new java.awt.Dimension(0, 25), new java.awt.Dimension(32767, 25));
         jButton6 = new javax.swing.JButton();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jButton5 = new javax.swing.JButton();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 100), new java.awt.Dimension(0, 100), new java.awt.Dimension(32767, 100));
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -79,196 +85,165 @@ public class ManagerGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1050, 680));
+        setUndecorated(true);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(62, 39, 35));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 12, 25, 12));
         jPanel1.setForeground(new java.awt.Color(62, 39, 35));
         jPanel1.setAutoscrolls(true);
+        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 52));
         jPanel1.setMinimumSize(new java.awt.Dimension(80, 32));
-        jPanel1.setPreferredSize(new java.awt.Dimension(200, 600));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanel1.setPreferredSize(new java.awt.Dimension(260, 52));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
         jButton7.setBackground(new java.awt.Color(250, 246, 240));
         jButton7.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/coffee-shop (1).png"))); // NOI18N
-        jButton7.setMaximumSize(new java.awt.Dimension(100, 100));
-        jButton7.setMinimumSize(new java.awt.Dimension(100, 100));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        jPanel1.add(jButton7, gridBagConstraints);
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/coffee-shop (2).png"))); // NOI18N
+        jButton7.setMaximumSize(new java.awt.Dimension(16099, 300));
+        jButton7.setMinimumSize(new java.awt.Dimension(120, 140));
+        jButton7.setPreferredSize(new java.awt.Dimension(120, 140));
+        jPanel1.add(jButton7);
+        jPanel1.add(filler2);
 
         jLabel2.setBackground(new java.awt.Color(250, 246, 255));
-        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(250, 246, 240));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Coffee Hub");
-        jLabel2.setMaximumSize(new java.awt.Dimension(100, 30));
-        jLabel2.setMinimumSize(new java.awt.Dimension(100, 30));
-        jLabel2.setPreferredSize(new java.awt.Dimension(100, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 20, 0);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        jLabel2.setMaximumSize(new java.awt.Dimension(300, 30));
+        jLabel2.setMinimumSize(new java.awt.Dimension(300, 30));
+        jLabel2.setPreferredSize(new java.awt.Dimension(300, 30));
+        jPanel1.add(jLabel2);
+        jPanel1.add(filler3);
+        jPanel1.add(filler1);
 
         jButton1.setBackground(new java.awt.Color(62, 39, 35));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton1.setForeground(new java.awt.Color(250, 246, 240));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/book (1).png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (7).png"))); // NOI18N
         jButton1.setText("Chung");
         jButton1.setAutoscrolls(true);
         jButton1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton1.setIconTextGap(10);
+        jButton1.setIconTextGap(12);
         jButton1.setMargin(new java.awt.Insets(0, 15, 0, 15));
-        jButton1.setMaximumSize(new java.awt.Dimension(100, 30));
-        jButton1.setMinimumSize(new java.awt.Dimension(80, 32));
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton1.setMaximumSize(new java.awt.Dimension(32767, 52));
+        jButton1.setMinimumSize(new java.awt.Dimension(240, 45));
+        jButton1.setPreferredSize(new java.awt.Dimension(240, 45));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
-        jPanel1.add(jButton1, gridBagConstraints);
+        jPanel1.add(jButton1);
+        jPanel1.add(filler10);
 
         jButton2.setBackground(new java.awt.Color(62, 39, 35));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton2.setForeground(new java.awt.Color(250, 246, 240));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/profile.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/profile (3).png"))); // NOI18N
         jButton2.setText("Quản lý tài khoản");
         jButton2.setAutoscrolls(true);
         jButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton2.setIconTextGap(10);
+        jButton2.setIconTextGap(12);
         jButton2.setMargin(new java.awt.Insets(0, 15, 0, 15));
-        jButton2.setMaximumSize(new java.awt.Dimension(100, 30));
-        jButton2.setMinimumSize(new java.awt.Dimension(80, 32));
-        jButton2.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton2.setMaximumSize(new java.awt.Dimension(32767, 52));
+        jButton2.setMinimumSize(new java.awt.Dimension(240, 45));
+        jButton2.setPreferredSize(new java.awt.Dimension(240, 45));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 34;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
-        jPanel1.add(jButton2, gridBagConstraints);
+        jPanel1.add(jButton2);
+        jPanel1.add(filler11);
 
         jButton3.setBackground(new java.awt.Color(62, 39, 35));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton3.setForeground(new java.awt.Color(250, 246, 240));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/stats.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/stats (2).png"))); // NOI18N
         jButton3.setText("Quản lý bàn");
         jButton3.setAutoscrolls(true);
         jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton3.setIconTextGap(10);
+        jButton3.setIconTextGap(12);
         jButton3.setMargin(new java.awt.Insets(0, 15, 0, 15));
-        jButton3.setMaximumSize(new java.awt.Dimension(100, 30));
-        jButton3.setMinimumSize(new java.awt.Dimension(80, 32));
-        jButton3.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton3.setMaximumSize(new java.awt.Dimension(32767, 52));
+        jButton3.setMinimumSize(new java.awt.Dimension(240, 45));
+        jButton3.setPreferredSize(new java.awt.Dimension(240, 45));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 55;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
-        jPanel1.add(jButton3, gridBagConstraints);
+        jPanel1.add(jButton3);
+        jPanel1.add(filler12);
 
         jButton4.setBackground(new java.awt.Color(62, 39, 35));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton4.setForeground(new java.awt.Color(250, 246, 240));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/options.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/check-list (1).png"))); // NOI18N
         jButton4.setText("Quản lý kho");
         jButton4.setAutoscrolls(true);
         jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton4.setIconTextGap(10);
+        jButton4.setIconTextGap(12);
         jButton4.setMargin(new java.awt.Insets(0, 15, 0, 15));
-        jButton4.setMaximumSize(new java.awt.Dimension(100, 30));
-        jButton4.setMinimumSize(new java.awt.Dimension(80, 32));
-        jButton4.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton4.setMaximumSize(new java.awt.Dimension(32767, 52));
+        jButton4.setMinimumSize(new java.awt.Dimension(240, 45));
+        jButton4.setPreferredSize(new java.awt.Dimension(240, 45));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
-        jPanel1.add(jButton4, gridBagConstraints);
+        jPanel1.add(jButton4);
+        jPanel1.add(filler13);
 
         jButton6.setBackground(new java.awt.Color(62, 39, 35));
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton6.setForeground(new java.awt.Color(250, 246, 240));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/salary.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/salary (1).png"))); // NOI18N
         jButton6.setText("Quản lý doanh thu");
         jButton6.setAutoscrolls(true);
         jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton6.setIconTextGap(10);
+        jButton6.setIconTextGap(12);
         jButton6.setMargin(new java.awt.Insets(0, 15, 0, 15));
-        jButton6.setMaximumSize(new java.awt.Dimension(100, 30));
-        jButton6.setMinimumSize(new java.awt.Dimension(80, 32));
-        jButton6.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton6.setMaximumSize(new java.awt.Dimension(32767, 52));
+        jButton6.setMinimumSize(new java.awt.Dimension(240, 45));
+        jButton6.setPreferredSize(new java.awt.Dimension(240, 45));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 45;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
-        jPanel1.add(jButton6, gridBagConstraints);
+        jPanel1.add(jButton6);
+        jPanel1.add(filler8);
 
         jButton5.setBackground(new java.awt.Color(146, 51, 51));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton5.setForeground(new java.awt.Color(250, 246, 240));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/logout.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/cancel.png"))); // NOI18N
         jButton5.setText("Thoát hệ thống");
         jButton5.setAutoscrolls(true);
         jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton5.setIconTextGap(10);
-        jButton5.setMaximumSize(new java.awt.Dimension(100, 30));
-        jButton5.setMinimumSize(new java.awt.Dimension(80, 32));
-        jButton5.setPreferredSize(new java.awt.Dimension(100, 30));
+        jButton5.setIconTextGap(12);
+        jButton5.setMaximumSize(new java.awt.Dimension(32767, 52));
+        jButton5.setMinimumSize(new java.awt.Dimension(240, 45));
+        jButton5.setPreferredSize(new java.awt.Dimension(240, 50));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 104;
-        gridBagConstraints.ipady = 12;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(12, 10, 12, 10);
-        jPanel1.add(jButton5, gridBagConstraints);
+        jPanel1.add(jButton5);
+        jPanel1.add(filler9);
+        jPanel1.add(filler4);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jPanel1, java.awt.BorderLayout.WEST);
 
         jPanel2.setLayout(new java.awt.CardLayout());
 
@@ -283,20 +258,21 @@ public class ManagerGUI extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(306, 306, 306)
                 .addComponent(jLabel1)
-                .addGap(0, 738, Short.MAX_VALUE))
+                .addGap(0, 712, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(578, Short.MAX_VALUE))
+                .addContainerGap(724, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel3, "card2");
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, -1));
+        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
         setLocationRelativeTo(null);
@@ -307,18 +283,13 @@ public class ManagerGUI extends javax.swing.JFrame {
         cardLayout.show(jPanel2, "ACCOUNT MANAGEMENT");
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    //hiện giao diện quản lý kho
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        cardLayout.show(jPanel2, "INVENTORY");
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     //quản lý bàn
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         cardLayout.show(jPanel2, "TABLE MANAGEMENT");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        JOptionPane.showMessageDialog(this, "chào tạm biệt!");
+        JOptionPane.showMessageDialog(this, "Chào tạm biệt!!");
         System.exit(0);
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -328,12 +299,7 @@ public class ManagerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        getContentPane().removeAll();
-        getContentPane().setLayout(new net.miginfocom.swing.MigLayout("ins 0, gapx 0, fill, wrap 2", "[fill, 230!][fill, grow]", "[fill, grow]"));
-        getContentPane().add(jPanel1, "growy");
-        getContentPane().add(jPanel2, "grow");
-        getContentPane().revalidate();
-        getContentPane().repaint();
+
     }//GEN-LAST:event_formWindowOpened
 
     //giao diện ban đầu
@@ -341,7 +307,22 @@ public class ManagerGUI extends javax.swing.JFrame {
         cardLayout.show(jPanel2, "card2");
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    //hiện giao diện quản lý kho
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        cardLayout.show(jPanel2, "INVENTORY");
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
+    private javax.swing.Box.Filler filler11;
+    private javax.swing.Box.Filler filler12;
+    private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
+    private javax.swing.Box.Filler filler8;
+    private javax.swing.Box.Filler filler9;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

@@ -137,20 +137,19 @@ public class InventoryGui extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         btnThemAnh = new javax.swing.JButton();
         btnXoaAnh = new javax.swing.JButton();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 35), new java.awt.Dimension(0, 35), new java.awt.Dimension(32767, 35));
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(245, 235, 230));
-        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(15, 25, 10, 25), new javax.swing.border.LineBorder(new java.awt.Color(245, 235, 230), 1, true)));
+        setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(30, 30, 30, 30), new javax.swing.border.LineBorder(new java.awt.Color(245, 235, 230), 1, true)));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setPreferredSize(new java.awt.Dimension(800, 600));
         setLayout(new java.awt.BorderLayout());
 
         HeadPanel.setBackground(new java.awt.Color(245, 235, 230));
         HeadPanel.setOpaque(false);
-        net.miginfocom.swing.MigLayout migLayout1 = new net.miginfocom.swing.MigLayout();
-        migLayout1.setLayoutConstraints("ins 0 0 10 0, fillx, wrap 1");
-        HeadPanel.setLayout(migLayout1);
+        HeadPanel.setLayout(new javax.swing.BoxLayout(HeadPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(69, 39, 35));
@@ -173,8 +172,8 @@ public class InventoryGui extends javax.swing.JPanel {
         LeftPanel.add(jLabel2);
         LeftPanel.add(filler2);
 
-        btnThemLoai.setBackground(new java.awt.Color(62, 39, 35));
-        btnThemLoai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThemLoai.setBackground(new java.awt.Color(92, 82, 49));
+        btnThemLoai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThemLoai.setForeground(new java.awt.Color(255, 255, 255));
         btnThemLoai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/plus (2).png"))); // NOI18N
         btnThemLoai.setText(" Thêm loại");
@@ -209,8 +208,8 @@ public class InventoryGui extends javax.swing.JPanel {
         LeftPanel.add(jScrollPane2);
         LeftPanel.add(filler3);
 
-        btnXoaLoai.setBackground(new java.awt.Color(146, 51, 51));
-        btnXoaLoai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoaLoai.setBackground(new java.awt.Color(139, 26, 26));
+        btnXoaLoai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnXoaLoai.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaLoai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/minus-sign.png"))); // NOI18N
         btnXoaLoai.setText("Xóa loại");
@@ -233,11 +232,12 @@ public class InventoryGui extends javax.swing.JPanel {
         RightPanel.setPreferredSize(new java.awt.Dimension(590, 600));
         RightPanel.setLayout(new java.awt.BorderLayout());
 
-        panelToolBar.setBackground(new java.awt.Color(255, 255, 255));
-        panelToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        panelToolBar.setBackground(new java.awt.Color(245, 235, 230));
+        panelToolBar.setOpaque(false);
+        panelToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 20, 5));
 
-        btnThemMon.setBackground(new java.awt.Color(62, 39, 35));
-        btnThemMon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThemMon.setBackground(new java.awt.Color(92, 82, 49));
+        btnThemMon.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThemMon.setForeground(new java.awt.Color(255, 255, 255));
         btnThemMon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/plus (2).png"))); // NOI18N
         btnThemMon.setText(" Thêm món");
@@ -250,9 +250,10 @@ public class InventoryGui extends javax.swing.JPanel {
         });
         panelToolBar.add(btnThemMon);
 
-        btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/edit.png"))); // NOI18N
-        btnSua.setText("Sửa");
+        btnSua.setBackground(new java.awt.Color(242, 235, 235));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/editing (1).png"))); // NOI18N
+        btnSua.setText("Sửa món");
         btnSua.setIconTextGap(8);
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -261,9 +262,10 @@ public class InventoryGui extends javax.swing.JPanel {
         });
         panelToolBar.add(btnSua);
 
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/recycle-bin.png"))); // NOI18N
-        btnXoa.setText("Xóa");
+        btnXoa.setBackground(new java.awt.Color(139, 26, 26));
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/delete.png"))); // NOI18N
+        btnXoa.setText("Xóa món");
         btnXoa.setIconTextGap(8);
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -310,14 +312,18 @@ public class InventoryGui extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMinimumSize(new java.awt.Dimension(100, 600));
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 600));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel2.setBackground(new java.awt.Color(253, 245, 237));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(69, 39, 35));
         jLabel1.setText("Ảnh món");
 
-        btnThemAnh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnThemAnh.setBackground(new java.awt.Color(30, 58, 138));
+        btnThemAnh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThemAnh.setForeground(new java.awt.Color(255, 255, 255));
         btnThemAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/download (1).png"))); // NOI18N
         btnThemAnh.setText("Thêm ảnh");
         btnThemAnh.addActionListener(new java.awt.event.ActionListener() {
@@ -326,7 +332,9 @@ public class InventoryGui extends javax.swing.JPanel {
             }
         });
 
-        btnXoaAnh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXoaAnh.setBackground(new java.awt.Color(139, 26, 26));
+        btnXoaAnh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoaAnh.setForeground(new java.awt.Color(255, 255, 255));
         btnXoaAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/recycle-bin.png"))); // NOI18N
         btnXoaAnh.setText("Xóa ảnh");
         btnXoaAnh.setIconTextGap(8);
@@ -350,7 +358,7 @@ public class InventoryGui extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnXoaAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,14 +369,18 @@ public class InventoryGui extends javax.swing.JPanel {
                 .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnXoaAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
+
+        jPanel1.add(jPanel2);
+        jPanel1.add(filler5);
 
         jPanel3.setBackground(new java.awt.Color(253, 245, 237));
 
         jLabel4.setBackground(new java.awt.Color(253, 245, 237));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("             Không có ảnh");
+        jLabel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 1, 20, 1));
         jLabel4.setFocusable(false);
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
 
@@ -385,25 +397,10 @@ public class InventoryGui extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
+        jPanel1.add(jPanel3);
 
         add(jPanel1, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
@@ -787,6 +784,7 @@ public void displayCategory() {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
