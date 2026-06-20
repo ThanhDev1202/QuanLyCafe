@@ -65,7 +65,7 @@ public class TableGui extends javax.swing.JPanel {
         ToolBarPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         panelButton = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btnThemBan = new javax.swing.JButton();
         xoaBan = new javax.swing.JButton();
         scrollDsBan = new javax.swing.JScrollPane();
         panelDsBan = new javax.swing.JPanel();
@@ -87,7 +87,7 @@ public class TableGui extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(74, 46, 43));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/table (3).png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/tablet.png"))); // NOI18N
         jLabel2.setText("Quản lý bàn");
         jLabel2.setIconTextGap(10);
         TopPanel.add(jLabel2, java.awt.BorderLayout.NORTH);
@@ -141,7 +141,7 @@ public class TableGui extends javax.swing.JPanel {
         add(TopPanel, java.awt.BorderLayout.PAGE_START);
 
         CenterPanel.setOpaque(false);
-        CenterPanel.setLayout(new java.awt.BorderLayout(10, 0));
+        CenterPanel.setLayout(new java.awt.BorderLayout());
 
         ToolBarPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 10, 10));
         ToolBarPanel.setOpaque(false);
@@ -155,25 +155,26 @@ public class TableGui extends javax.swing.JPanel {
         ToolBarPanel.add(jLabel8, java.awt.BorderLayout.WEST);
 
         panelButton.setOpaque(false);
-        panelButton.setPreferredSize(new java.awt.Dimension(260, 28));
-        panelButton.setLayout(new java.awt.GridLayout(1, 2, 8, 0));
 
-        jButton3.setBackground(new java.awt.Color(92, 82, 49));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (4).png"))); // NOI18N
-        jButton3.setText("Thêm bàn");
-        jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton3.setIconTextGap(8);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnThemBan.setBackground(new java.awt.Color(74, 46, 43));
+        btnThemBan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThemBan.setForeground(new java.awt.Color(255, 255, 255));
+        btnThemBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (4).png"))); // NOI18N
+        btnThemBan.setText("Thêm bàn");
+        btnThemBan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnThemBan.setIconTextGap(8);
+        btnThemBan.setMaximumSize(new java.awt.Dimension(110, 32));
+        btnThemBan.setMinimumSize(new java.awt.Dimension(110, 32));
+        btnThemBan.setPreferredSize(new java.awt.Dimension(110, 28));
+        btnThemBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnThemBanActionPerformed(evt);
             }
         });
-        panelButton.add(jButton3);
+        panelButton.add(btnThemBan);
 
         xoaBan.setBackground(new java.awt.Color(139, 34, 34));
-        xoaBan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        xoaBan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         xoaBan.setForeground(new java.awt.Color(255, 255, 255));
         xoaBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash-bin.png"))); // NOI18N
         xoaBan.setText("Xóa bàn");
@@ -342,7 +343,7 @@ public class TableGui extends javax.swing.JPanel {
     private javax.swing.JPanel ToolBarPanel;
     private javax.swing.JPanel TopPanel;
     private javax.swing.JPanel Trong;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnThemBan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
