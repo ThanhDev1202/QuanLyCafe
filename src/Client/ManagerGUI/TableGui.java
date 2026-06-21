@@ -177,7 +177,7 @@ public class TableGui extends javax.swing.JPanel {
 
         add(TopPanel, java.awt.BorderLayout.PAGE_START);
 
-        CenterPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 20, 20));
+        CenterPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 40, 20, 40));
         CenterPanel.setOpaque(false);
         CenterPanel.setLayout(new java.awt.BorderLayout());
 
@@ -194,11 +194,12 @@ public class TableGui extends javax.swing.JPanel {
         jLabel8.setPreferredSize(new java.awt.Dimension(195, 35));
         ToolBarPanel.add(jLabel8, java.awt.BorderLayout.WEST);
 
+        panelButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 20, 0));
         panelButton.setOpaque(false);
-        panelButton.setPreferredSize(new java.awt.Dimension(380, 40));
+        panelButton.setPreferredSize(new java.awt.Dimension(380, 60));
 
         btnThemBan.setBackground(new java.awt.Color(74, 46, 43));
-        btnThemBan.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        btnThemBan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         btnThemBan.setForeground(new java.awt.Color(255, 255, 255));
         btnThemBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (9).png"))); // NOI18N
         btnThemBan.setText("Thêm bàn");

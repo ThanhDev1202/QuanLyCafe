@@ -5,13 +5,17 @@
 package Client.ManagerGUI;
 
 import Client.ClientConnection;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import shared.Model.*;
 import shared.RequestResponse.*;
 import java.util.List;
-import static javax.swing.text.StyleConstants.Bold;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -32,11 +36,13 @@ public class AccountGui extends javax.swing.JPanel {
         // Placeholder text
         txtFind.putClientProperty("JTextField.placeholderText", "Tìm kiếm nhân viên...");
 
+        setupTableStyle();
         try {
             load();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
 
     }
 
@@ -54,7 +60,7 @@ public class AccountGui extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         panelCard = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbAccount = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         panelToolBar = new javax.swing.JPanel();
         txtFind = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -85,15 +91,16 @@ public class AccountGui extends javax.swing.JPanel {
 
         add(HeadPanel, java.awt.BorderLayout.NORTH);
 
-        panelCard.setBackground(new java.awt.Color(255, 255, 255));
+        panelCard.setBackground(new java.awt.Color(245, 235, 230));
         panelCard.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 225, 220)), javax.swing.BorderFactory.createEmptyBorder(20, 40, 40, 40)));
         panelCard.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setBackground(new java.awt.Color(250, 246, 240));
+        jScrollPane1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 154, 43), 2, true));
         jScrollPane1.setMinimumSize(new java.awt.Dimension(800, 600));
 
-        tbAccount.setBackground(new java.awt.Color(245, 235, 230));
-        tbAccount.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -112,27 +119,26 @@ public class AccountGui extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tbAccount.setGridColor(new java.awt.Color(245, 240, 235));
-        tbAccount.setMinimumSize(new java.awt.Dimension(800, 400));
-        tbAccount.setPreferredSize(new java.awt.Dimension(800, 400));
-        tbAccount.setRequestFocusEnabled(false);
-        tbAccount.setRowHeight(40);
-        tbAccount.setSelectionBackground(new java.awt.Color(230, 220, 210));
-        tbAccount.setSelectionForeground(new java.awt.Color(62, 39, 35));
-        tbAccount.setShowHorizontalLines(true);
-        tbAccount.setShowVerticalLines(true);
-        jScrollPane1.setViewportView(tbAccount);
-        if (tbAccount.getColumnModel().getColumnCount() > 0) {
-            tbAccount.getColumnModel().getColumn(0).setResizable(false);
+        jTable1.setGridColor(new java.awt.Color(245, 240, 235));
+        jTable1.setMinimumSize(new java.awt.Dimension(800, 400));
+        jTable1.setPreferredSize(new java.awt.Dimension(800, 400));
+        jTable1.setRequestFocusEnabled(false);
+        jTable1.setRowHeight(40);
+        jTable1.setSelectionBackground(new java.awt.Color(225, 215, 210));
+        jTable1.setSelectionForeground(new java.awt.Color(74, 46, 43));
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
         }
-        tbAccount.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
-        tbAccount.getTableHeader().setBackground(new java.awt.Color(240, 235, 230)); // Màu xám kem nền
-        tbAccount.getTableHeader().setForeground(new java.awt.Color(62, 39, 35));
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        jTable1.getTableHeader().setBackground(new java.awt.Color(240, 235, 230)); // Màu xám kem nền
+        jTable1.getTableHeader().setForeground(new java.awt.Color(62, 39, 35));
 
         panelCard.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         panelToolBar.setBackground(new java.awt.Color(255, 255, 255));
         panelToolBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        panelToolBar.setOpaque(false);
         panelToolBar.setPreferredSize(new java.awt.Dimension(900, 80));
 
         txtFind.setColumns(25);
@@ -275,13 +281,13 @@ public class AccountGui extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
     //sửa tài khoản (type)
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        int row = tbAccount.getSelectedRow();
+        int row = jTable1.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản trong bảng!");
             return;
         }
 
-        int id = (int) tbAccount.getValueAt(row, 0);
+        int id = (int) jTable1.getValueAt(row, 0);
         String[] options = {"0 - Staff", "1 - Manager"};
         String choice = (String) JOptionPane.showInputDialog(this, "Chọn loại tài khoản mới:", "Sửa Type",
                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -307,17 +313,17 @@ public class AccountGui extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
     //xóa tài khoản
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        int row = tbAccount.getSelectedRow();
+        int row = jTable1.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần xóa!");
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa tài khoản ID: " + tbAccount.getValueAt(row, 0) + "?",
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa tài khoản ID: " + jTable1.getValueAt(row, 0) + "?",
                 "Xác nhận", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            int id = (int) tbAccount.getValueAt(row, 0);
+            int id = (int) jTable1.getValueAt(row, 0);
             Account ac = new Account();
             ac.setId(id);
 
@@ -399,7 +405,7 @@ public class AccountGui extends javax.swing.JPanel {
     }
 
     private void renderTable(List<Account> list) {
-        DefaultTableModel model = (DefaultTableModel) tbAccount.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
         for (Account ac : list) {
@@ -412,6 +418,27 @@ public class AccountGui extends javax.swing.JPanel {
                 role
             });
         }
+    }
+    
+        private void setupTableStyle() {
+        JTableHeader header = jTable1.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setPreferredSize(new Dimension(100, 46));
+        header.setBackground(new Color(78, 46, 42));
+        header.setForeground(Color.WHITE);
+        
+        jTable1.setRowHeight(48);
+        
+        DefaultTableCellRenderer center
+                = new DefaultTableCellRenderer();
+
+        center.setHorizontalAlignment(
+                SwingConstants.CENTER);
+
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(center);
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -426,9 +453,9 @@ public class AccountGui extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panelCard;
     private javax.swing.JPanel panelToolBar;
-    private javax.swing.JTable tbAccount;
     private javax.swing.JTextField txtFind;
     // End of variables declaration//GEN-END:variables
 }

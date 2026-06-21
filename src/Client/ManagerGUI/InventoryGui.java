@@ -3,6 +3,8 @@ package Client.ManagerGUI;
 import Client.ClientConnection;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.math.BigDecimal;
@@ -17,8 +19,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import shared.Model.CategoryFood;
 import shared.Model.Food;
 import shared.RequestResponse.Request;
@@ -68,7 +73,7 @@ public class InventoryGui extends javax.swing.JPanel {
             }
         });
 
-
+        setupTableStyle();
 
 
         jList1.addListSelectionListener(e -> {
@@ -97,7 +102,7 @@ public class InventoryGui extends javax.swing.JPanel {
             }
         });
 
-        jTable2.getSelectionModel().addListSelectionListener(e -> {
+        jTable1.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 showFoodImage();
             }
@@ -131,15 +136,17 @@ public class InventoryGui extends javax.swing.JPanel {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         btnThemAnh = new javax.swing.JButton();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 20), new java.awt.Dimension(0, 20), new java.awt.Dimension(32767, 20));
         btnXoaAnh = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 35), new java.awt.Dimension(0, 35), new java.awt.Dimension(32767, 35));
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 35), new java.awt.Dimension(0, 35), new java.awt.Dimension(32767, 35));
 
         setBackground(new java.awt.Color(245, 235, 230));
         setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(20, 25, 30, 25), new javax.swing.border.LineBorder(new java.awt.Color(245, 235, 230), 1, true)));
@@ -174,13 +181,16 @@ public class InventoryGui extends javax.swing.JPanel {
         LeftPanel.add(filler2);
 
         btnThemLoai.setBackground(new java.awt.Color(92, 82, 49));
-        btnThemLoai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThemLoai.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnThemLoai.setForeground(new java.awt.Color(255, 255, 255));
-        btnThemLoai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/plus (2).png"))); // NOI18N
+        btnThemLoai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/plus (4).png"))); // NOI18N
         btnThemLoai.setText(" Thêm loại");
         btnThemLoai.setAlignmentY(1.0F);
         btnThemLoai.setBorderPainted(false);
         btnThemLoai.setIconTextGap(8);
+        btnThemLoai.setMaximumSize(new java.awt.Dimension(155, 31));
+        btnThemLoai.setMinimumSize(new java.awt.Dimension(155, 31));
+        btnThemLoai.setPreferredSize(new java.awt.Dimension(160, 40));
         btnThemLoai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemLoaiActionPerformed(evt);
@@ -210,13 +220,15 @@ public class InventoryGui extends javax.swing.JPanel {
         LeftPanel.add(filler3);
 
         btnXoaLoai.setBackground(new java.awt.Color(139, 26, 26));
-        btnXoaLoai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoaLoai.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnXoaLoai.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoaLoai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/minus-sign.png"))); // NOI18N
+        btnXoaLoai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/minus.png"))); // NOI18N
         btnXoaLoai.setText("Xóa loại");
         btnXoaLoai.setAlignmentY(1.0F);
         btnXoaLoai.setBorderPainted(false);
         btnXoaLoai.setIconTextGap(8);
+        btnXoaLoai.setMaximumSize(new java.awt.Dimension(170, 31));
+        btnXoaLoai.setPreferredSize(new java.awt.Dimension(170, 40));
         btnXoaLoai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaLoaiActionPerformed(evt);
@@ -234,16 +246,18 @@ public class InventoryGui extends javax.swing.JPanel {
         RightPanel.setLayout(new java.awt.BorderLayout());
 
         panelToolBar.setBackground(new java.awt.Color(245, 235, 230));
+        panelToolBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 0, 20, 0));
         panelToolBar.setOpaque(false);
         panelToolBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 20, 5));
 
         btnThemMon.setBackground(new java.awt.Color(92, 82, 49));
-        btnThemMon.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThemMon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnThemMon.setForeground(new java.awt.Color(255, 255, 255));
-        btnThemMon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/plus (2).png"))); // NOI18N
+        btnThemMon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/plus (4).png"))); // NOI18N
         btnThemMon.setText(" Thêm món");
         btnThemMon.setBorderPainted(false);
         btnThemMon.setIconTextGap(8);
+        btnThemMon.setPreferredSize(new java.awt.Dimension(170, 40));
         btnThemMon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemMonActionPerformed(evt);
@@ -252,10 +266,12 @@ public class InventoryGui extends javax.swing.JPanel {
         panelToolBar.add(btnThemMon);
 
         btnSua.setBackground(new java.awt.Color(242, 235, 235));
-        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/editing (1).png"))); // NOI18N
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(69, 39, 35));
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/editing (2).png"))); // NOI18N
         btnSua.setText("Sửa món");
         btnSua.setIconTextGap(8);
+        btnSua.setPreferredSize(new java.awt.Dimension(170, 40));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
@@ -264,10 +280,12 @@ public class InventoryGui extends javax.swing.JPanel {
         panelToolBar.add(btnSua);
 
         btnXoa.setBackground(new java.awt.Color(139, 26, 26));
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/delete.png"))); // NOI18N
+        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/bin.png"))); // NOI18N
         btnXoa.setText("Xóa món");
         btnXoa.setIconTextGap(8);
+        btnXoa.setPreferredSize(new java.awt.Dimension(170, 40));
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaActionPerformed(evt);
@@ -276,13 +294,15 @@ public class InventoryGui extends javax.swing.JPanel {
         panelToolBar.add(btnXoa);
 
         RightPanel.add(panelToolBar, java.awt.BorderLayout.PAGE_START);
-        jTable2.getTableHeader().setBackground(new java.awt.Color(248, 245, 242));
-        jTable2.getTableHeader().setFont(new java.awt.Font("Segoe UI", 1, 13));
-        jTable2.getTableHeader().setForeground(new java.awt.Color(62, 39, 35));
-        jTable2.getTableHeader().setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(230, 225, 220)));
+        jTable1.getTableHeader().setBackground(new java.awt.Color(248, 245, 242));
+        jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", 1, 13));
+        jTable1.getTableHeader().setForeground(new java.awt.Color(62, 39, 35));
+        jTable1.getTableHeader().setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(230, 225, 220)));
 
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(216, 154, 43), 2));
+
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -293,17 +313,17 @@ public class InventoryGui extends javax.swing.JPanel {
                 "ID", "Tên món ăn", "Giá nhập", "Giá bán"
             }
         ));
-        jTable2.setGridColor(new java.awt.Color(248, 245, 240));
-        jTable2.setRowHeight(42);
-        jTable2.setSelectionBackground(new java.awt.Color(253, 245, 237));
-        jTable2.setSelectionForeground(new java.awt.Color(62, 39, 35));
-        jTable2.setShowHorizontalLines(true);
-        jScrollPane1.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(65);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTable2.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTable1.setGridColor(new java.awt.Color(248, 245, 240));
+        jTable1.setRowHeight(42);
+        jTable1.setSelectionBackground(new java.awt.Color(225, 215, 210));
+        jTable1.setSelectionForeground(new java.awt.Color(74, 46, 43));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(65);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
         RightPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -312,93 +332,109 @@ public class InventoryGui extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setMinimumSize(new java.awt.Dimension(100, 600));
-        jPanel1.setPreferredSize(new java.awt.Dimension(200, 600));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 600));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel2.setBackground(new java.awt.Color(253, 245, 237));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel2.setPreferredSize(new java.awt.Dimension(210, 180));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(69, 39, 35));
-        jLabel1.setText("Ảnh món");
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
         btnThemAnh.setBackground(new java.awt.Color(30, 58, 138));
-        btnThemAnh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnThemAnh.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnThemAnh.setForeground(new java.awt.Color(255, 255, 255));
-        btnThemAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/download (1).png"))); // NOI18N
+        btnThemAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/download (2).png"))); // NOI18N
         btnThemAnh.setText("Thêm ảnh");
+        btnThemAnh.setIconTextGap(8);
+        btnThemAnh.setMaximumSize(new java.awt.Dimension(9999, 9999));
+        btnThemAnh.setMinimumSize(new java.awt.Dimension(0, 0));
+        btnThemAnh.setPreferredSize(new java.awt.Dimension(170, 40));
         btnThemAnh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemAnhActionPerformed(evt);
             }
         });
+        jPanel4.add(btnThemAnh);
+        jPanel4.add(filler4);
 
         btnXoaAnh.setBackground(new java.awt.Color(139, 26, 26));
-        btnXoaAnh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnXoaAnh.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnXoaAnh.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoaAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/recycle-bin.png"))); // NOI18N
+        btnXoaAnh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/bin.png"))); // NOI18N
         btnXoaAnh.setText("Xóa ảnh");
         btnXoaAnh.setIconTextGap(8);
+        btnXoaAnh.setMaximumSize(new java.awt.Dimension(9999, 9999));
+        btnXoaAnh.setMinimumSize(new java.awt.Dimension(0, 0));
+        btnXoaAnh.setPreferredSize(new java.awt.Dimension(170, 40));
         btnXoaAnh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaAnhActionPerformed(evt);
             }
         });
+        jPanel4.add(btnXoaAnh);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 25)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(69, 39, 35));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/image.png"))); // NOI18N
+        jLabel1.setText("Ảnh món");
+        jLabel1.setIconTextGap(12);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(102, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(128, 128, 128))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnXoaAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnThemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnXoaAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
 
         jPanel1.add(jPanel2);
-        jPanel1.add(filler5);
 
         jPanel3.setBackground(new java.awt.Color(253, 245, 237));
+        jPanel3.setPreferredSize(new java.awt.Dimension(300, 410));
 
         jLabel4.setBackground(new java.awt.Color(253, 245, 237));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("             Không có ảnh");
+        jLabel4.setText("                                      Không có ảnh");
         jLabel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 1, 20, 1));
         jLabel4.setFocusable(false);
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jLabel4.setPreferredSize(new java.awt.Dimension(300, 40));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(filler5, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(filler5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3);
@@ -478,14 +514,14 @@ public class InventoryGui extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemLoaiActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        int row = jTable2.getSelectedRow();
+        int row = jTable1.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn món ăn cần sửa thông tin trên bảng!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
-        String oldName = jTable2.getValueAt(row, 1).toString();
+        int foodId = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
+        String oldName = jTable1.getValueAt(row, 1).toString();
 
         String newName = JOptionPane.showInputDialog(this, "Cập nhật tên món ăn:", oldName);
         if (newName == null || newName.trim().isEmpty()) {
@@ -522,13 +558,13 @@ public class InventoryGui extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "vui lòng chọn Category");
             return;
         }
-        int row = jTable2.getSelectedRow();
+        int row = jTable1.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Chọn món cần xóa");
             return;
         }
         try {
-            int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
+            int foodId = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
             Food food = new Food();
             food.setId(foodId);
             Request req = new Request("DELETE FOOD", food);
@@ -537,7 +573,7 @@ public class InventoryGui extends javax.swing.JPanel {
             Response res = (Response) ClientConnection.getIn().readObject();
             if ("SUCCESS".equals(res.getStatus())) {
                 displayFood(currentCategoryId);
-                jTable2.clearSelection();
+                jTable1.clearSelection();
                 jLabel4.setIcon(null);
                 jLabel4.setText("không có ảnh");
             }
@@ -570,7 +606,7 @@ if (currentCategoryId == -1) {
                     currentCategoryId = -1; // Reset mã ID chọn
                     
                     // Clear trắng dòng trên bảng tránh rác dữ liệu cũ
-                    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                     model.setRowCount(0);
                     
                     // Reset khay ảnh lề phải
@@ -588,19 +624,49 @@ if (currentCategoryId == -1) {
         }
     }//GEN-LAST:event_btnXoaLoaiActionPerformed
 
+    private void btnXoaAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaAnhActionPerformed
+        if (currentCategoryId == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Category");
+            return;
+        }
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn món cần xóa ảnh");
+            return;
+        }
+        try {
+            // lấy food id
+            int foodId = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
+            Food food = new Food();
+            food.setId(foodId);
+            Request req = new Request("DELETE IMAGE", food);
+            // gửi server
+            ClientConnection.getOut().writeObject(req);
+            ClientConnection.getOut().flush();
+            Response res = (Response) ClientConnection.getIn().readObject();
+            if (res.getStatus().equals("SUCCESS")) {
+                JOptionPane.showMessageDialog(this, "xóa ảnh thành công");
+                showFoodImage();
+            } else {
+                JOptionPane.showMessageDialog(this, "xóa ảnh thất bại");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+    }//GEN-LAST:event_btnXoaAnhActionPerformed
+    }
     private void btnThemAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemAnhActionPerformed
         if (currentCategoryId == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn Category");
             return;
         }
-        int row = jTable2.getSelectedRow();
+        int row = jTable1.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Chọn món cần thêm ảnh");
             return;
         }
         try {
             // lấy food id
-            int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
+            int foodId = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
             // file chooser
             JFileChooser jf = new JFileChooser();
             jf.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -637,44 +703,14 @@ if (currentCategoryId == -1) {
         }
     }//GEN-LAST:event_btnThemAnhActionPerformed
 
-    private void btnXoaAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaAnhActionPerformed
-        if (currentCategoryId == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn Category");
-            return;
-        }
-        int row = jTable2.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Chọn món cần xóa ảnh");
-            return;
-        }
-        try {
-            // lấy food id
-            int foodId = Integer.parseInt(jTable2.getValueAt(row, 0).toString());
-            Food food = new Food();
-            food.setId(foodId);
-            Request req = new Request("DELETE IMAGE", food);
-            // gửi server
-            ClientConnection.getOut().writeObject(req);
-            ClientConnection.getOut().flush();
-            Response res = (Response) ClientConnection.getIn().readObject();
-            if (res.getStatus().equals("SUCCESS")) {
-                JOptionPane.showMessageDialog(this, "xóa ảnh thành công");
-                showFoodImage();
-            } else {
-                JOptionPane.showMessageDialog(this, "xóa ảnh thất bại");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }    }//GEN-LAST:event_btnXoaAnhActionPerformed
-
     public void showFoodImage() {
-    int row = jTable2.getSelectedRow();
+    int row = jTable1.getSelectedRow();
     if (row == -1) {
         jLabel4.setIcon(null);
         jLabel4.setText("      Không có ảnh");
         return;
     }
-    Object cellValue = jTable2.getValueAt(row, 0);
+    Object cellValue = jTable1.getValueAt(row, 0);
     if (cellValue == null) {
         jLabel4.setIcon(null);
         jLabel4.setText("      Không có ảnh");
@@ -717,7 +753,7 @@ if (currentCategoryId == -1) {
         ClientConnection.getOut().writeObject(req);
         ClientConnection.getOut().flush();
         Response res = (Response) ClientConnection.getIn().readObject();
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         if ("SUCCESS".equals(res.getStatus())) {
             DecimalFormat df = new DecimalFormat("###,###");
@@ -769,6 +805,26 @@ public void displayCategory() {
             e.printStackTrace();
         }
     }
+        private void setupTableStyle() {
+        JTableHeader header = jTable1.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setPreferredSize(new Dimension(100, 46));
+        header.setBackground(new Color(78, 46, 42));
+        header.setForeground(Color.WHITE);
+        
+        jTable1.setRowHeight(48);
+        
+        DefaultTableCellRenderer center
+                = new DefaultTableCellRenderer();
+
+        center.setHorizontalAlignment(
+                SwingConstants.CENTER);
+
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(center);
+        }
+
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -785,6 +841,7 @@ public void displayCategory() {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -794,9 +851,10 @@ public void displayCategory() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panelToolBar;
     // End of variables declaration//GEN-END:variables
 }
