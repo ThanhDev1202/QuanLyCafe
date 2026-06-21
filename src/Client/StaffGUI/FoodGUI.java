@@ -37,7 +37,7 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
         categoryPanel = new JPanel();
         categoryPanel.setLayout(new BoxLayout(categoryPanel, BoxLayout.Y_AXIS));
         JScrollPane categoryScrollPane = new JScrollPane(categoryPanel);
-        categoryScrollPane.setPreferredSize(new Dimension(140, 0));
+        categoryScrollPane.setPreferredSize(new Dimension(180, 0));
 
         foodPanel = new JPanel();
         foodPanel.setLayout(new GridLayout(0, 3, 15, 15));
@@ -79,7 +79,7 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
                     for (CategoryFood c : list) {
                         JButton btn = new JButton(c.getTen());
                         btn.addActionListener(e -> loadFoodsByCategory(c.getId()));
-                        btn.setMaximumSize(new Dimension(120, 40));
+                        btn.setMaximumSize(new Dimension(160, 44));
                         btn.setAlignmentX(CENTER_ALIGNMENT);
 
                         btn.putClientProperty("FlatLaf.style","arc:20");
@@ -124,7 +124,7 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
     private JButton createFoodButton(Food f) {
         JButton btn = new JButton();
 
-        btn.setPreferredSize(new Dimension(180, 220));
+        btn.setPreferredSize(new Dimension(200, 240));
 
         btn.setFocusPainted(false);
         btn.putClientProperty("FlatLaf.style", "arc:15");
@@ -147,7 +147,7 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
             java.io.File imgFile = new java.io.File(fullPath);
             if (imgFile.exists()) {
                 ImageIcon icon = new ImageIcon(fullPath);
-                Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+                Image img = icon.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH);
                 btn.setIcon(new ImageIcon(img));
             } else {
                 btn.setText("<html><center>No Image<br/>" + f.getNameFood() + "</center></html>");

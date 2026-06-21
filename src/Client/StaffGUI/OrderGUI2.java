@@ -77,6 +77,7 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/grocery-store.png"))); // NOI18N
         jLabel2.setText("Giỏ hàng");
         jLabel2.setIconTextGap(8);
+        jLabel2.setPreferredSize(new java.awt.Dimension(150, 40));
         headPanel.add(jLabel2);
 
         add(headPanel, java.awt.BorderLayout.NORTH);
@@ -124,11 +125,12 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         pnlButton.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 20));
 
         jButton1.setBackground(new java.awt.Color(74, 46, 43));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/confirm.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/check (1).png"))); // NOI18N
         jButton1.setText("Xác nhận");
         jButton1.setIconTextGap(8);
+        jButton1.setPreferredSize(new java.awt.Dimension(160, 35));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -137,11 +139,12 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         pnlButton.add(jButton1);
 
         jButton2.setBackground(new java.awt.Color(74, 46, 43));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash-bin.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash (1).png"))); // NOI18N
         jButton2.setText("Xóa");
         jButton2.setIconTextGap(8);
+        jButton2.setPreferredSize(new java.awt.Dimension(160, 35));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -150,11 +153,12 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         pnlButton.add(jButton2);
 
         jButton3.setBackground(new java.awt.Color(74, 46, 43));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/x-mark.png"))); // NOI18N
         jButton3.setText("Xóa toàn bộ");
         jButton3.setIconTextGap(8);
+        jButton3.setPreferredSize(new java.awt.Dimension(170, 35));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);

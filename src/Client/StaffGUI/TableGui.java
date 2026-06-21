@@ -37,11 +37,11 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
         }
 
         initComponents();
-    
+
     }
 
     public void loadTables() {
-        
+
         new Thread(() -> {
             try {
                 // Gọi qua lớp ClientConnection đã được synchronized
@@ -60,17 +60,12 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
                         btn.setHorizontalTextPosition(SwingConstants.CENTER);
                         btn.setVerticalTextPosition(SwingConstants.BOTTOM);
                         btn.setIconTextGap(10);
-                        btn.setPreferredSize(new Dimension(240, 180));
+                        
+                        btn.setPreferredSize(new Dimension(200, 150));
+                        
                         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-                        btn.putClientProperty(
-                                "JButton.buttonType",
-                                "roundRect"
-                        );
-
-                        btn.putClientProperty(
-                                "JComponent.outline",
-                                "success"
-                        );
+                        btn.putClientProperty("JButton.buttonType", "roundRect");
+                        btn.putClientProperty("JComponent.outline", "success");
 
                         // Kiểm tra trạng thái để xác định màu và khả năng nhấn
                         boolean isAvailable = table.getStatus().equals("Trống");
