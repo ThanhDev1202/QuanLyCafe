@@ -2,9 +2,7 @@ package Client.StaffGUI;
 
 import Client.ClientConnection;
 import com.formdev.flatlaf.FlatLightLaf;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import shared.Model.BillInfor;
 import shared.Model.Food;
 import shared.RequestResponse.*;
@@ -45,7 +40,6 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
         UIManager.put("ScrollBar.width", 10);
 
         initComponents();
-        
         setupTableStyle();
 
         jLabel2.setBorder(BorderFactory.createEmptyBorder(4, 12, 4, 12));
@@ -121,9 +115,6 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
 
         setBackground(new java.awt.Color(245, 235, 230));
 
-        jScrollPane1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 154, 43), 2, true));
-
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -140,15 +131,11 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setRowHeight(36);
-        jTable1.setSelectionBackground(new java.awt.Color(225, 215, 210));
-        jTable1.setSelectionForeground(new java.awt.Color(74, 46, 43));
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(74, 46, 43));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/table (2).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/table (1).png"))); // NOI18N
         jLabel1.setText("Bàn đang chọn:");
         jLabel1.setIconTextGap(8);
 
@@ -164,7 +151,7 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
         jButton1.setBackground(new java.awt.Color(90, 52, 39));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/delete.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/confirm.png"))); // NOI18N
         jButton1.setText("Xác nhận");
         jButton1.setIconTextGap(8);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +177,7 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
         jButton2.setBackground(new java.awt.Color(90, 52, 39));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/check-list (1).png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash.png"))); // NOI18N
         jButton2.setText("Xóa toàn bộ");
         jButton2.setIconTextGap(8);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -228,7 +215,7 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -291,26 +278,128 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void setupTableStyle() {
-        JTableHeader header = jTable1.getTableHeader();
-        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        header.setPreferredSize(new Dimension(100, 46));
-        header.setBackground(new Color(78, 46, 42));
-        header.setForeground(Color.WHITE);
-        
-        jTable1.setRowHeight(48);
-        
-        DefaultTableCellRenderer center
-                = new DefaultTableCellRenderer();
+
+        // Header
+        jTable1.getTableHeader().setBackground(
+                new java.awt.Color(74, 46, 43));
+
+        jTable1.getTableHeader().setForeground(
+                java.awt.Color.WHITE);
+
+        jTable1.getTableHeader().setFont(
+                new java.awt.Font("Segoe UI",
+                        java.awt.Font.BOLD,
+                        14));
+
+        jTable1.getTableHeader().setPreferredSize(
+                new java.awt.Dimension(100, 38));
+
+        // Table
+        jTable1.setRowHeight(36);
+
+        jTable1.setFont(
+                new java.awt.Font("Segoe UI",
+                        java.awt.Font.PLAIN,
+                        14));
+
+        jTable1.setBackground(java.awt.Color.WHITE);
+
+        jTable1.setGridColor(
+                new java.awt.Color(225, 225, 225));
+
+        jTable1.setShowVerticalLines(false);
+
+        jTable1.setSelectionBackground(
+                new java.awt.Color(225, 215, 210));
+
+        jTable1.setSelectionForeground(
+                new java.awt.Color(74, 46, 43));
+
+        // ScrollPane
+        jScrollPane1.setBorder(
+                BorderFactory.createLineBorder(
+                        new java.awt.Color(216, 154, 43),
+                        2));
+
+        jScrollPane1.getViewport().setBackground(
+                java.awt.Color.WHITE);
+
+        // Căn giữa các cột số
+        javax.swing.table.DefaultTableCellRenderer center
+                = new javax.swing.table.DefaultTableCellRenderer();
 
         center.setHorizontalAlignment(
-                SwingConstants.CENTER);
+                javax.swing.SwingConstants.CENTER);
 
-        for (int i = 0; i < jTable1.getColumnCount(); i++) {
-            jTable1.getColumnModel().getColumn(i).setCellRenderer(center);
-        }
+        jTable1.getColumnModel()
+                .getColumn(1)
+                .setCellRenderer(center);
 
+        jTable1.getColumnModel()
+                .getColumn(2)
+                .setCellRenderer(center);
+
+        jTable1.getColumnModel()
+                .getColumn(3)
+                .setCellRenderer(center);
+
+        // Width
+        jTable1.getColumnModel()
+                .getColumn(0)
+                .setPreferredWidth(250);
+
+        jTable1.getColumnModel()
+                .getColumn(1)
+                .setPreferredWidth(120);
+
+        jTable1.getColumnModel()
+                .getColumn(2)
+                .setPreferredWidth(80);
+
+        jTable1.getColumnModel()
+                .getColumn(3)
+                .setPreferredWidth(150);
+
+        // Zebra Row
+        jTable1.setDefaultRenderer(
+                Object.class,
+                new javax.swing.table.DefaultTableCellRenderer() {
+
+            @Override
+            public java.awt.Component getTableCellRendererComponent(
+                    javax.swing.JTable table,
+                    Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column) {
+
+                java.awt.Component c
+                        = super.getTableCellRendererComponent(
+                                table,
+                                value,
+                                isSelected,
+                                hasFocus,
+                                row,
+                                column);
+
+                if (!isSelected) {
+
+                    if (row % 2 == 0) {
+                        c.setBackground(java.awt.Color.WHITE);
+                    } else {
+                        c.setBackground(
+                                new java.awt.Color(248, 245, 243));
+                    }
+
+                    c.setForeground(
+                            new java.awt.Color(74, 46, 43));
+                }
+
+                return c;
+            }
+        });
     }
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
