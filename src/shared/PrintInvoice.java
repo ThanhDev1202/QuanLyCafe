@@ -11,7 +11,7 @@ import shared.Model.BillInfor;
 public class PrintInvoice {
 
     private static final String INVOICE_FOLDER =
-            "C:\\Users\\admin\\OneDrive\\Desktop\\QuanLyCafe-ManagerGui\\Invoice";
+            "C:\\Users\\admin\\OneDrive\\Desktop\\Ver1\\QuanLyCafe\\Invoice";
 
     
     public static void saveInvoice(

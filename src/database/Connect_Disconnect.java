@@ -16,7 +16,7 @@ public class Connect_Disconnect {
                     + "encrypt=true;"
                     + "trustServerCertificate=true";
                 String user = "sa";
-                String pass = "1";
+                String pass = "Thanh2006@";
                 conn = DriverManager.getConnection(url,user,pass);
             }
 

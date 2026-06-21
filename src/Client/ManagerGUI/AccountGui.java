@@ -120,8 +120,6 @@ public class AccountGui extends javax.swing.JPanel {
             }
         });
         jTable1.setGridColor(new java.awt.Color(245, 240, 235));
-        jTable1.setMinimumSize(new java.awt.Dimension(800, 400));
-        jTable1.setPreferredSize(new java.awt.Dimension(800, 400));
         jTable1.setRequestFocusEnabled(false);
         jTable1.setRowHeight(40);
         jTable1.setSelectionBackground(new java.awt.Color(225, 215, 210));
