@@ -38,7 +38,7 @@ public class TableGui extends javax.swing.JPanel {
         }
 
         initComponents();
-        String cardStyle = "arc:25;" + "background:#FFFFFF;" + "border:1,1,1,1,#DDD5CF;" + "margin:8,8,8,8";
+        String cardStyle = "arc:25;" + "background:#FFFFFF;" + "border:1,1,1,1,#DDD5CF;";
         Tong.putClientProperty("FlatLaf.style", cardStyle);
         Trong.putClientProperty("FlatLaf.style", cardStyle);
         CoNguoi.putClientProperty("FlatLaf.style", cardStyle);
@@ -50,7 +50,6 @@ public class TableGui extends javax.swing.JPanel {
         
         setupTableStyle();
 
-        jScrollPane1.putClientProperty("FlatLaf.style", "arc:20;" + "border:1,1,1,1,#E6DDD6");
         load();
     }
 
