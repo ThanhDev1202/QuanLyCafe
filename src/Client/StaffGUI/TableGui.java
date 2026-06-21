@@ -55,7 +55,7 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
                     for (TableFood table : tableList) {
                         JButton btn = new JButton(table.getName());
                         btn.setOpaque(true);
-                        ImageIcon tableIcon = new ImageIcon(getClass().getResource("/Icon/coffee-table.png"));
+                        ImageIcon tableIcon = new ImageIcon(getClass().getResource("/Icon/bill.png"));
                         btn.setIcon(tableIcon);
                         btn.setHorizontalTextPosition(SwingConstants.CENTER);
                         btn.setVerticalTextPosition(SwingConstants.BOTTOM);

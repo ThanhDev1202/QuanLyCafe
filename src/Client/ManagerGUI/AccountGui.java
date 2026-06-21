@@ -76,11 +76,11 @@ public class AccountGui extends javax.swing.JPanel {
         HeadPanel.setPreferredSize(new java.awt.Dimension(285, 80));
         HeadPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(62, 39, 35));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (4).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (7).png"))); // NOI18N
         jLabel1.setText("Quản lý tài khoản");
-        jLabel1.setIconTextGap(10);
+        jLabel1.setIconTextGap(12);
         HeadPanel.add(jLabel1, java.awt.BorderLayout.WEST);
 
         add(HeadPanel, java.awt.BorderLayout.NORTH);
@@ -220,6 +220,7 @@ public class AccountGui extends javax.swing.JPanel {
         btnXoa.setForeground(new java.awt.Color(255, 255, 255));
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (6).png"))); // NOI18N
         btnXoa.setText("Xóa tài khoản");
+        btnXoa.setIconTextGap(8);
         btnXoa.setPreferredSize(new java.awt.Dimension(200, 45));
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

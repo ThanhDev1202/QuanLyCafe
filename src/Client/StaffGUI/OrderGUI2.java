@@ -74,7 +74,7 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(74, 46, 43));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/grocery-store.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/bill (1).png"))); // NOI18N
         jLabel2.setText("Giỏ hàng");
         jLabel2.setIconTextGap(8);
         headPanel.add(jLabel2);
@@ -126,7 +126,7 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         jButton1.setBackground(new java.awt.Color(74, 46, 43));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/confirm.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/check-list.png"))); // NOI18N
         jButton1.setText("Xác nhận");
         jButton1.setIconTextGap(8);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +152,7 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         jButton3.setBackground(new java.awt.Color(74, 46, 43));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/coffee-shop (1).png"))); // NOI18N
         jButton3.setText("Xóa toàn bộ");
         jButton3.setIconTextGap(8);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -232,7 +232,7 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
             model.addRow(new Object[]{item.getFoodName(), item.getPrice(), item.getQuantity(), total});
         }
         // Cập nhật tổng tiền vào label (Giả sử bạn đã thêm jLabelTotal trong thiết kế)
-        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/money (2).png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/dollar.png"));
         jLabelTotal.setIcon(icon);
         jLabelTotal.setText(grandTotal.toString());
     }

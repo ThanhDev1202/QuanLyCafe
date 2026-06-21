@@ -2,10 +2,19 @@ package Client.ManagerGUI;
 
 import Client.ClientConnection;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 
 import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import shared.Model.TableFood;
 import shared.RequestResponse.Request;
 import shared.RequestResponse.Response;
@@ -17,6 +26,7 @@ import shared.RequestResponse.Response;
 public class TableGui extends javax.swing.JPanel {
 
     private List<TableFood> tableList;
+
     /**
      * Creates new form TableGui1
      */
@@ -28,17 +38,21 @@ public class TableGui extends javax.swing.JPanel {
         }
 
         initComponents();
+        String cardStyle = "arc:25;" + "background:#FFFFFF;" + "border:1,1,1,1,#DDD5CF;" + "margin:8,8,8,8";
+        Tong.putClientProperty("FlatLaf.style", cardStyle);
+        Trong.putClientProperty("FlatLaf.style", cardStyle);
+        CoNguoi.putClientProperty("FlatLaf.style", cardStyle);
 
-        Tong.putClientProperty("FlatLaf.style", "background: #FFFFFF; border: 1,1,1,1,#E6D5C3,,16; arc: 16");
+        Tong.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        Trong.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        CoNguoi.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
 
-        Trong.putClientProperty("FlatLaf.style", "background: #FFFFFF; border: 1,1,1,1,#E6D5C3,,16; arc: 16");
+        
+        setupTableStyle();
 
-        CoNguoi.putClientProperty("FlatLaf.style", "background: #FFFFFF; border: 1,1,1,1,#E6D5C3,,16; arc: 16");
+        jScrollPane1.putClientProperty("FlatLaf.style", "arc:20;" + "border:1,1,1,1,#E6DDD6");
         load();
     }
-    
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,12 +67,15 @@ public class TableGui extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         pnlThongKe = new javax.swing.JPanel();
         Tong = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         Trong = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         CoNguoi = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         CenterPanel = new javax.swing.JPanel();
@@ -73,7 +90,6 @@ public class TableGui extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         BotPanel = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(245, 235, 230));
         setMaximumSize(new java.awt.Dimension(800, 600));
@@ -85,51 +101,72 @@ public class TableGui extends javax.swing.JPanel {
         TopPanel.setOpaque(false);
         TopPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(74, 46, 43));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/tablet.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/table (4).png"))); // NOI18N
         jLabel2.setText("Quản lý bàn");
-        jLabel2.setIconTextGap(10);
+        jLabel2.setIconTextGap(12);
+        jLabel2.setPreferredSize(new java.awt.Dimension(275, 38));
         TopPanel.add(jLabel2, java.awt.BorderLayout.NORTH);
 
-        pnlThongKe.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 1, 10, 1));
+        pnlThongKe.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 0, 20, 0));
         pnlThongKe.setMinimumSize(new java.awt.Dimension(100, 100));
         pnlThongKe.setOpaque(false);
-        pnlThongKe.setLayout(new java.awt.GridLayout(1, 3, 15, 0));
+        pnlThongKe.setLayout(new java.awt.GridLayout(1, 3, 25, 0));
 
-        Tong.setMaximumSize(new java.awt.Dimension(180, 70));
+        Tong.setBackground(new java.awt.Color(255, 255, 255));
+        Tong.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 25, 5, 25));
         Tong.setMinimumSize(new java.awt.Dimension(180, 70));
-        Tong.setPreferredSize(new java.awt.Dimension(100, 50));
+        Tong.setPreferredSize(new java.awt.Dimension(420, 90));
         Tong.setLayout(new javax.swing.BoxLayout(Tong, javax.swing.BoxLayout.Y_AXIS));
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/table (6).png"))); // NOI18N
+        Tong.add(jLabel5);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Tổng số bàn");
         Tong.add(jLabel1);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("18");
         Tong.add(jLabel3);
 
         pnlThongKe.add(Tong);
 
+        Trong.setBackground(new java.awt.Color(255, 255, 255));
+        Trong.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 25, 5, 25));
+        Trong.setMaximumSize(new java.awt.Dimension(9999, 4199));
+        Trong.setPreferredSize(new java.awt.Dimension(420, 90));
         Trong.setLayout(new javax.swing.BoxLayout(Trong, javax.swing.BoxLayout.Y_AXIS));
 
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/chair (3).png"))); // NOI18N
+        Trong.add(jLabel6);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Đang trống");
         Trong.add(jLabel4);
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(46, 125, 50));
         jLabel11.setText("18");
         Trong.add(jLabel11);
 
         pnlThongKe.add(Trong);
 
+        CoNguoi.setBackground(new java.awt.Color(255, 255, 255));
+        CoNguoi.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 25, 5, 25));
         CoNguoi.setLayout(new javax.swing.BoxLayout(CoNguoi, javax.swing.BoxLayout.Y_AXIS));
 
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/user (8).png"))); // NOI18N
+        CoNguoi.add(jLabel13);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Có người");
         CoNguoi.add(jLabel7);
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(139, 34, 34));
         jLabel12.setText("18");
         CoNguoi.add(jLabel12);
@@ -140,6 +177,7 @@ public class TableGui extends javax.swing.JPanel {
 
         add(TopPanel, java.awt.BorderLayout.PAGE_START);
 
+        CenterPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 20, 20));
         CenterPanel.setOpaque(false);
         CenterPanel.setLayout(new java.awt.BorderLayout());
 
@@ -147,25 +185,27 @@ public class TableGui extends javax.swing.JPanel {
         ToolBarPanel.setOpaque(false);
         ToolBarPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(74, 46, 43));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (3).png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/table (8).png"))); // NOI18N
         jLabel8.setText("Danh sách bàn");
         jLabel8.setIconTextGap(8);
+        jLabel8.setMaximumSize(new java.awt.Dimension(200, 100));
+        jLabel8.setPreferredSize(new java.awt.Dimension(195, 35));
         ToolBarPanel.add(jLabel8, java.awt.BorderLayout.WEST);
 
         panelButton.setOpaque(false);
+        panelButton.setPreferredSize(new java.awt.Dimension(380, 40));
 
         btnThemBan.setBackground(new java.awt.Color(74, 46, 43));
-        btnThemBan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThemBan.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
         btnThemBan.setForeground(new java.awt.Color(255, 255, 255));
-        btnThemBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (4).png"))); // NOI18N
+        btnThemBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/menu (9).png"))); // NOI18N
         btnThemBan.setText("Thêm bàn");
         btnThemBan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnThemBan.setIconTextGap(8);
-        btnThemBan.setMaximumSize(new java.awt.Dimension(110, 32));
         btnThemBan.setMinimumSize(new java.awt.Dimension(110, 32));
-        btnThemBan.setPreferredSize(new java.awt.Dimension(110, 28));
+        btnThemBan.setPreferredSize(new java.awt.Dimension(165, 38));
         btnThemBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemBanActionPerformed(evt);
@@ -174,13 +214,13 @@ public class TableGui extends javax.swing.JPanel {
         panelButton.add(btnThemBan);
 
         xoaBan.setBackground(new java.awt.Color(139, 34, 34));
-        xoaBan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        xoaBan.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         xoaBan.setForeground(new java.awt.Color(255, 255, 255));
-        xoaBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash-bin.png"))); // NOI18N
+        xoaBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/trash-bin (1).png"))); // NOI18N
         xoaBan.setText("Xóa bàn");
         xoaBan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         xoaBan.setIconTextGap(8);
-        xoaBan.setPreferredSize(new java.awt.Dimension(110, 28));
+        xoaBan.setPreferredSize(new java.awt.Dimension(165, 38));
         xoaBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xoaBanActionPerformed(evt);
@@ -193,10 +233,11 @@ public class TableGui extends javax.swing.JPanel {
         CenterPanel.add(ToolBarPanel, java.awt.BorderLayout.NORTH);
 
         panelDsBan.setBackground(new java.awt.Color(245, 235, 230));
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING);
-        flowLayout1.setAlignOnBaseline(true);
-        panelDsBan.setLayout(flowLayout1);
+        panelDsBan.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(216, 154, 43), 2));
+
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -213,9 +254,14 @@ public class TableGui extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setRowHeight(42);
+        jTable1.setSelectionBackground(new java.awt.Color(225, 215, 210));
+        jTable1.setSelectionForeground(new java.awt.Color(74, 46, 43));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jTable1.setShowGrid(false);
         jScrollPane1.setViewportView(jTable1);
 
-        panelDsBan.add(jScrollPane1);
+        panelDsBan.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         scrollDsBan.setViewportView(panelDsBan);
 
@@ -223,22 +269,21 @@ public class TableGui extends javax.swing.JPanel {
 
         add(CenterPanel, java.awt.BorderLayout.CENTER);
 
-        BotPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 25, 15, 25));
+        BotPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 20, 25));
         BotPanel.setOpaque(false);
         BotPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/exclamation.png"))); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/question-mark (1).png"))); // NOI18N
         jLabel9.setText("Chọn bàn rồi nhấn Xóa bàn");
         jLabel9.setIconTextGap(8);
         BotPanel.add(jLabel9, java.awt.BorderLayout.WEST);
 
-        jLabel10.setText("Trống        Có người");
-        BotPanel.add(jLabel10, java.awt.BorderLayout.EAST);
-
         add(BotPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void xoaBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xoaBanActionPerformed
         int row = jTable1.getSelectedRow();
         if (row == -1) {
@@ -308,33 +353,55 @@ public class TableGui extends javax.swing.JPanel {
                 }
                 updateThongKe(tableList);
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi tải dữ liệu: " + e.getMessage());
         }
     }
+
     private void updateThongKe(List<TableFood> list) {
-    int total = 0;
-    int trong = 0;
-    int coNguoi = 0;
+        int total = 0;
+        int trong = 0;
+        int coNguoi = 0;
 
-    if (list != null) {
-        for (TableFood tf : list) {
-            total++;
+        if (list != null) {
+            for (TableFood tf : list) {
+                total++;
 
-            if (tf.getStatus() != null &&
-                tf.getStatus().trim().equalsIgnoreCase("Trống")) {
-                trong++;
-            } else {
-                coNguoi++;
+                if (tf.getStatus() != null
+                        && tf.getStatus().trim().equalsIgnoreCase("Trống")) {
+                    trong++;
+                } else {
+                    coNguoi++;
+                }
             }
         }
+
+        jLabel3.setText(String.valueOf(total));
+        jLabel11.setText(String.valueOf(trong));
+        jLabel12.setText(String.valueOf(coNguoi));
     }
 
-    jLabel3.setText(String.valueOf(total));
-    jLabel11.setText(String.valueOf(trong));
-    jLabel12.setText(String.valueOf(coNguoi));
-}
+    private void setupTableStyle() {
+        JTableHeader header = jTable1.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        header.setPreferredSize(new Dimension(100, 46));
+        header.setBackground(new Color(78, 46, 42));
+        header.setForeground(Color.WHITE);
+        
+        jTable1.setRowHeight(48);
+        
+        DefaultTableCellRenderer center
+                = new DefaultTableCellRenderer();
+
+        center.setHorizontalAlignment(
+                SwingConstants.CENTER);
+
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(center);
+        }
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BotPanel;
     private javax.swing.JPanel CenterPanel;
@@ -345,12 +412,14 @@ public class TableGui extends javax.swing.JPanel {
     private javax.swing.JPanel Trong;
     private javax.swing.JButton btnThemBan;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
