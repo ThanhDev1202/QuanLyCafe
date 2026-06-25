@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.sql.*;
-import database.Connect_Disconnect;
+
 public class Server {
     private static final int port = 1234;
     private static ArrayList<ClientHandler> list = new ArrayList<>();
@@ -14,7 +14,6 @@ public class Server {
         System.out.println("Server opend on port " + port);
         try {
             ServerSocket sv_soc = new ServerSocket(port);
-            conn = Connect_Disconnect.getConnection();
             while(true){   
                 //lắng nghe  kết nối
                 Socket cl_soc = sv_soc.accept();

@@ -169,20 +169,15 @@ public class ClientHandler implements Runnable {
                 cfd.setConn(conn);
 
                 try {
-                    // Đọc ID kiểu int gửi từ Client sang (Hợp nhất dữ liệu)
-                    int categoryId = (int) req.getData();
+CategoryFood category = (CategoryFood) req.getData();
 
-                    // Tạo bọc đối tượng đóng gói truyền xuống hàm DAO cũ của bạn
-                    CategoryFood category = new CategoryFood();
-                    category.setId(categoryId);
-
-                    boolean check = cfd.deleteCategory(category);
+boolean check = cfd.deleteCategory(category);
                     if (check) {
                         res.setStatus("SUCCESS");
-                        res.setMessage("Xóa danh mục và toàn bộ món ăn bên trong thành công!");
+                        res.setMessage("Xóa danh mục thành công!");
                     } else {
                         res.setStatus("FAILED");
-                        res.setMessage("Xóa danh mục thất bại, vui lòng kiểm tra lại Cơ sở dữ liệu!");
+                        res.setMessage("Xóa danh mục thất bại!");
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

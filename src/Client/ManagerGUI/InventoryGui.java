@@ -588,7 +588,7 @@ if (currentCategoryId == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn loại danh mục cần xóa ở khay bên trái!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int confirm = JOptionPane.showConfirmDialog(this, "Xóa danh mục sẽ xóa toàn bộ món ăn bên trong! Bạn vẫn muốn tiếp tục?", "Cảnh báo xóa loại", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn vẫn muốn tiếp tục?", "Cảnh báo xóa loại", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (confirm == JOptionPane.YES_OPTION) {
             try {
                 // ĐÓNG GÓI ĐÚNG ĐỐI TƯỢNG CategoryFood để Server ép kiểu không bị nổ ClassCastException
@@ -767,9 +767,7 @@ if (currentCategoryId == -1) {
                     priceInFormatted,
                     priceOutFormatted});
             }
-        } else {
-            JOptionPane.showMessageDialog(this, res.getMessage());
-        }
+        } 
     } catch (Exception e) {
         e.printStackTrace();
     }
