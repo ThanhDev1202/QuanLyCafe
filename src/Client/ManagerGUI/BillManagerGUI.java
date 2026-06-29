@@ -342,7 +342,7 @@ public class BillManagerGUI extends javax.swing.JPanel {
         frame.setDefaultCloseOperation(
                 JFrame.DISPOSE_ON_CLOSE);
         frame.add(panel);
-        frame.setSize(900, 600);
+        frame.setSize(1800, 1000);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         CategoryPlot plot = chart.getCategoryPlot();

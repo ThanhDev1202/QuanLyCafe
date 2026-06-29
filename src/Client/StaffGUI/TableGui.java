@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 
 import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -44,6 +45,7 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
     /**
      * Creates new form TableGui
      */
+    private final DecimalFormat df = new DecimalFormat("#,###");
     public TableGui() {
 
         try {
@@ -144,7 +146,6 @@ private void handlePayment(int tableId) {
             List<BillInfor> details =
                     (List<BillInfor>) detailRes.getData();
 
-            // ✅ IN HÓA ĐƠN CÓ BÀN
             shared.PrintInvoice.saveInvoice2(
                     bill,
                     details,
@@ -216,10 +217,10 @@ private void handlePayment(int tableId) {
                         = (List<BillInfor>) detailRes.getData();
 
                 // Tạo QR
-                String qrUrl
-                        = "https://img.vietqr.io/image/TCB-6042088888-compact2.png"
-                        + "?amount=" + bill.getTotalPrice()
-                        + "&addInfo=BILL_" + bill.getId();
+String qrUrl =
+        "https://img.vietqr.io/image/TCB-6042088888-compact2.png"
+        + "?amount=" + bill.getTotalPrice().toPlainString()
+        + "&addInfo=BILL_" + bill.getId();
 
                 ImageIcon tempIcon = qrCache.get(bill.getId());
 
@@ -266,23 +267,31 @@ private void handlePayment(int tableId) {
                     txtBill.append(
                             "\n\n");
 
-                    for (BillInfor item : details) {
+for (BillInfor item : details) {
 
-                        txtBill.append(
-                                String.format(
-                                        "%-25s x%-3d\n",
-                                        item.getFoodName(),
-                                        item.getQuantity()));
-                    }
+    BigDecimal lineTotal =
+            item.getPrice().multiply(
+                    BigDecimal.valueOf(item.getQuantity())
+            );
 
-                    txtBill.append(
-                            "\n--------------------------------\n");
+    txtBill.append(
+String.format(
+    "%-15s %10s x%-3d %10s\n",
+    item.getFoodName(),              // %s
+    df.format(item.getPrice()),      // %s
+    item.getQuantity(),              // %d ✔ (phải là int)
+    df.format(lineTotal)             // %s
+));
+}
 
-                    txtBill.append(
-                            "Tổng tiền: "
-                            + bill.getTotalPrice()
-                            + " VND");
+txtBill.append(
+        "\n--------------------------------\n");
 
+txtBill.append(
+        "Tổng tiền: "
+        + df.format(bill.getTotalPrice())
+        + " VND"
+);
                     JScrollPane billScroll
                             = new JScrollPane(txtBill);
 

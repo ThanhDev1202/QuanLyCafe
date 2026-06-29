@@ -6,17 +6,18 @@ package Client.StaffGUI;
 
 import Client.ClientConnection;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,7 +37,7 @@ import shared.RequestResponse.Response;
  * @author admin
  */
 public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListener {
-
+private final DecimalFormat df = new DecimalFormat("#,###");
     private OrderUpdateListener listener;
     private List<BillInfor> tempOrderList = new ArrayList<>();
     private List<BillInfor> pendingOrder = new ArrayList<>();
@@ -238,12 +239,12 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
         for (BillInfor item : list) {
             java.math.BigDecimal total = item.getPrice().multiply(new java.math.BigDecimal(item.getQuantity()));
             grandTotal = grandTotal.add(total);
-            model.addRow(new Object[]{item.getFoodName(), item.getPrice(), item.getQuantity(), total});
+            model.addRow(new Object[]{item.getFoodName(), df.format(item.getPrice()), item.getQuantity(), df.format(total) });
         }
         // Cập nhật tổng tiền vào label (Giả sử bạn đã thêm jLabelTotal trong thiết kế)
         ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/money (2).png"));
         jLabelTotal.setIcon(icon);
-        jLabelTotal.setText(grandTotal.toString());
+      jLabelTotal.setText(df.format(grandTotal) + " VND");
     }
 
 // Thêm hàm này vào class OrderGUI2
@@ -392,7 +393,7 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
 
                 String qrUrl
                         = "https://img.vietqr.io/image/TCB-6042088888-compact2.png"
-                        + "?amount=" + totalAmount
+                        + "?amount=" + totalAmount.toPlainString()
                         + "&addInfo=ORDER_PAYMENT";
 
                 BufferedImage qrImage
@@ -437,18 +438,21 @@ public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListene
                                                 item.getQuantity()));
 
                         txtBill.append(
-                                String.format(
-                                        "%-20s x%-3d %10s\n",
-                                        item.getFoodName(),
-                                        item.getQuantity(),
-                                        lineTotal));
+String.format(
+    "%-15s %10s x%-3d %12s\n",
+    item.getFoodName(),
+    df.format(item.getPrice()),
+    item.getQuantity(),
+    df.format(lineTotal)
+));
                     }
                     txtBill.append(
                             "\n------------------------------\n");
-                    txtBill.append(
-                            "TỔNG TIỀN: "
-                            + totalAmount
-                            + " VNĐ");
+txtBill.append(
+        "Tổng tiền: "
+        + df.format(totalAmount)
+        + " VND"
+);
 
                     JScrollPane billScroll
                             = new JScrollPane(txtBill);

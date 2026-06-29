@@ -2,16 +2,14 @@ package Client.StaffGUI;
 
 import Client.ClientConnection;
 import com.formdev.flatlaf.FlatLightLaf;
-import java.awt.Component;
-import java.awt.Font;
+import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
 import javax.swing.UIManager;
 import shared.Model.BillInfor;
 import shared.Model.Food;
@@ -22,7 +20,7 @@ import shared.RequestResponse.*;
  * @author admin
  */
 public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener {
-
+    private final DecimalFormat df = new DecimalFormat("#,###");
     /**
      * Creates new form OrderGUI
      */
@@ -89,9 +87,9 @@ public class OrderGUI extends javax.swing.JPanel implements FoodAdditionListener
             java.math.BigDecimal total = item.getPrice().multiply(new java.math.BigDecimal(item.getQuantity()));
             model.addRow(new Object[]{
                 item.getFoodName(),
-                item.getPrice(),
+                df.format(item.getPrice()), 
                 item.getQuantity(),
-                total,});
+                df.format(total)  });
         }
     }
 

@@ -1,5 +1,5 @@
 package Client.StaffGUI;
-
+import java.text.DecimalFormat;
 import Client.ClientConnection;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
@@ -123,7 +123,9 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
 
     private JButton createFoodButton(Food f) {
         JButton btn = new JButton();
+DecimalFormat df = new DecimalFormat("#,###");
 
+String price = df.format(f.getPriceOut());
         btn.setPreferredSize(new Dimension(200, 240));
 
         btn.setFocusPainted(false);
@@ -135,7 +137,11 @@ public class FoodGUI extends javax.swing.JPanel { //chịu trách nhiệm hiển
                 new Color(108, 67, 44));
 
         // 1. Cấu hình hiển thị Text
-        btn.setText("<html><center>" + f.getNameFood() + "<br/>" + f.getPriceOut() + "</center></html>");
+btn.setText("<html><center>"
+        + f.getNameFood()
+        + "<br/>"
+        + price
+        + "</center></html>");
         btn.setVerticalTextPosition(SwingConstants.BOTTOM);
         btn.setHorizontalTextPosition(SwingConstants.CENTER);
 
