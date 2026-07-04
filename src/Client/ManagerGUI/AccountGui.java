@@ -16,7 +16,7 @@ import java.util.List;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-
+import shared.Hash;
 /**
  *
  * @author admin
@@ -261,9 +261,8 @@ public class AccountGui extends javax.swing.JPanel {
             return;
         }
         int type = choice.startsWith("0") ? 0 : 1;
-
-        Account ac = new Account(displayname, username, password, type);
-
+String hashedPassword = Hash.hashPassword(password);
+Account ac = new Account(displayname, username, hashedPassword, type);
         try {
             Request req = new Request("ADD ACCOUNT", ac);
             ClientConnection.getOut().writeObject(req);

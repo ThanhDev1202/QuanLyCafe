@@ -3,6 +3,7 @@ package Server.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import shared.Hash;
 import shared.Model.Account;
 
 public class AccountDAO {
@@ -26,7 +27,8 @@ public class AccountDAO {
 
     public Account login(Account acc) {
         String username = acc.getUsername();
-        String password = acc.getPassword();
+        String password = Hash.hashPassword(acc.getPassword());
+        //String password = acc.getPassword();
         try {
             String sql = "SELECT * FROM Account WHERE username = ? AND pass = ?";
             PreparedStatement ps = conn.prepareStatement(sql);

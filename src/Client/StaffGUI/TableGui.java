@@ -34,18 +34,20 @@ import shared.Model.TableFood;
 import shared.RequestResponse.Request;
 import shared.RequestResponse.Response;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+
 /**
  *
  * @author admin
  */
 public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiển thị danh sách bàn ăn
+
     private final java.util.Map<Integer, ImageIcon> qrCache
             = new java.util.concurrent.ConcurrentHashMap<>();
     /**
      * Creates new form TableGui
      */
     private final DecimalFormat df = new DecimalFormat("#,###");
+
     public TableGui() {
 
         try {
@@ -67,7 +69,7 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
                 List<TableFood> tableList = (List<TableFood>) res.getData();
                 javax.swing.SwingUtilities.invokeLater(() -> {
                     removeAll();
-                    setLayout(new GridLayout(0,4,20,20));
+                    setLayout(new GridLayout(0, 4, 20, 20));
                     setBackground(new Color(245, 235, 230));
 
                     for (TableFood table : tableList) {
@@ -78,9 +80,9 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
                         btn.setHorizontalTextPosition(SwingConstants.CENTER);
                         btn.setVerticalTextPosition(SwingConstants.BOTTOM);
                         btn.setIconTextGap(10);
-                        
+
                         btn.setPreferredSize(new Dimension(200, 150));
-                        
+
                         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
                         btn.putClientProperty("JButton.buttonType", "roundRect");
                         btn.putClientProperty("JComponent.outline", "success");
@@ -131,41 +133,42 @@ public class TableGui extends javax.swing.JPanel { //chịu trách nhiệm hiể
         }).start();
     }
 
-private void handlePayment(int tableId) {
-    try {
-        Request req = new Request("PAY BILL", tableId);
-        Response res = (Response) ClientConnection.sendRequest(req);
+    private void handlePayment(int tableId) {
+        try {
+            Request req = new Request("PAY BILL", tableId);
+            Response res = (Response) ClientConnection.sendRequest(req);
 
-        if (res != null && "SUCCESS".equals(res.getStatus())) {
+            if (res != null && "SUCCESS".equals(res.getStatus())) {
 
-            Bill bill = (Bill) res.getData();
+                Bill bill = (Bill) res.getData();
 
-            Response detailRes = (Response) ClientConnection.sendRequest(
-                    new Request("GET BILL DETAIL", bill.getId()));
+                Response detailRes = (Response) ClientConnection.sendRequest(
+                        new Request("GET BILL DETAIL", bill.getId()));
 
-            List<BillInfor> details =
-                    (List<BillInfor>) detailRes.getData();
+                List<BillInfor> details
+                        = (List<BillInfor>) detailRes.getData();
 
-            shared.PrintInvoice.saveInvoice2(
-                    bill,
-                    details,
-                    "Bàn " + tableId
-            );
+                shared.PrintInvoice.saveInvoice2(
+                        bill,
+                        details,
+                        "Bàn " + tableId
+                );
 
-            JOptionPane.showMessageDialog(this,
-                    "Thanh toán thành công!");
+                JOptionPane.showMessageDialog(this,
+                        "Thanh toán thành công!");
 
-            loadTables();
+                loadTables();
 
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Thanh toán thất bại: " + res.getMessage());
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Thanh toán thất bại: " + res.getMessage());
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
-    } catch (Exception ex) {
-        ex.printStackTrace();
     }
-}
+
     private void showQrPayment(int tableId) {
 
         new Thread(() -> {
@@ -217,10 +220,10 @@ private void handlePayment(int tableId) {
                         = (List<BillInfor>) detailRes.getData();
 
                 // Tạo QR
-String qrUrl =
-        "https://img.vietqr.io/image/TCB-6042088888-compact2.png"
-        + "?amount=" + bill.getTotalPrice().toPlainString()
-        + "&addInfo=BILL_" + bill.getId();
+                String qrUrl
+                        = "https://img.vietqr.io/image/TCB-6042088888-compact2.png"
+                        + "?amount=" + bill.getTotalPrice().toPlainString()
+                        + "&addInfo=BILL_" + bill.getId();
 
                 ImageIcon tempIcon = qrCache.get(bill.getId());
 
@@ -247,8 +250,7 @@ String qrUrl =
 
                 SwingUtilities.invokeLater(() -> {
 
-
-                    JPanel panel = new JPanel(new GridLayout( 1, 2, 10, 10));
+                    JPanel panel = new JPanel(new GridLayout(1, 2, 10, 10));
 
                     JTextArea txtBill
                             = new JTextArea();
@@ -267,31 +269,31 @@ String qrUrl =
                     txtBill.append(
                             "\n\n");
 
-for (BillInfor item : details) {
+                    for (BillInfor item : details) {
 
-    BigDecimal lineTotal =
-            item.getPrice().multiply(
-                    BigDecimal.valueOf(item.getQuantity())
-            );
+                        BigDecimal lineTotal
+                                = item.getPrice().multiply(
+                                        BigDecimal.valueOf(item.getQuantity())
+                                );
 
-    txtBill.append(
-String.format(
-    "%-15s %10s x%-3d %10s\n",
-    item.getFoodName(),              // %s
-    df.format(item.getPrice()),      // %s
-    item.getQuantity(),              // %d ✔ (phải là int)
-    df.format(lineTotal)             // %s
-));
-}
+                        txtBill.append(
+                                String.format(
+                                        "%-15s %10s x%-3d %10s\n",
+                                        item.getFoodName(), // %s
+                                        df.format(item.getPrice()), // %s
+                                        item.getQuantity(), // %d ✔ (phải là int)
+                                        df.format(lineTotal) // %s
+                                ));
+                    }
 
-txtBill.append(
-        "\n--------------------------------\n");
+                    txtBill.append(
+                            "\n--------------------------------\n");
 
-txtBill.append(
-        "Tổng tiền: "
-        + df.format(bill.getTotalPrice())
-        + " VND"
-);
+                    txtBill.append(
+                            "Tổng tiền: "
+                            + df.format(bill.getTotalPrice())
+                            + " VND"
+                    );
                     JScrollPane billScroll
                             = new JScrollPane(txtBill);
 
@@ -320,10 +322,8 @@ txtBill.append(
                             qrLabel,
                             BorderLayout.CENTER);
 
-
                     panel.add(leftPanel);
                     panel.add(rightPanel);
-
 
                     JOptionPane optionPane
                             = new JOptionPane(

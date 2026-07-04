@@ -71,7 +71,7 @@ public class FoodDAO {
         }
         return list;
     }
-    
+
     // xóa food
     public boolean deleteFood(Food food) {
         int idFood = food.getId();
@@ -132,4 +132,19 @@ public class FoodDAO {
         return null;
     }
 
+    public boolean capnhatmonan(Food food) {
+        try {
+            String sql = "UPDATE Food SET ten = ?,  priceOut = ? WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, food.getNameFood());
+            ps.setBigDecimal(2, food.getPriceOut());
+            ps.setInt(3, food.getId());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

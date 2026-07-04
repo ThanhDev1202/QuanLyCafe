@@ -486,6 +486,19 @@ public class ClientHandler implements Runnable {
 
                 break;
             }
+            case "UPDATE FOOD":{
+                fd.setConn(conn);
+                Food f = (Food) req.getData();
+                boolean check = fd.capnhatmonan(f);
+                if (check) {
+                    res.setStatus("SUCCESS");
+                    res.setMessage("UPDATE SUCCESSFULLY");
+                } else {
+                    res.setStatus("FAILED");
+                    res.setMessage("UPDATE FAILED");
+                }
+                break;
+            }
             case "CREATE ORDER WITH NO TABLE": {
                 try {
                     Object[] data = (Object[]) req.getData();

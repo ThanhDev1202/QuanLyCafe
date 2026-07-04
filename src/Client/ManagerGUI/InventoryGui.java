@@ -542,7 +542,7 @@ public class InventoryGui extends javax.swing.JPanel {
             Request req = new Request("UPDATE FOOD", food);
             ClientConnection.getOut().writeObject(req);
             ClientConnection.getOut().flush();
-
+            System.out.println(req.getAction());
             Response res = (Response) ClientConnection.getIn().readObject();
             JOptionPane.showMessageDialog(this, res.getMessage());
             if ("SUCCESS".equals(res.getStatus())) {
