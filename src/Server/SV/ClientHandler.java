@@ -82,16 +82,17 @@ public class ClientHandler implements Runnable {
             // LOGIN
             case "LOGIN": {
                 acd.setConn(conn);
-                Account ac = (Account) req.getData();
-                int role = acd.getRole(ac);
-                if (role != -1) {
+
+                Account acc = (Account) req.getData();
+                Account account = acd.login(acc);
+
+                if (account != null) {
                     res.setStatus("SUCCESS");
                     res.setMessage("LOGIN SUCCESSFUL");
-                    res.setData(role);
+                    res.setData(account);
                 } else {
                     res.setStatus("FAILED");
                     res.setMessage("LOGIN FAILED");
-                    res.setData(-1);
                 }
                 break;
             }
@@ -169,9 +170,9 @@ public class ClientHandler implements Runnable {
                 cfd.setConn(conn);
 
                 try {
-CategoryFood category = (CategoryFood) req.getData();
+                    CategoryFood category = (CategoryFood) req.getData();
 
-boolean check = cfd.deleteCategory(category);
+                    boolean check = cfd.deleteCategory(category);
                     if (check) {
                         res.setStatus("SUCCESS");
                         res.setMessage("Xóa danh mục thành công!");
@@ -435,14 +436,14 @@ boolean check = cfd.deleteCategory(category);
                     // 3. Khởi tạo và thực hiện qua DAO
                     bd.setConn(conn);
                     tbdao.setConn(conn);
-                            Bill bill = bd.getCurrentBillByTable(tableId);
+                    Bill bill = bd.getCurrentBillByTable(tableId);
 
-        if (bill == null) {
-            conn.rollback();
-            res.setStatus("FAILED");
-            res.setMessage("Không tìm thấy hóa đơn");
-            break;
-        }
+                    if (bill == null) {
+                        conn.rollback();
+                        res.setStatus("FAILED");
+                        res.setMessage("Không tìm thấy hóa đơn");
+                        break;
+                    }
                     // Thực hiện cập nhật hóa đơn sang "Đã thanh toán" (status = 1)
                     boolean billUpdated = bd.payBill(tableId); // Lưu ý: hàm này cần được định nghĩa trong BillDAO
                     // Thực hiện giải phóng bàn về "Trống"
@@ -451,7 +452,7 @@ boolean check = cfd.deleteCategory(category);
                         conn.commit(); // Lưu thay đổi
                         res.setStatus("SUCCESS");
                         res.setMessage("Thanh toán thành công và đã giải phóng bàn.");
-                        res.setData(bill); 
+                        res.setData(bill);
                     } else {
                         conn.rollback(); // Hủy nếu một trong hai bước thất bại
                         res.setStatus("FAILED");
@@ -513,7 +514,7 @@ boolean check = cfd.deleteCategory(category);
                             conn.commit();
                             res.setStatus("SUCCESS");
                             res.setMessage("Tạo hóa đơn thành công");
-                            res.setData(billId); 
+                            res.setData(billId);
                         } else {
                             conn.rollback();
                             res.setStatus("FAILED");
@@ -552,41 +553,41 @@ boolean check = cfd.deleteCategory(category);
 
                 break;
             }
-case "GET BILL BY TABLE": {
+            case "GET BILL BY TABLE": {
 
-    bd.setConn(conn);
+                bd.setConn(conn);
 
-    int tableId = (Integer) req.getData();
+                int tableId = (Integer) req.getData();
 
-    Bill bill = bd.getCurrentBillByTable(tableId);
+                Bill bill = bd.getCurrentBillByTable(tableId);
 
-    if (bill == null) {
-        res.setStatus("FAILED");
-        res.setMessage("Bàn chưa có hóa đơn hoặc đã thanh toán");
-        res.setData(null);
-        break;
-    }
+                if (bill == null) {
+                    res.setStatus("FAILED");
+                    res.setMessage("Bàn chưa có hóa đơn hoặc đã thanh toán");
+                    res.setData(null);
+                    break;
+                }
 
-    res.setStatus("SUCCESS");
-    res.setData(bill);
-    break;
-}
-case "GET BILL DETAIL": {
+                res.setStatus("SUCCESS");
+                res.setData(bill);
+                break;
+            }
+            case "GET BILL DETAIL": {
 
-    int billId =
-            (Integer) req.getData();
+                int billId
+                        = (Integer) req.getData();
 
-    bid.setConn(conn);
+                bid.setConn(conn);
 
-    List<BillInfor> list =
-            bid.getBillInforsByBillId(
-                    billId);
-    
-    res.setStatus("SUCCESS");
-    res.setData(list);
+                List<BillInfor> list
+                        = bid.getBillInforsByBillId(
+                                billId);
 
-    break;
-}
+                res.setStatus("SUCCESS");
+                res.setData(list);
+
+                break;
+            }
             default: {
                 res.setStatus("ERROR");
                 res.setMessage("UNKNOWN ACTION: " + req.getAction());

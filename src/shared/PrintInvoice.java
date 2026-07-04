@@ -53,14 +53,14 @@ public class PrintInvoice {
                   .append(" x")
                   .append(item.getQuantity())
                   .append(" = ")
-                  .append(lineTotal)
+                  .append(lineTotal.stripTrailingZeros().toPlainString())
                   .append(" VNĐ\n");
             }
 
             sb.append("\n--------------------------------\n");
 
             sb.append("Tong tien: ")
-              .append(bill.getTotalPrice())
+              .append(bill.getTotalPrice().stripTrailingZeros().toPlainString())
               .append(" VNĐ\n");
 
             sb.append("================================\n");
@@ -118,14 +118,14 @@ public class PrintInvoice {
                   .append(" x")
                   .append(item.getQuantity())
                   .append(" = ")
-                  .append(lineTotal)
+                  .append(lineTotal.stripTrailingZeros().toPlainString())
                   .append(" VNĐ\n");
             }
 
             sb.append("\n--------------------------------\n");
 
             sb.append("Tong tien: ")
-              .append(bill.getTotalPrice())
+              .append(bill.getTotalPrice().stripTrailingZeros().toPlainString())
               .append(" VNĐ\n");
 
             sb.append("================================\n");

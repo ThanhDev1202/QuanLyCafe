@@ -37,7 +37,8 @@ import shared.RequestResponse.Response;
  * @author admin
  */
 public class OrderGUI2 extends javax.swing.JPanel implements FoodAdditionListener {
-private final DecimalFormat df = new DecimalFormat("#,###");
+
+    private final DecimalFormat df = new DecimalFormat("#,###");
     private OrderUpdateListener listener;
     private List<BillInfor> tempOrderList = new ArrayList<>();
     private List<BillInfor> pendingOrder = new ArrayList<>();
@@ -221,8 +222,8 @@ private final DecimalFormat df = new DecimalFormat("#,###");
 
             showQrPayment(pendingOrder, pendingTotal);
 
-        } finally {
-            jButton1.setEnabled(true);
+        } catch(Exception e ){
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -239,15 +240,14 @@ private final DecimalFormat df = new DecimalFormat("#,###");
         for (BillInfor item : list) {
             java.math.BigDecimal total = item.getPrice().multiply(new java.math.BigDecimal(item.getQuantity()));
             grandTotal = grandTotal.add(total);
-            model.addRow(new Object[]{item.getFoodName(), df.format(item.getPrice()), item.getQuantity(), df.format(total) });
+            model.addRow(new Object[]{item.getFoodName(), df.format(item.getPrice()), item.getQuantity(), df.format(total)});
         }
         // Cập nhật tổng tiền vào label (Giả sử bạn đã thêm jLabelTotal trong thiết kế)
         ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/money (2).png"));
         jLabelTotal.setIcon(icon);
-      jLabelTotal.setText(df.format(grandTotal) + " VND");
+        jLabelTotal.setText(df.format(grandTotal) + " VND");
     }
 
-// Thêm hàm này vào class OrderGUI2
     public void addFoodToTempList(Food food) {
         boolean found = false;
         for (BillInfor item : tempOrderList) {
@@ -386,6 +386,7 @@ private final DecimalFormat df = new DecimalFormat("#,###");
             }
         });
     }
+
     private void showQrPayment(List<BillInfor> details,
             java.math.BigDecimal totalAmount) {
         new Thread(() -> {
@@ -438,21 +439,21 @@ private final DecimalFormat df = new DecimalFormat("#,###");
                                                 item.getQuantity()));
 
                         txtBill.append(
-String.format(
-    "%-15s %10s x%-3d %12s\n",
-    item.getFoodName(),
-    df.format(item.getPrice()),
-    item.getQuantity(),
-    df.format(lineTotal)
-));
+                                String.format(
+                                        "%-15s %10s x%-3d %12s\n",
+                                        item.getFoodName(),
+                                        df.format(item.getPrice()),
+                                        item.getQuantity(),
+                                        df.format(lineTotal)
+                                ));
                     }
                     txtBill.append(
                             "\n------------------------------\n");
-txtBill.append(
-        "Tổng tiền: "
-        + df.format(totalAmount)
-        + " VND"
-);
+                    txtBill.append(
+                            "Tổng tiền: "
+                            + df.format(totalAmount)
+                            + " VND"
+                    );
 
                     JScrollPane billScroll
                             = new JScrollPane(txtBill);
@@ -498,7 +499,7 @@ txtBill.append(
                     } else {
                         JOptionPane.showMessageDialog(this, "Đã hủy thanh toán!");
                     }
-
+                    jButton1.setEnabled(true);
                 });
 
             } catch (Exception ex) {
@@ -513,6 +514,7 @@ txtBill.append(
             }
         }).start();
     }
+
     private void handlePaymentSuccess() {
 
         try {

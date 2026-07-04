@@ -5,31 +5,28 @@ import java.sql.DriverManager;
 
 public class Connect_Disconnect {
 
-    public static Connection conn = null;
 
     public static Connection getConnection() {
         try {
-            if (conn == null || conn.isClosed()) {
-                String url =
-                    "jdbc:sqlserver://localhost:1433;"
-                    + "databaseName=quanlyquancf;"
-                    + "encrypt=true;"
-                    + "trustServerCertificate=true";
-                String user = "sa";
-                String pass = "Thanh2006@";
-                conn = DriverManager.getConnection(url,user,pass);
-            }
+            String url =
+                "jdbc:sqlserver://localhost:1433;"
+                + "databaseName=quanlyquancf;"
+                + "encrypt=true;"
+                + "trustServerCertificate=true";
+
+            String user = "sa";
+            String pass = "Thanh2006@";
+
+            return DriverManager.getConnection(url, user, pass);
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return conn;
     }
-
-    public static void closeConnection() {
-
+    public static void closeConnection(Connection conn) {
         try {
-            if (conn != null) {
+            if (conn != null && !conn.isClosed()) {
                 conn.close();
             }
         } catch (Exception e) {

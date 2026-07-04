@@ -481,13 +481,14 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, res.getMessage());
             //hiển thị phần làm việc
             if ("SUCCESS".equals(res.getStatus())) {
+                Account account = (Account) res.getData();
                 ClientConnection.setIn(in);
                 ClientConnection.setOut(out);
-                int role = (Integer) res.getData();
+                int role = account.getType();
                 if (role == 0) {
                     new StaffGUI().setVisible(true);
                 } else if (role == 1) {
-                    new ManagerGUI().setVisible(true);
+                    new ManagerGUI(account.getDisplayName()).setVisible(true);
                 }
 
                 this.dispose();

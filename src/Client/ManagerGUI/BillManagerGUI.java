@@ -9,9 +9,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
@@ -39,7 +42,6 @@ import shared.Model.BillInfor;
 public class BillManagerGUI extends javax.swing.JPanel {
 
     private List<Bill> bills;
-    private List<BillInfor> billInfors;
     private com.toedter.calendar.JDateChooser dateChooser;
 
     /**
@@ -409,7 +411,6 @@ public class BillManagerGUI extends javax.swing.JPanel {
         BigDecimal revenue = BigDecimal.ZERO;
 
         for (Bill bill : bills) {
-
             model.addRow(new Object[]{
                 bill.getId(),
                 bill.getDateCheckIn(),
@@ -426,8 +427,8 @@ public class BillManagerGUI extends javax.swing.JPanel {
                 revenue = revenue.add(bill.getTotalPrice());
             }
         }
-
-        jLabel2.setText(revenue.toString() + " VNĐ");
+        DecimalFormat df = new DecimalFormat("#,###");
+        jLabel2.setText(df.format(revenue) + " VNĐ");
     }
 
     private void filterByDate(java.util.Date selectedDate) {
@@ -456,9 +457,20 @@ public class BillManagerGUI extends javax.swing.JPanel {
         header.setPreferredSize(new Dimension(100, 46));
         header.setBackground(new Color(78, 46, 42));
         header.setForeground(Color.WHITE);
-        
+        DecimalFormat formatter = new DecimalFormat("#,###");
         jTable1.setRowHeight(48);
-        
+        jTable1.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+        @Override
+        public void setValue(Object value) {
+            if (value instanceof Number) {
+                // Định dạng số thành chuỗi có dấu chấm phân cách
+                setText(formatter.format(value) + " VNĐ");
+                setHorizontalAlignment(SwingConstants.CENTER);
+            } else {
+                super.setValue(value);
+            }
+        }
+    });
         DefaultTableCellRenderer center
                 = new DefaultTableCellRenderer();
 

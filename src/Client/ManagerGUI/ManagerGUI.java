@@ -5,10 +5,6 @@
 package Client.ManagerGUI;
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 
 import javax.swing.JOptionPane;
 
@@ -19,17 +15,18 @@ import javax.swing.JOptionPane;
 public class ManagerGUI extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ManagerGUI.class.getName());
-
+    private String displayName;
     private CardLayout cardLayout; // Khai báo biến CardLayout
     private InventoryGui inventoryPanel;
     private TableGui tablemanagementPanel;
     private AccountGui accountmanagementPanel;
     private BillManagerGUI billManagerPanel;
-
+    private GeneralGUI generalGuiPanel;
     /**
      * Creates new form ManagerGUI
      */
-    public ManagerGUI() {
+    public ManagerGUI(String displayName) {
+        this.displayName = displayName;
         initComponents();
         
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -41,11 +38,13 @@ public class ManagerGUI extends javax.swing.JFrame {
         tablemanagementPanel = new TableGui();
         accountmanagementPanel = new AccountGui();
         billManagerPanel = new BillManagerGUI();
+        generalGuiPanel = new GeneralGUI(displayName);
         jPanel2.add(inventoryPanel, "INVENTORY");
         jPanel2.add(tablemanagementPanel, "TABLE MANAGEMENT");
         jPanel2.add(accountmanagementPanel, "ACCOUNT MANAGEMENT");
         jPanel2.add(billManagerPanel, "BILL MANAGEMENT");
-        cardLayout.show(jPanel2, "card2");
+        jPanel2.add(generalGuiPanel, "GENERAL");
+        cardLayout.show(jPanel2, "GENERAL");
 
     }
 
@@ -57,7 +56,6 @@ public class ManagerGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
@@ -81,6 +79,7 @@ public class ManagerGUI extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -251,23 +250,31 @@ public class ManagerGUI extends javax.swing.JFrame {
         jPanel3.setMinimumSize(new java.awt.Dimension(800, 600));
         jPanel3.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Chào Mừng");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(306, 306, 306)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(0, 712, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addContainerGap(955, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(724, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addContainerGap(715, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel3, "card2");
@@ -304,7 +311,7 @@ public class ManagerGUI extends javax.swing.JFrame {
 
     //giao diện ban đầu
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        cardLayout.show(jPanel2, "card2");
+        cardLayout.show(jPanel2, "GENERAL");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //hiện giao diện quản lý kho
@@ -332,6 +339,7 @@ public class ManagerGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

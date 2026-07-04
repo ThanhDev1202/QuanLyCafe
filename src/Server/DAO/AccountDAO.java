@@ -24,7 +24,7 @@ public class AccountDAO {
         this.conn = conn;
     }
 
-    public boolean checkLogin(Account acc) {
+    public Account login(Account acc) {
         String username = acc.getUsername();
         String password = acc.getPassword();
         try {
@@ -34,29 +34,20 @@ public class AccountDAO {
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return true;
+                Account account = new Account();
+                account.setId(rs.getInt("id"));
+                account.setDisplayName(rs.getString("displayName"));
+                account.setUsername(rs.getString("username"));
+                account.setType(rs.getInt("type"));
+                return account;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
-    public int getRole(Account ac) {
-        try {
-            String sql = "SELECT type FROM Account WHERE username=? AND pass=?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, ac.getUsername());
-            ps.setString(2, ac.getPassword());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("type");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
+
 // 1. Lấy tất cả tài khoản
 
     public List<Account> getAllAccounts() {
